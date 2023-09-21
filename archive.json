@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-09-17T01:19:33.399623+00:00",
+  "timestamp": "2023-09-21T01:15:19.864587+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -11918,13 +11918,13 @@
       "labels": [],
       "body": "Added privacy considerations section from SD-JWT which provides a good foundation. Fixes #11, #48, #125",
       "createdAt": "2023-09-13T10:41:09Z",
-      "updatedAt": "2023-09-13T12:40:01Z",
+      "updatedAt": "2023-09-20T12:31:20Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "eb74ec47f1d5515e60f97c98bf9ec25425b10ef1",
       "headRepository": "oauth-wg/oauth-sd-jwt-vc",
       "headRefName": "awoie/fix-48",
-      "headRefOid": "65a89b23617aa0f35f63d7af420b967bdfc069b2",
+      "headRefOid": "21418ea2b8251cf363186ee3b7bbf75bf4860307",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -12018,6 +12018,46 @@
               "updatedAt": "2023-09-13T12:40:01Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5hfAAa",
+          "commit": {
+            "abbreviatedOid": "750067d"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-20T12:27:24Z",
+          "updatedAt": "2023-09-20T12:27:24Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "Well, this means that an issuer should not call their credential type \"CitizenOfUtopiaCredential\" and instead just call it \"CitizenCredential\".",
+              "createdAt": "2023-09-20T12:27:24Z",
+              "updatedAt": "2023-09-20T12:27:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5hfB1C",
+          "commit": {
+            "abbreviatedOid": "750067d"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-20T12:31:13Z",
+          "updatedAt": "2023-09-20T12:31:13Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "i updated the PR to make it a bit less strict.",
+              "createdAt": "2023-09-20T12:31:13Z",
+              "updatedAt": "2023-09-20T12:31:13Z"
+            }
+          ]
         }
       ]
     },
@@ -12094,24 +12134,26 @@
       "id": "PR_kwDOJbVClc5aOtDF",
       "title": "Add extra header parameter 'kid'",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/167",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danielfett",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "Closes Issue #99.",
       "createdAt": "2023-09-13T12:29:50Z",
-      "updatedAt": "2023-09-14T08:46:59Z",
+      "updatedAt": "2023-09-20T07:43:38Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "744ba5eae2918bb0d3adb058d7eb0179b3aa04eb",
       "headRepository": "oauth-wg/oauth-sd-jwt-vc",
       "headRefName": "danielfett/fix-99",
       "headRefOid": "163483536eada48d9d6abd8d5bab7eca15a406f3",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2023-09-20T07:43:38Z",
+      "mergedAt": "2023-09-20T07:43:37Z",
+      "mergedBy": "danielfett",
+      "mergeCommit": {
+        "oid": "156c9953d776a31044a0468d967122e839bf5e6a"
+      },
       "comments": [],
       "reviews": [
         {
