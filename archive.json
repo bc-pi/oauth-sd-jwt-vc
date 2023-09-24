@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-09-21T01:15:19.864587+00:00",
+  "timestamp": "2023-09-24T01:19:53.848587+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -326,7 +326,7 @@
       "id": "I_kwDOJbVClc5lNMAL",
       "title": "`type` is not selectively disclosable",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/11",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "awoie",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -338,8 +338,8 @@
       ],
       "body": "Currently, `type` is not one of the selectively disclosable claims. This might be ok but it might have some privacy implications if a VC has multiple types. Let's assume the following:\r\n\r\nA VC with the types: driver's-license, age-over-18.\r\n\r\nIf the holder discloses only the age, then based on the current specification, the verifier would also know that the age was disclosed from a DL which is probably unnecessary context info since all the verifier needs is to trust the issuer of the VC. Note, the issuer itself might also leak some contextual info as well, so the issue might not need to be mitigated or it might not be entirely possible anyways.\r\n\r\nShould we make `type` selectively disclosable per array entry? Is this even supported by SD-JWT?\r\n\r\n",
       "createdAt": "2023-05-05T17:31:04Z",
-      "updatedAt": "2023-09-13T11:01:18Z",
-      "closedAt": null,
+      "updatedAt": "2023-09-21T09:26:54Z",
+      "closedAt": "2023-09-21T09:26:54Z",
       "comments": [
         {
           "author": "awoie",
@@ -1258,7 +1258,7 @@
       "id": "I_kwDOJbVClc5mBEYJ",
       "title": "Add first version of privacy considerations",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/48",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "awoie",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1270,8 +1270,8 @@
       ],
       "body": "",
       "createdAt": "2023-05-16T08:49:21Z",
-      "updatedAt": "2023-09-08T13:37:35Z",
-      "closedAt": null,
+      "updatedAt": "2023-09-21T09:28:00Z",
+      "closedAt": "2023-09-21T09:27:59Z",
       "comments": [
         {
           "author": "tlodderstedt",
@@ -1279,6 +1279,13 @@
           "body": "I think this section should point out that VC SD-JWTs per se are linkable and what the suggested strategies are to cope with that (e.g. ephemeral SD-JWT VCs). ",
           "createdAt": "2023-05-28T10:12:38Z",
           "updatedAt": "2023-05-28T10:12:38Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "PR #164 got merged",
+          "createdAt": "2023-09-21T09:27:59Z",
+          "updatedAt": "2023-09-21T09:27:59Z"
         }
       ]
     },
@@ -2043,7 +2050,7 @@
       "id": "I_kwDOJbVClc5m40I4",
       "title": "Header Section kid parameter",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/99",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
@@ -2055,8 +2062,8 @@
       ],
       "body": "Section 5 describes how to use `iss` and well-known directory to fetch the issuer key and verify the VC.\r\nIn my opinion it makes sense to name the `kid` parameter as a SHOULD or MAY in section 4.2.1 and make a link to Section 5.",
       "createdAt": "2023-05-25T16:54:00Z",
-      "updatedAt": "2023-09-08T13:58:24Z",
-      "closedAt": null,
+      "updatedAt": "2023-09-21T09:27:41Z",
+      "closedAt": "2023-09-21T09:27:41Z",
       "comments": [
         {
           "author": "peppelinux",
@@ -2085,6 +2092,13 @@
           "body": "As discussed on the SD-JWT VC editor's call today, we will add `kid` to the SD-JWT VC example. To do that, we would need to change the sd-jwt script since we cannot set JWT header params in the script config yet.\r\n\r\n@danielfett can you change that? We would need to add:\r\n\r\n```\r\n            \"kid\":\"doc-signer-05-25-2022\",\r\n```",
           "createdAt": "2023-09-08T13:58:18Z",
           "updatedAt": "2023-09-08T13:58:18Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "Fixed by PR #167 ",
+          "createdAt": "2023-09-21T09:27:41Z",
+          "updatedAt": "2023-09-21T09:27:41Z"
         }
       ]
     },
@@ -2690,15 +2704,15 @@
       "id": "I_kwDOJbVClc5nA3Ng",
       "title": "What is the relationship between verifiable presentations and combined format for presentation?",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/115",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "andresuribe87",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "My  expectation was that the SD-JWT's combined format for presentation would be used inside a verifiable presentation. Something similar to the example below\r\n```json\r\n{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2018/credentials/v1\",\r\n    \"https://www.w3.org/2018/credentials/examples/v1\"\r\n  ],\r\n  \"id\": \"urn:uuid:3978344f-8596-4c3a-a978-8fcaba3903c5\",\r\n  \"type\": [\"VerifiablePresentation\"],\r\n  \"verifiableCredential\": [{\r\n    \"type\": \"SD-JWT Presentation\",\r\n    \"combinedFormat\": \"XXX.XXX.XXX~YYY~ZZZ\"\r\n  }]\r\n}\r\n```\r\n\r\nI'm curious whether this was considered. If so, it would be nice to add a section on that to the spec on the relationship. ",
       "createdAt": "2023-05-26T21:51:00Z",
-      "updatedAt": "2023-08-16T08:15:53Z",
-      "closedAt": null,
+      "updatedAt": "2023-09-21T09:32:30Z",
+      "closedAt": "2023-09-21T09:31:59Z",
       "comments": [
         {
           "author": "danielfett",
@@ -2706,6 +2720,13 @@
           "body": "This spec defines its own format for verifiable presentations without a focus on being compatible to the W3C format. It may be possible to envelope the presentation format as shown in your example, but that would not be defined by this specification.",
           "createdAt": "2023-08-16T08:15:53Z",
           "updatedAt": "2023-08-16T08:15:53Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Duplicate of #114 ",
+          "createdAt": "2023-09-21T09:31:59Z",
+          "updatedAt": "2023-09-21T09:32:30Z"
         }
       ]
     },
@@ -2769,15 +2790,15 @@
       "id": "I_kwDOJbVClc5oNNOC",
       "title": "Why splitting iss weburl to insert .well-known/jwt-issuer?",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/119",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "peppelinux",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "in https://github.com/vcstuff/draft-terbu-sd-jwt-vc/blob/main/draft-terbu-sd-jwt-vc.md#jwt-issuer-metadata-request\r\n\r\nI propose to change the current approach in favor of the solution below:\r\n````\r\nIf the `iss` value contains a path component, any terminating `/` MUST be\r\nremoved before inserting the `/.well-known/jwt-issuer` at the end of the\r\npath.\r\n\r\nThe following is a non-normative example of a HTTP request for the JWT Issuer\r\nMetadata configuration when `iss` is set to `https://example.com/user/1234`:\r\n\r\n\r\nGET /user/1234/.well-known/jwt-issuer HTTP/1.1\r\nHost: example.com\r\n````\r\nI'm aware that https://datatracker.ietf.org/doc/html/rfc8414 defines the current approach but It seems to me that splitting a url, including other path in it, is worst then simply append the .well-known\r\n\r\nthere are some cases where the webpath matches specific web routing in specific contexts, like `user/1234` might be in a multitenant solution, and givin the .well-known resource in a context coherent path I think it is better.\r\n\r\nps = OIDC Federation 1.0 uses the proposed approach.",
       "createdAt": "2023-06-08T16:31:36Z",
-      "updatedAt": "2023-06-09T13:59:34Z",
-      "closedAt": null,
+      "updatedAt": "2023-09-21T09:46:56Z",
+      "closedAt": "2023-09-21T09:46:56Z",
       "comments": [
         {
           "author": "tlodderstedt",
@@ -2813,6 +2834,13 @@
           "body": "I'm not defending the RFC 5785 rules. I'm just pointing out we will not get this draft over the finishing line without complying to them. ",
           "createdAt": "2023-06-09T13:59:33Z",
           "updatedAt": "2023-06-09T13:59:33Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "Having .well-known as a 'trusted' source of information in the root of web servers is why RFC5785 uses the 'insertion' rule instead of the 'append' rule. The name of this repository shows why allowing .well-known everywhere is not a great idea: https://github.com/cre8/.well-known\r\n\r\nAnd since we're writing an IETF draft, we'll stick with the IETF rules.",
+          "createdAt": "2023-09-21T09:46:56Z",
+          "updatedAt": "2023-09-21T09:46:56Z"
         }
       ]
     },
@@ -2880,15 +2908,15 @@
       "id": "I_kwDOJbVClc5omByT",
       "title": "JWT Issuer Metadata: Why is jwks_uri recommended over jwks?",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/125",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tlodderstedt",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I would like to understand why the draft recommends use of `jwks_uri` as way to refer to the issuer's key set. I personally would recommend `jwks` as it saves one HTTP request/response. I would only recommend `jwks_uri` for cases where the issuing entity has multiple roles using the same key set and want to keep that in a single place. ",
       "createdAt": "2023-06-13T12:40:58Z",
-      "updatedAt": "2023-06-16T08:43:53Z",
-      "closedAt": null,
+      "updatedAt": "2023-09-21T09:54:04Z",
+      "closedAt": "2023-09-21T09:54:04Z",
       "comments": [
         {
           "author": "bc-pi",
@@ -2910,6 +2938,13 @@
           "body": "I think having both options is valid. I agree that I don't see enough reason to recommend one over the other",
           "createdAt": "2023-06-16T08:43:52Z",
           "updatedAt": "2023-06-16T08:43:52Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Agreed to remove recommendation but keeping both options",
+          "createdAt": "2023-09-21T09:51:13Z",
+          "updatedAt": "2023-09-21T09:51:13Z"
         }
       ]
     },
@@ -2918,7 +2953,7 @@
       "id": "I_kwDOJbVClc5oo00F",
       "title": "Add privacy considerations for JWT issuer metadata - privacy concerns",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/127",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alenhorvat",
       "authorAssociation": "NONE",
       "assignees": [],
@@ -2928,8 +2963,8 @@
       ],
       "body": "JWT issuer metadata, as defined in this document, is raising privacy concerns since verifiers will need to contact issuers directly which basically maps to the existing authentication model. Question is, why not just using the existing OIDC/SAML infrastructure instead?",
       "createdAt": "2023-06-13T19:32:02Z",
-      "updatedAt": "2023-07-18T16:55:18Z",
-      "closedAt": null,
+      "updatedAt": "2023-09-21T09:29:32Z",
+      "closedAt": "2023-09-21T09:29:05Z",
       "comments": [
         {
           "author": "tlodderstedt",
@@ -2944,6 +2979,13 @@
           "body": "> JWT issuer metadata, as defined in this document, is raising privacy concerns since verifiers will need to contact issuers directly which basically maps to the existing authentication model. Question is, why not just using the existing OIDC/SAML infrastructure instead?\r\n\r\nI don't think that this is an issue for non-malicious issuers. Normally, there is no correlation between the issuer key and the user (citizen). This is because the issuer probably uses the same key for a large number of users and VCs.\r\n\r\nHowever, if an issuer would create keys per user, then indeed the issuer could track a user but this is something that would be detectable and it probably also have some legal implications for the issuer. In general, we can agree this is something that when becomes public, would harm the reputation of the issuer. Furthermore, hi-assurance VC issuers would probably want to use HSMs for signing which in that case would be impractical for cost-efficiency reasons. HSMs are expensive. I do agree though that there is a risk that malicious issuers could create special keys for special users i.e. targeted attacks, but this would be also detectable.\r\n\r\nI suggest that we should add something to the privacy considerations section. ",
           "createdAt": "2023-06-21T15:35:36Z",
           "updatedAt": "2023-06-21T15:36:40Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added privacy considerations; PR #48 got merged, closing this issue.",
+          "createdAt": "2023-09-21T09:29:32Z",
+          "updatedAt": "2023-09-21T09:29:32Z"
         }
       ]
     },
@@ -3149,13 +3191,15 @@
       "state": "OPEN",
       "author": "danielfett",
       "authorAssociation": "MEMBER",
-      "assignees": [],
+      "assignees": [
+        "awoie"
+      ],
       "labels": [
         "discuss"
       ],
       "body": "I think we should use short JWT-style names for the type and status list claims in order to show that these claims are at the core of the JWT (just like `exp`, `iss`, etc.). I therefore propose that we use `scm` (for \"scheme\", since the short form of \"type\" is already taken) and `stu` (for status list URI).",
       "createdAt": "2023-06-15T12:50:33Z",
-      "updatedAt": "2023-07-31T21:26:25Z",
+      "updatedAt": "2023-09-21T09:44:57Z",
       "closedAt": null,
       "comments": [
         {
@@ -3475,11 +3519,13 @@
       "state": "OPEN",
       "author": "Sakurann",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "danielfett"
+      ],
       "labels": [],
       "body": "moving @tlodderstedt's and my work on adding examples how to represent PID/EAA/mDLs as SD-JWT VC to this repo from the sd-jwt repo.\r\nEAA: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/211\r\nmDL: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/issues/144 and https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/233\r\nPID as a reference point: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/304- ",
       "createdAt": "2023-06-28T17:54:26Z",
-      "updatedAt": "2023-06-28T18:34:34Z",
+      "updatedAt": "2023-09-21T09:33:16Z",
       "closedAt": null,
       "comments": []
     },
@@ -3752,6 +3798,24 @@
           "updatedAt": "2023-09-08T12:40:32Z"
         }
       ]
+    },
+    {
+      "number": 168,
+      "id": "I_kwDOJbVClc5xo5Hp",
+      "title": "Add informative section on key discovery",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/168",
+      "state": "OPEN",
+      "author": "awoie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "awoie"
+      ],
+      "labels": [],
+      "body": "Show possible options like JWT Issuer Metadata, `kid` being a DID URL etc.",
+      "createdAt": "2023-09-21T09:36:58Z",
+      "updatedAt": "2023-09-21T09:37:06Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -11911,24 +11975,26 @@
       "id": "PR_kwDOJbVClc5aOHP7",
       "title": "fix: added privacy considerations",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/164",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "awoie",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Added privacy considerations section from SD-JWT which provides a good foundation. Fixes #11, #48, #125",
       "createdAt": "2023-09-13T10:41:09Z",
-      "updatedAt": "2023-09-20T12:31:20Z",
+      "updatedAt": "2023-09-21T09:26:53Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "eb74ec47f1d5515e60f97c98bf9ec25425b10ef1",
       "headRepository": "oauth-wg/oauth-sd-jwt-vc",
       "headRefName": "awoie/fix-48",
-      "headRefOid": "21418ea2b8251cf363186ee3b7bbf75bf4860307",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "c0b2452d82c5fd67939f11c1b3068e376458f01f",
+      "closedAt": "2023-09-21T09:26:53Z",
+      "mergedAt": "2023-09-21T09:26:53Z",
+      "mergedBy": "awoie",
+      "mergeCommit": {
+        "oid": "ded2a28063db979e431c9b7ac0ccef9f33dd17d2"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12058,6 +12124,39 @@
               "updatedAt": "2023-09-20T12:31:13Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5hmCFP",
+          "commit": {
+            "abbreviatedOid": "21418ea"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-09-21T09:25:30Z",
+          "updatedAt": "2023-09-21T09:25:30Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "```suggestion\r\nmight consider using a `type` value that does not allow third-parties to infer additional personal information\r\nabout the Holder, e.g., country of residency or citizenship.\r\n```",
+              "createdAt": "2023-09-21T09:25:30Z",
+              "updatedAt": "2023-09-21T09:25:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5hmCYJ",
+          "commit": {
+            "abbreviatedOid": "c0b2452"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-09-21T09:26:03Z",
+          "updatedAt": "2023-09-21T09:26:03Z",
+          "comments": []
         }
       ]
     },
@@ -12167,6 +12266,48 @@
           "body": "cannot confirm that it works but lgtm.",
           "createdAt": "2023-09-14T08:46:59Z",
           "updatedAt": "2023-09-14T08:46:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 169,
+      "id": "PR_kwDOJbVClc5a3ieE",
+      "title": "fix: removed recommendation to use jwks_uri over jwks",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/169",
+      "state": "MERGED",
+      "author": "awoie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "fixes #125 ",
+      "createdAt": "2023-09-21T09:50:54Z",
+      "updatedAt": "2023-09-21T09:54:03Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "ded2a28063db979e431c9b7ac0ccef9f33dd17d2",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "awoie/fix-125",
+      "headRefOid": "28d5321300675143290bfe074ea9c9fdc2450bd0",
+      "closedAt": "2023-09-21T09:54:02Z",
+      "mergedAt": "2023-09-21T09:54:02Z",
+      "mergedBy": "awoie",
+      "mergeCommit": {
+        "oid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5hmPkl",
+          "commit": {
+            "abbreviatedOid": "28d5321"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-09-21T09:53:24Z",
+          "updatedAt": "2023-09-21T09:53:24Z",
           "comments": []
         }
       ]
