@@ -1,0 +1,1907 @@
+
+
+
+
+Web Authorization Protocol                                      O. Terbu
+Internet-Draft                                      Spruce Systems, Inc.
+Intended status: Standards Track                                 D. Fett
+Expires: 1 April 2024                                      Authlete Inc.
+                                                       29 September 2023
+
+
+            SD-JWT-based Verifiable Credentials (SD-JWT VC)
+                   draft-ietf-oauth-sd-jwt-vc-latest
+
+Abstract
+
+   This specification describes data formats as well as validation and
+   processing rules to express Verifiable Credentials with JSON payloads
+   with and without selective disclosure based on the SD-JWT
+   [I-D.ietf-oauth-selective-disclosure-jwt] format.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 1 April 2024.
+
+Copyright Notice
+
+   Copyright (c) 2023 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+     1.1.  Issuer-Holder-Verifier Model
+     1.2.  SD-JWT as a Credential Format
+     1.3.  Requirements Notation and Conventions
+     1.4.  Terms and Definitions
+   2.  Scope
+   3.  Verifiable Credentials based on SD-JWT
+     3.1.  Media Type
+     3.2.  Data Format
+       3.2.1.  JOSE Header
+       3.2.2.  JWT Claims Set
+     3.3.  Example
+     3.4.  Verification and Processing
+   4.  JWT Issuer Metadata
+     4.1.  JWT Issuer Metadata Request
+     4.2.  JWT Issuer Metadata Response
+     4.3.  JWT Issuer Metadata Validation
+   5.  Presenting Verifiable Credentials
+     5.1.  Key Binding JWT
+     5.2.  Examples
+   6.  Security Considerations
+     6.1.  Server-Side Request Forgery
+   7.  Privacy Considerations
+     7.1.  Unlinkability
+     7.2.  Type Identifier
+     7.3.  Issuer Phone Home
+   8.  Relationships to Other Documents
+   9.  Normative References
+   10. Informative References
+   Appendix A.  IANA Considerations
+     A.1.  JSON Web Token Claims Registration
+     A.2.  Media Types Registry
+       A.2.1.  application/vc+sd-jwt
+   Appendix B.  Acknowledgements
+   Appendix C.  Document History
+   Appendix D.  Examples
+     D.1.  Diploma EAA
+     D.2.  ISO 18013-5 Mobile Driving License (mDL)
+     D.3.  ARF PID
+   Authors' Addresses
+
+1.  Introduction
+
+1.1.  Issuer-Holder-Verifier Model
+
+   In the so-called Issuer-Holder-Verifier Model, Issuers issue so-
+   called Verifiable Credentials to a Holder, who can then present the
+   Verifiable Credentials to Verifiers.  Verifiable Credentials are
+   cryptographically signed statements about a Subject, typically the
+   Holder.
+
+            +------------+
+            |            |
+            |   Issuer   |
+            |            |
+            +------------+
+                  |
+       Issues Verifiable Credential
+                  |
+                  v
+            +------------+
+            |            |
+            |   Holder   |
+            |            |
+            +------------+
+                  |
+     Presents Verifiable Credential
+                  |
+                  v
+            +-------------+
+            |             |+                          +------------+
+            |  Verifiers  ||+                         |   Status   |
+            |             |||----- optionally ------->|  Provider  |
+            +-------------+||   retrieve status of    |            |
+             +-------------+|  Verifiable Credential  +------------+
+              +-------------+
+
+    Figure 1: Issuer-Holder-Verifier Model with optional Status Provider
+
+   Verifiers can check the authenticity of the data in the Verifiable
+   Credentials and optionally enforce Key Binding, i.e., ask the Holder
+   to prove that they are the intended holder of the Verifiable
+   Credential, for example, by proving possession of a cryptographic key
+   referenced in the credential.  This process is further described in
+   [I-D.ietf-oauth-selective-disclosure-jwt].
+
+   To support revocation of Verifiable Credentials, revocation
+   information can optionally be retrieved from a Status Provider.  The
+   role of a Status Provider can be fulfilled by either a fourth party
+   or by the Issuer.
+
+1.2.  SD-JWT as a Credential Format
+
+   JSON Web Tokens (JWTs) [RFC7519] can in principle be used to express
+   Verifiable Credentials in a way that is easy to understand and
+   process as it builds upon established web primitives.
+
+   Selective Disclosure JWT (SD-JWT)
+   [I-D.ietf-oauth-selective-disclosure-jwt] is a specification that
+   introduces conventions to support selective disclosure for JWTs: For
+   an SD-JWT document, a Holder can decide which claims to release
+   (within bounds defined by the Issuer).
+
+   SD-JWT is a superset of JWT as it can also be used when there are no
+   selectively disclosable claims and also supports JWS JSON
+   serialization, which is useful for long term archiving and multi
+   signatures.  However, SD-JWT itself does not define the claims that
+   must be used within the payload or their semantics.
+
+   This specification uses SD-JWT and the well-established JWT content
+   rules and extensibility model as basis for representing Verifiable
+   Credentials with JSON payloads.  These Verifiable Credentials are
+   called SD-JWT VCs.  The use of selective disclosure in SD-JWT VCs is
+   OPTIONAL.
+
+   SD-JWTs VC can contain claims that are registered in "JSON Web Token
+   Claims" registry as defined in [RFC7519], as well as public and
+   private claims.
+
+   Note: This specification does not utilize the W3C's Verifiable
+   Credentials Data Model v1.0, v1.1, or v2.0.
+
+1.3.  Requirements Notation and Conventions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in RFC
+   2119 [RFC2119].
+
+1.4.  Terms and Definitions
+
+   This specification uses the terms "Holder", "Issuer", "Verifier",
+   "Key Binding JWT" defined by
+   [I-D.ietf-oauth-selective-disclosure-jwt].
+
+   Verifiable Credential (VC):  An Issuer-signed assertion with claims
+      about a Subject.
+
+   SD-JWT-based Verifiable Credential (SD-JWT VC):  A Verifiable
+      Credential encoded using the format defined in
+      [I-D.ietf-oauth-selective-disclosure-jwt].  It may or may not
+      contain selectively disclosable claims.
+
+   Unsecured Payload of an SD-JWT VC:  A JSON object containing all
+      selectively disclosable and non-selectively disclosable claims of
+      the SD-JWT VC.  The Unsecured Payload acts as the input JSON
+      object to issue an SD-JWT VC complying to this specification.
+
+   Status Provider:  An entity that provides status information (e.g.
+      revocation) about a Verifiable Credential.
+
+2.  Scope
+
+   *  This specification defines
+
+      -  Data model and media types for Verifiable Credentials based on
+         SD-JWTs.
+
+      -  Validation and processing rules for Verifiers and Holders.
+
+3.  Verifiable Credentials based on SD-JWT
+
+   This section defines encoding, validation and processing rules for
+   SD-JWT VCs.
+
+3.1.  Media Type
+
+   SD-JWT VCs compliant with this specification MUST use the media type
+   application/vc+sd-jwt as defined in Appendix A.2.1.
+
+3.2.  Data Format
+
+   SD-JWT VCs MUST be encoded using the SD-JWT format defined in
+   Section 5 of [I-D.ietf-oauth-selective-disclosure-jwt].  A
+   presentation of an SD-JWT VC MAY contain a Key Binding JWT.
+
+   Note that in some cases, an SD-JWT VC MAY have no selectively
+   disclosable claims, and therefore the encoded SD-JWT will not contain
+   any Disclosures.
+
+3.2.1.  JOSE Header
+
+   This section defines JWT header parameters for the SD-JWT component
+   of the SD-JWT VC.
+
+   The typ header parameter of the SD-JWT MUST be present.  The typ
+   value MUST use vc+sd-jwt.  This indicates that the payload of the SD-
+   JWT contains plain JSON and follows the rules as defined in this
+   specification.  It further indicates that the SD-JWT is a SD-JWT
+   component of a SD-JWT VC.
+
+   The following is a non-normative example of a decoded SD-JWT header:
+
+   {
+     "alg": "ES256",
+     "typ": "vc+sd-jwt"
+   }
+
+3.2.2.  JWT Claims Set
+
+   This section defines the claims that can be included in the payload
+   of SD-JWT VCs.
+
+3.2.2.1.  New JWT Claims
+
+3.2.2.1.1.  type claim
+
+   This specification defines the JWT claim type.  The type value MUST
+   be a case-sensitive StringOrURI (see [RFC7519]) value serving as an
+   identifier for the type of the SD-JWT VC.  A type defines which
+   claims may or must appear in the Unsecured Payload of the SD-JWT VC
+   and whether they may, must, or must not be selectively disclosable.
+   This specification does not define any type values; instead it is
+   expected that ecosystems using SD-JWT VCs define such values
+   including the semantics of the respective claims and associated rules
+   (e.g., policies for issuing and validating credentials beyond what is
+   defined in this specification).
+
+   The following is a non-normative example of how type is used to
+   express a type:
+
+   {
+     "type": "IdentityCredential"
+   }
+
+   For example, a type IdentityCredential can be defined such that at
+   least the registered JWT claims given_name, family_name, birthdate,
+   and address must appear in the Unsecured Payload.  Additionally, the
+   registered JWT claims email and phone_number, and the private claims
+   is_over_18, is_over_21, and is_over_65 may be used.  The type might
+   also indicate that given_name, family_name, birthdate, address can be
+   selectively disclosable.
+
+3.2.2.2.  Registered JWT Claims
+
+   SD-JWT VCs MAY use any claim registered in the "JSON Web Token
+   Claims" registry as defined in [RFC7519].
+
+   If present, the following registered JWT claims MUST be included in
+   the SD-JWT and MUST NOT be included in the Disclosures, i.e. cannot
+   be selectively disclosed:
+
+   *  iss
+
+      -  REQUIRED.  The Issuer of the Verifiable Credential.  The value
+         of iss MUST be a URI.  See [RFC7519] for more information.
+
+   *  iat
+
+      -  REQUIRED.  The time of issuance of the Verifiable Credential.
+         See [RFC7519] for more information.
+
+   *  nbf
+
+      -  OPTIONAL.  The time before which the Verifiable Credential MUST
+         NOT be accepted before validating.  See [RFC7519] for more
+         information.
+
+   *  exp
+
+      -  OPTIONAL.  The expiry time of the Verifiable Credential after
+         which the Verifiable Credential is no longer valid.  See
+         [RFC7519] for more information.
+
+   *  cnf
+
+      -  REQUIRED when Cryptographic Key Binding is to be supported.
+         Contains the confirmation method as defined in [RFC7800].  It
+         SHOULD contain a JWK as defined in Section 3.2 of [RFC7800].
+         For Cryptographic Key Binding, the Key Binding JWT in the
+         Combined Format for Presentation MUST be signed by the key
+         identified in this claim.
+
+   *  type
+
+      -  REQUIRED.  The type of the Verifiable Credential, e.g.,
+         IdentityCredential, as defined in Section 3.2.2.1.1.
+
+   *  status
+
+      -  OPTIONAL.  The information on how to read the status of the
+         Verifiable Credential.  See
+         [I-D.looker-oauth-jwt-cwt-status-list] for more information.
+
+   The following registered JWT claims MAY be contained in the SD-JWT or
+   in the Disclosures and MAY be selectively disclosed:
+
+   *  sub
+
+      -  OPTIONAL.  The identifier of the Subject of the Verifiable
+         Credential.  The Issuer MAY use it to provide the Subject
+         identifier known by the Issuer.  There is no requirement for a
+         binding to exist between sub and cnf claims.
+
+3.2.2.3.  Public JWT claims
+
+   Additional public claims MAY be used in SD-JWT VCs depending on the
+   application.
+
+3.2.2.4.  SD-JWT VC without Selectively Disclosable Claims
+
+   An SD-JWT VC MAY have no selectively disclosable claims.  In that
+   case, the SD-JWT VC MUST NOT contain the _sd claim in the JWT body.
+   It also MUST NOT have any Disclosures.
+
+3.3.  Example
+
+   The following is a non-normative example of an unsecured payload of
+   an SD-JWT VC.
+
+   {
+     "type": "IdentityCredential",
+     "given_name": "John",
+     "family_name": "Doe",
+     "email": "johndoe@example.com",
+     "phone_number": "+1-202-555-0101",
+     "address": {
+       "street_address": "123 Main St",
+       "locality": "Anytown",
+       "region": "Anystate",
+       "country": "US"
+     },
+     "birthdate": "1940-01-01",
+     "is_over_18": true,
+     "is_over_21": true,
+     "is_over_65": true
+   }
+
+   The following is a non-normative example of how the unsecured payload
+   of the SD-JWT VC above can be used in a SD-JWT where the resulting
+   SD-JWT VC contains only claims about the Subject that are selectively
+   disclosable:
+
+   {
+     "_sd": [
+       "09vKrJMOlyTWM0sjpu_pdOBVBQ2M1y3KhpH515nXkpY",
+       "2rsjGbaC0ky8mT0pJrPioWTq0_daw1sX76poUlgCwbI",
+       "EkO8dhW0dHEJbvUHlE_VCeuC9uRELOieLZhh7XbUTtA",
+       "IlDzIKeiZdDwpqpK6ZfbyphFvz5FgnWa-sN6wqQXCiw",
+       "JzYjH4svliH0R3PyEMfeZu6Jt69u5qehZo7F7EPYlSE",
+       "PorFbpKuVu6xymJagvkFsFXAbRoc2JGlAUA2BA4o7cI",
+       "TGf4oLbgwd5JQaHyKVQZU9UdGE0w5rtDsrZzfUaomLo",
+       "jdrTE8YcbY4EifugihiAe_BPekxJQZICeiUQwY9QqxI",
+       "jsu9yVulwQQlhFlM_3JlzMaSFzglhQG0DpfayQwLUK4"
+     ],
+     "iss": "https://example.com/issuer",
+     "iat": 1683000000,
+     "exp": 1883000000,
+     "type": "IdentityCredential",
+     "_sd_alg": "sha-256",
+     "cnf": {
+       "jwk": {
+         "kty": "EC",
+         "crv": "P-256",
+         "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+         "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+       }
+     }
+   }
+
+   Note that a cnf claim has been added to the SD-JWT payload to express
+   the confirmation method of the Key Binding.
+
+   The following are the Disclosures belonging to the SD-JWT payload
+   above:
+
+   *Claim given_name*:
+
+   *  SHA-256 Hash: jsu9yVulwQQlhFlM_3JlzMaSFzglhQG0DpfayQwLUK4
+
+   *  Disclosure:
+      WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAiSm9o
+      biJd
+
+   *  Contents: ["2GLC42sKQveCfGfryNRN9w", "given_name", "John"]
+
+   *Claim family_name*:
+
+   *  SHA-256 Hash: TGf4oLbgwd5JQaHyKVQZU9UdGE0w5rtDsrZzfUaomLo
+
+   *  Disclosure:
+      WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkRv
+      ZSJd
+
+   *  Contents: ["eluV5Og3gSNII8EYnsxA_A", "family_name", "Doe"]
+
+   *Claim email*:
+
+   *  SHA-256 Hash: JzYjH4svliH0R3PyEMfeZu6Jt69u5qehZo7F7EPYlSE
+
+   *  Disclosure:
+      WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
+      ZXhhbXBsZS5jb20iXQ
+
+   *  Contents: ["6Ij7tM-a5iVPGboS5tmvVA", "email",
+      "johndoe@example.com"]
+
+   *Claim phone_number*:
+
+   *  SHA-256 Hash: PorFbpKuVu6xymJagvkFsFXAbRoc2JGlAUA2BA4o7cI
+
+   *  Disclosure:
+      WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251bWJlciIsICIr
+      MS0yMDItNTU1LTAxMDEiXQ
+
+   *  Contents: ["eI8ZWm9QnKPpNPeNenHdhQ", "phone_number",
+      "+1-202-555-0101"]
+
+   *Claim address*:
+
+   *  SHA-256 Hash: IlDzIKeiZdDwpqpK6ZfbyphFvz5FgnWa-sN6wqQXCiw
+
+   *  Disclosure:
+      WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVl
+      dF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRv
+      d24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0
+
+   *  Contents: ["Qg_O64zqAxe412a108iroA", "address", {"street_address":
+      "123 Main St", "locality": "Anytown", "region": "Anystate",
+      "country": "US"}]
+
+   *Claim birthdate*:
+
+   *  SHA-256 Hash: jdrTE8YcbY4EifugihiAe_BPekxJQZICeiUQwY9QqxI
+
+   *  Disclosure:
+      WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTQw
+      LTAxLTAxIl0
+
+   *  Contents: ["AJx-095VPrpTtN4QMOqROA", "birthdate", "1940-01-01"]
+
+   *Claim is_over_18*:
+
+   *  SHA-256 Hash: 09vKrJMOlyTWM0sjpu_pdOBVBQ2M1y3KhpH515nXkpY
+
+   *  Disclosure:
+      WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImlzX292ZXJfMTgiLCB0cnVl
+      XQ
+
+   *  Contents: ["Pc33JM2LchcU_lHggv_ufQ", "is_over_18", true]
+
+   *Claim is_over_21*:
+
+   *  SHA-256 Hash: 2rsjGbaC0ky8mT0pJrPioWTq0_daw1sX76poUlgCwbI
+
+   *  Disclosure:
+      WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImlzX292ZXJfMjEiLCB0cnVl
+      XQ
+
+   *  Contents: ["G02NSrQfjFXQ7Io09syajA", "is_over_21", true]
+
+   *Claim is_over_65*:
+
+   *  SHA-256 Hash: EkO8dhW0dHEJbvUHlE_VCeuC9uRELOieLZhh7XbUTtA
+
+   *  Disclosure:
+      WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImlzX292ZXJfNjUiLCB0cnVl
+      XQ
+
+   *  Contents: ["lklxF5jMYlGTPUovMNIvCA", "is_over_65", true]
+
+   The SD-JWT and the Disclosures would then be serialized by the Issuer
+   into the following format for issuance to the Holder:
+
+   eyJhbGciOiAiRVMyNTYiLCAia2lkIjogImRvYy1zaWduZXItMDUtMjUtMjAyMiJ9.eyJ
+   fc2QiOiBbIjA5dktySk1PbHlUV00wc2pwdV9wZE9CVkJRMk0xeTNLaHBINTE1blhrcFk
+   iLCAiMnJzakdiYUMwa3k4bVQwcEpyUGlvV1RxMF9kYXcxc1g3NnBvVWxnQ3diSSIsICJ
+   Fa084ZGhXMGRIRUpidlVIbEVfVkNldUM5dVJFTE9pZUxaaGg3WGJVVHRBIiwgIklsRHp
+   JS2VpWmREd3BxcEs2WmZieXBoRnZ6NUZnbldhLXNONndxUVhDaXciLCAiSnpZakg0c3Z
+   saUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQWWxTRSIsICJQb3JGYnBLdVZ1Nnh
+   5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJIiwgIlRHZjRvTGJnd2Q1SlFhSHl
+   LVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAiamRyVEU4WWNiWTRFaWZ1Z2loaUF
+   lX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVN
+   GemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9
+   pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXB
+   lIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25
+   mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0F
+   FUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnh
+   qaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Hwstaec
+   F84QrPvL_A8VptwttLHAymqV2E1V_gRcdTmYev9-UAESB0GU20NRww8QT1L_l2DB9zXj
+   YP-DnmD6EaA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAi
+   Sm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkR
+   vZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VAZX
+   hhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251bWJ
+   lciIsICIrMS0yMDItNTU1LTAxMDEiXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwg
+   ImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2Fs
+   aXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAi
+   VVMifV0~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTQw
+   LTAxLTAxIl0~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImlzX292ZXJfMTgiLCB0
+   cnVlXQ~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImlzX292ZXJfMjEiLCB0cnVlX
+   Q~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImlzX292ZXJfNjUiLCB0cnVlXQ~
+
+3.4.  Verification and Processing
+
+   The recipient (Holder or Verifier) of an SD-JWT VC MUST process and
+   verify an SD-JWT VC as described in Section 6 of
+   [I-D.ietf-oauth-selective-disclosure-jwt].
+
+   If Key Binding is required (refer to the security considerations in
+   Section 9.6 of [I-D.ietf-oauth-selective-disclosure-jwt]), the
+   Verifier MUST verify the Key Binding JWT according to Section 6 of
+   [I-D.ietf-oauth-selective-disclosure-jwt].  To verify the Key Binding
+   JWT, the cnf claim of the SD-JWT MUST be used.
+
+   For the verification, the iss claim in the SD-JWT MAY be used to
+   retrieve the public key from the JWT Issuer Metadata configuration
+   (as defined in Section 4) of the SD-JWT VC issuer.  Alternative
+   methods MAY be used to obtain the public key to verify the signature
+   of the SD-JWT.
+
+   If there are no selectively disclosable claims, there is no need to
+   process the _sd claim nor any Disclosures.
+
+   If status is present in the verified payload of the SD-JWT, the
+   status SHOULD be checked.  It depends on the Verifier policy to
+   reject or accept a presentation of a SD-JWT VC based on the status of
+   the Verifiable Credential.
+
+   Any claims used that are not understood MUST be ignored.
+
+   Additional validation rules MAY apply, but their use is out of the
+   scope of this specification.
+
+4.  JWT Issuer Metadata
+
+   This specification defines the JWT Issuer Metadata to retrieve the
+   JWT Issuer Metadata configuration of the JWT Issuer of the JWT.  The
+   JWT Issuer is identified by the iss claim in the JWT.  Use of the JWT
+   Issuer Metadata is OPTIONAL.
+
+   JWT Issuers publishing JWT Issuer Metadata MUST make a JWT Issuer
+   Metadata configuration available at the path formed by concatenating
+   the string /.well-known/jwt-issuer to the iss claim value in the JWT.
+   The iss MUST be a case-sensitive URL using the HTTPS scheme that
+   contains scheme, host and, optionally, port number and path
+   components, but no query or fragment components.
+
+4.1.  JWT Issuer Metadata Request
+
+   A JWT Issuer Metadata configuration MUST be queried using an HTTP GET
+   request at the path defined in Section 4.
+
+   The following is a non-normative example of a HTTP request for the
+   JWT Issuer Metadata configuration when iss is set to
+   https://example.com:
+
+   GET /.well-known/jwt-issuer HTTP/1.1
+   Host: example.com
+
+   If the iss value contains a path component, any terminating / MUST be
+   removed before inserting /.well-known/ and the well-known URI suffix
+   between the host component and the path component.
+
+   The following is a non-normative example of a HTTP request for the
+   JWT Issuer Metadata configuration when iss is set to
+   https://example.com/user/1234:
+
+   GET /.well-known/jwt-issuer/user/1234 HTTP/1.1
+   Host: example.com
+
+4.2.  JWT Issuer Metadata Response
+
+   A successful response MUST use the 200 OK HTTP and return the JWT
+   Issuer Metadata configuration using the application/json content
+   type.
+
+   An error response uses the applicable HTTP status code value.
+
+   This specification defines the following JWT Issuer Metadata
+   configuration parameters:
+
+   *  issuer REQUIRED.  The JWT Issuer identifier, which MUST be
+      identical to the iss value in the JWT.
+
+   *  jwks_uri
+
+      -  OPTIONAL.  URL string referencing the JWT Issuer's JSON Web Key
+         (JWK) Set [RFC7517] document which contains the JWT Issuer's
+         public keys.  The value of this field MUST point to a valid JWK
+         Set document.
+
+   *  jwks
+
+      -  OPTIONAL.  JWT Issuer's JSON Web Key Set [RFC7517] document
+         value, which contains the JWT Issuer's public keys.  The value
+         of this field MUST be a JSON object containing a valid JWK Set.
+
+   JWT Issuer Metadata MUST include either jwks_uri or jwks in their JWT
+   Issuer Metadata, but not both.
+
+   It is RECOMMENDED that the JWT contains a kid JWT header parameter
+   that can be used to lookup the public key in the JWK Set included by
+   value or referenced in the JWT Issuer Metadata.
+
+   The following is a non-normative example of a JWT Issuer Metadata
+   configuration including jwks:
+
+   {
+      "issuer":"https://example.com",
+      "jwks":{
+         "keys":[
+            {
+               "kid":"doc-signer-05-25-2022",
+               "e":"AQAB",
+               "n":"nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
+      HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
+      lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
+      RM0rlp_gg_WNUKoW1V-3keYUJoXH9NztEDm_D2MQXj9eGOJJ8yPgGL8PAZMLe
+      2R7jb9TxOCPDED7tY_TU4nFPlxptw59A42mldEmViXsKQt60s1SLboazxFKve
+      qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
+               "kty":"RSA"
+            }
+         ]
+      }
+   }
+
+   The following is a non-normative example of a JWT Issuer Metadata
+   configuration including jwks_uri:
+
+   {
+      "issuer":"https://example.com",
+      "jwks_uri":"https://jwt-issuer.example.org/my_public_keys.jwks"
+   }
+
+   Additional JWT Issuer Metadata configuration parameters MAY also be
+   used.
+
+4.3.  JWT Issuer Metadata Validation
+
+   The issuer value returned MUST be identical to the iss value of the
+   JWT.  If these values are not identical, the data contained in the
+   response MUST NOT be used.
+
+5.  Presenting Verifiable Credentials
+
+   This section defines encoding, validation and processing rules for
+   presentations of SD-JWT VCs.
+
+5.1.  Key Binding JWT
+
+   If the presentation of the SD-JWT VC includes a Key Binding JWT, the
+   following claims are used within the Key Binding JWT:
+
+   *  nonce
+
+      -  REQUIRED.  String value used to associate a transaction between
+         a Verifier an a Holder, and to mitigate replay attacks.  The
+         value is passed through unmodified from the Verifier to the Key
+         Binding JWT.  Sufficient entropy MUST be present in the nonce
+         values used to prevent attackers from guessing values.
+
+   *  aud
+
+      -  REQUIRED.  The intended recipient of the Key Binding JWT which
+         is typically the Verifier.  See [RFC7519] for more information.
+
+   *  iat
+
+      -  REQUIRED.  The time of issuance of the Key Binding JWT.  See
+         [RFC7519] for more information.
+
+   *  exp
+
+      -  OPTIONAL.  The expiration time of the signature when the Key
+         Binding is no longer considered valid.  See [RFC7519] for more
+         information.
+
+   The Key Binding JWT MAY include addtional claims which when not
+   understood MUST be ignored.
+
+5.2.  Examples
+
+   The following is a non-normative example of a presentation of the SD-
+   JWT shown above including a Key Binding JWT:
+
+   eyJhbGciOiAiRVMyNTYiLCAia2lkIjogImRvYy1zaWduZXItMDUtMjUtMjAyMiJ9.eyJ
+   fc2QiOiBbIjA5dktySk1PbHlUV00wc2pwdV9wZE9CVkJRMk0xeTNLaHBINTE1blhrcFk
+   iLCAiMnJzakdiYUMwa3k4bVQwcEpyUGlvV1RxMF9kYXcxc1g3NnBvVWxnQ3diSSIsICJ
+   Fa084ZGhXMGRIRUpidlVIbEVfVkNldUM5dVJFTE9pZUxaaGg3WGJVVHRBIiwgIklsRHp
+   JS2VpWmREd3BxcEs2WmZieXBoRnZ6NUZnbldhLXNONndxUVhDaXciLCAiSnpZakg0c3Z
+   saUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQWWxTRSIsICJQb3JGYnBLdVZ1Nnh
+   5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJIiwgIlRHZjRvTGJnd2Q1SlFhSHl
+   LVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAiamRyVEU4WWNiWTRFaWZ1Z2loaUF
+   lX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVN
+   GemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9
+   pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXB
+   lIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25
+   mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0F
+   FUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnh
+   qaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Hwstaec
+   F84QrPvL_A8VptwttLHAymqV2E1V_gRcdTmYev9-UAESB0GU20NRww8QT1L_l2DB9zXj
+   YP-DnmD6EaA~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7InN0
+   cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd24i
+   LCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOiAi
+   RVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF
+   1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTU5Nzc
+   zMzV9.2SuP5EFW-TPRp6KRZ2D1msZG5pB3kptFG7aV3UPDbM0sfN3wj1vIv91VmdywPU
+   -XjgP7hQZl1H6gk6Kn7gj-4Q
+
+   In this presentation, the Holder provides only the Disclosure for the
+   claim address.  Other claims are not disclosed to the Verifier.
+
+   The following example shows a presentation of a (different) SD-JWT
+   without a Key Binding JWT:
+
+   eyJhbGciOiAiRVMyNTYifQ.eyJfc2QiOiBbIjA5dktySk1PbHlUV00wc2pwdV9wZE9CV
+   kJRMk0xeTNLaHBINTE1blhrcFkiLCAiMnJzakdiYUMwa3k4bVQwcEpyUGlvV1RxMF9kY
+   Xcxc1g3NnBvVWxnQ3diSSIsICJFa084ZGhXMGRIRUpidlVIbEVfVkNldUM5dVJFTE9pZ
+   UxaaGg3WGJVVHRBIiwgIklsRHpJS2VpWmREd3BxcEs2WmZieXBoRnZ6NUZnbldhLXNON
+   ndxUVhDaXciLCAiSnpZakg0c3ZsaUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQW
+   WxTRSIsICJQb3JGYnBLdVZ1Nnh5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJI
+   iwgIlRHZjRvTGJnd2Q1SlFhSHlLVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAia
+   mRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5e
+   VZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAia
+   HR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4c
+   CI6IDE4ODMwMDAwMDAsICJ0eXBlIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfY
+   WxnIjogInNoYS0yNTYifQ.tRR1qwcG11v9Al5_Np-Rq3DRpzWliKhHayxRVYTFiazjzz
+   7V6eld1vuv8-vEzABsigXXfPe8xnlN5oUTl0AoLw~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+   pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
+   gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
+   0cnkiOiAiVVMifV0~
+
+6.  Security Considerations
+
+   The Security Considerations in the SD-JWT specification
+   [I-D.ietf-oauth-selective-disclosure-jwt] apply to this
+   specification.  Additionally, the following security considerations
+   need to be taken into account when using SD-JWT VCs:
+
+6.1.  Server-Side Request Forgery
+
+   The JWT Issuer Metadata configuration is retrieved from the JWT
+   Issuer by the Holder or Verifier.  Similar to other metadata
+   endpoints, the URL for the retrieval MUST be considered an untrusted
+   value and could be a vector for Server-Side Request Forgery (SSRF)
+   attacks.
+
+   Before making a request to the JWT Issuer Metadata endpoint, the
+   Holder or Verifier MUST validate the URL to ensure that it is a valid
+   HTTPS URL and that it does not point to internal resources.  This
+   requires, in particular, ensuring that the host part of the URL does
+   not address an internal service (by IP address or an internal host
+   name) and that, if an external DNS name is used, the resolved DNS
+   name does not point to an internal IPv4 or IPv6 address.
+
+   When retrieving the metadata, the Holder or Verifier MUST ensure that
+   the request is made in a time-bound and size-bound manner to prevent
+   denial of service attacks.  The Holder or Verifier MUST also ensure
+   that the response is a valid JWT Issuer Metadata configuration
+   document before processing it.
+
+   Additional considerations can be found in [OWASP_SSRF].
+
+7.  Privacy Considerations
+
+   The Privacy Considerations in the SD-JWT specification
+   [I-D.ietf-oauth-selective-disclosure-jwt] apply to this
+   specification.  Additionally, the following privacy considerations
+   need to be taken into account when using SD-JWT VCs.
+
+7.1.  Unlinkability
+
+   The Privacy Considerations in Section 10.5 of
+   [I-D.ietf-oauth-selective-disclosure-jwt] apply especially to the cnf
+   claim.
+
+7.2.  Type Identifier
+
+   Issuers and Holders have to be aware that while this specification
+   supports selective disclosure of claims of a given SD-JWT VC, the
+   type claim is not selectively disclosable.  In certain situations
+   this could lead to unwanted leakage of additional context
+   information.
+
+   In general, Issuers are advised to choose type values following data
+   minimization principles.  For example, government Issuers issuing an
+   SD-JWT VC to their citizens to enable them to prove their age, might
+   consider using a type value that does not allow third-parties to
+   infer additional personal information about the Holder, e.g., country
+   of residency or citizenship.
+
+   Additionally, Holders have to be informed that, besides the actual
+   requested claims, the type information is shared with the Verifier.
+
+7.3.  Issuer Phone Home
+
+   A malicious Issuer can choose the Issuer identifier of the SD-JWT VC
+   to enable tracking the usage behavior of the Holder if the Issuer
+   identifier is Holder-specific and if the resolution of the key
+   material to verify the Issuer-signed JWT requires the Verifier to
+   phone home to the Issuer.
+
+   For example, a malicious Issuer could generate a unique value for the
+   Issuer identifier per Holder, e.g., https://example.com/issuer/
+   holder-1234 and host the JWT Issuer Metadata.  The Verifier would
+   create a HTTPS GET request to the Holder-specific well-known URI when
+   the SD-JWT VC is verified.  This would allow the malicious Issuer to
+   keep track where and how often the SD-JWT VC was used.
+
+   Verifiers are advised to establish trust in an SD-JWT VC by pinning
+   specific Issuer identifiers and should monitor suspicious behaviour
+   such as frequently rotating Issuer identifiers.  If such behaviour
+   was detected, Verifiers are advised to reject SD-JWT VCs issued by
+   such Issuers.
+
+   Holders are advised to reject SD-JWT VCs if they contain easily
+   correlatable information in the Issuer identifier.
+
+8.  Relationships to Other Documents
+
+   TBD
+
+9.  Normative References
+
+   [I-D.ietf-oauth-selective-disclosure-jwt]
+              Fett, D., Yasuda, K., and B. Campbell, "Selective
+              Disclosure for JWTs (SD-JWT)", Work in Progress, Internet-
+              Draft, draft-ietf-oauth-selective-disclosure-jwt-05, 30
+              June 2023, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-oauth-selective-disclosure-jwt-05>.
+
+   [I-D.looker-oauth-jwt-cwt-status-list]
+              Looker, T. and P. Bastian, "JWT and CWT Status List", Work
+              in Progress, Internet-Draft, draft-looker-oauth-jwt-cwt-
+              status-list-01, 10 July 2023,
+              <https://datatracker.ietf.org/doc/html/draft-looker-oauth-
+              jwt-cwt-status-list-01>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
+              (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
+              <https://www.rfc-editor.org/info/rfc7519>.
+
+   [RFC7800]  Jones, M., Bradley, J., and H. Tschofenig, "Proof-of-
+              Possession Key Semantics for JSON Web Tokens (JWTs)",
+              RFC 7800, DOI 10.17487/RFC7800, April 2016,
+              <https://www.rfc-editor.org/info/rfc7800>.
+
+10.  Informative References
+
+   [EUDIW.ARF]
+              Commission, E., "The European Digital Identity Wallet
+              Architecture and Reference Framework",
+              <https://github.com/eu-digital-identity-wallet/eudi-doc-
+              architecture-and-reference-framework/releases>.
+
+   [ISO.18013-5]
+              ISO/IEC JTC 1/SC 17 Cards and security devices for
+              personal identification, "ISO/IEC 18013-5:2021 Personal
+              identification — ISO-compliant driving licence — Part 5:
+              Mobile driving licence (mDL) application", 2021,
+              <https://www.iso.org/standard/69084.html>.
+
+   [OWASP_SSRF]
+              OWASP, "Server Side Request Forgery Prevention Cheat
+              Sheet", <https://cheatsheetseries.owasp.org/cheatsheets/
+              Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html/>.
+
+   [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
+              DOI 10.17487/RFC7517, May 2015,
+              <https://www.rfc-editor.org/info/rfc7517>.
+
+Appendix A.  IANA Considerations
+
+A.1.  JSON Web Token Claims Registration
+
+   *  Claim Name: "type"
+
+      -  Claim Description: Credential Type
+
+      -  Change Controller: IESG
+
+      -  Specification Document(s): Section 3.2.2.1.1 of this document
+
+A.2.  Media Types Registry
+
+A.2.1.  application/vc+sd-jwt
+
+   The Internet media type for a SD-JWT VC is application/vc+sd-jwt.
+
+   Type name: : application
+
+   Subtype name: : vc+sd-jwt
+
+   Required parameters: : n/a
+
+   Optional parameters: : n/a
+
+   Encoding considerations: : 8-bit code points; SD-JWT VC values are
+   encoded as a series of base64url-encoded values (some of which may be
+   the empty string) separated by period ('.') and tilde ('~')
+   characters.
+
+   Security considerations: : See Security Considerations in Section 6.
+
+   Interoperability considerations: : n/a
+
+   *  Published specification: : RFC TODO
+
+   *  Applications that use this media type: : Applications that issue,
+      present, verify verifiable credentials and presentations.
+
+   *  Additional information:
+
+      -  Magic number(s): n/a
+
+      -  File extension(s): n/a
+
+      -  Macintosh file type code(s): n/a
+
+      -  Person & email address to contact for further information: TBD
+
+      -  Intended usage: COMMON
+
+      -  Restrictions on usage: none
+
+      -  Author: Oliver Terbu oliver.terbu@spruceid.com
+         (mailto:oliver.terbu@spruceid.com)
+
+      -  Change controller: IETF
+
+Appendix B.  Acknowledgements
+
+   We would like to thank Alen Horvat, Andres Uribe, Brian Campbell,
+   Christian Bormann, Giuseppe De Marco, Michael Jones, Mike Prorock,
+   Orie Steele, Paul Bastian, Torsten Lodderstedt, Tobias Looker, and
+   Kristina Yasuda for their contributions (some of which substantial)
+   to this draft and to the initial set of implementations.
+
+Appendix C.  Document History
+
+   -00
+
+   *  Upload as draft-ietf-oauth-sd-jwt-vc-00
+
+   *  Aligned terminology and descriptions with latest version of SD-JWT
+
+   [[ pre Working Group Adoption: ]]
+
+   -00
+
+   *  Initial Version
+
+   *  Removed W3C VCDM transformation algorithm
+
+   *  Various editorial changes based on feedback
+
+   *  Adjusted terminology based on feedback
+
+   *  Added non-selectively disclosable JWT VC
+
+   *  Added a note that this is not W3C VCDM
+
+Appendix D.  Examples
+
+   Important: The following examples are not normative and provided for
+   illustration purposes only.  In particular, neither the structure of
+   the claims nor the selection of selectively disclosable claims are
+   normative.
+
+   Line breaks have been added for readability.
+
+D.1.  Diploma EAA
+
+   This example shows an Electronic Attestation of Attributes (EAA) for
+   a diploma.
+
+   The following user claims are used as the basis for this credential:
+
+   {
+     "binding": [
+       {
+         "dateOfBirth": "1973-01-01",
+         "famileName": "Mustermann",
+         "givenName": "Erika",
+         "type": "ClaimsBinding2022"
+       }
+     ],
+     "credentialSubject": {
+       "achieved": [
+         {
+           "id": "urn:epass:learningAchievement:1",
+           "title": "Master of Science in Civil Engineering",
+           "wasDerivedFrom": [
+             {
+               "assessedBy": [
+                 "did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1"
+               ],
+               "grade": "excellent (5)",
+               "id": "urn:epass:assessment:1",
+               "specifiedBy": {
+                 "gradingScheme": {
+                   "definition": "The Croatian national grading scheme
+                     consists of five grades with numerical
+                     equivalents: izvrstan – 5 (outstanding); vrlo
+                     dobar – 4 (very good); dobar – 3 (good); dovoljan
+                     – 2 (sufficient); nedovoljan – 1 (insufficient -
+                     fail). The minimum passing grade is dovoljan –
+                     2.",
+                   "id": "urn:epass:scoringschemespec:1",
+                   "title": "General grading scheme in Croatia"
+                 },
+                 "id": "urn:epass:asssessmentspec:1",
+                 "title": "Overall Diploma Assessment"
+               },
+               "title": "Overall Diploma Assessment"
+             }
+           ]
+         }
+       ],
+       "entitledTo": [
+         {
+           "definition": "Competences the student acquires after the
+             completion of Graduate university study are sufficient
+             conditions for attending the programme of Postgraduate
+             doctoral study at the Faculty of Civil Engineering,
+             Architecture and Geodesy in Split, as well as for
+             attending the same or similar programmes and Postgraduate
+             specialist studies at other faculties of Civil Engineering
+             in Croatia. The acquired learning outcomes enable the
+             student to attend other postgraduate study programmes in
+             the field of technical sciences. ",
+           "id": "urn:epass:entitlement:1",
+           "issuedDate": "2019-09-20",
+           "specifiedBy": {
+             "entitlementType":
+               "http://data.europa.eu/snb/entitlement/64aad92881",
+             "id": "urn:epass:entitlementspec:1",
+             "limitJurisdiction": [
+               "http://publications.europa.eu/resource/authority/countr
+                 y/HRV"
+             ],
+             "limitOrganisation": [
+               "did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1"
+             ],
+             "status": "http://data.europa.eu/snb/entitlement-status/5b
+               8d6b34fb",
+             "title": "Postgraduate doctoral study"
+           },
+           "title": "Postgraduate doctoral study"
+         }
+       ]
+     },
+     "iss": "did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1",
+     "jti": "urn:credential:5a4d5412-27e3-4540-a5e5-f1aa4d55b20c",
+     "type": "Europass"
+   }
+
+   The Issuer would produce an SD-JWT with the following payload:
+
+   {
+     "iss": "did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1",
+     "iat": 1683000000,
+     "exp": 1883000000,
+     "binding": [
+       {
+         "...": "MtwyK2Fd2dKhFW6DTOHHE4jX6IzB9zHK6fh6aHQNuDc"
+       }
+     ],
+     "credentialSubject": {
+       "achieved": [
+         {
+           "...": "RkCV-ktSqeQYHDZQLhKXqs0FiTVh2nfYnQ6NahmYeFo"
+         }
+       ],
+       "entitledTo": [
+         {
+           "...": "n6xGyt_ZjS-k1tytK5_hidavwmnf-xFbhJF2h4iUPmY"
+         }
+       ]
+     },
+     "jti": "urn:credential:5a4d5412-27e3-4540-a5e5-f1aa4d55b20c",
+     "type": "Europass",
+     "_sd_alg": "sha-256"
+   }
+
+   The following disclosures would be produced:
+
+   *Array Entry*:
+
+   *  SHA-256 Hash: MtwyK2Fd2dKhFW6DTOHHE4jX6IzB9zHK6fh6aHQNuDc
+
+   *  Disclosure:
+      WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgeyJkYXRlT2ZCaXJ0aCI6ICIx
+      OTczLTAxLTAxIiwgImZhbWlsZU5hbWUiOiAiTXVzdGVybWFubiIsICJnaXZl
+      bk5hbWUiOiAiRXJpa2EiLCAidHlwZSI6ICJDbGFpbXNCaW5kaW5nMjAyMiJ9
+      XQ
+
+   *  Contents: ["2GLC42sKQveCfGfryNRN9w", {"dateOfBirth": "1973-01-01",
+      "famileName": "Mustermann", "givenName": "Erika", "type":
+      "ClaimsBinding2022"}]
+
+   *Array Entry*:
+
+   *  SHA-256 Hash: RkCV-ktSqeQYHDZQLhKXqs0FiTVh2nfYnQ6NahmYeFo
+
+   *  Disclosure:
+      WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgeyJpZCI6ICJ1cm46ZXBhc3M6
+      bGVhcm5pbmdBY2hpZXZlbWVudDoxIiwgInRpdGxlIjogIk1hc3RlciBvZiBT
+      Y2llbmNlIGluIENpdmlsIEVuZ2luZWVyaW5nIiwgIndhc0Rlcml2ZWRGcm9t
+      IjogW3siYXNzZXNzZWRCeSI6IFsiZGlkOmVic2k6enNTZ0RYZVlQaFozQXVL
+      aFRGbmVEZjEiXSwgImdyYWRlIjogImV4Y2VsbGVudCAoNSkiLCAiaWQiOiAi
+      dXJuOmVwYXNzOmFzc2Vzc21lbnQ6MSIsICJzcGVjaWZpZWRCeSI6IHsiZ3Jh
+      ZGluZ1NjaGVtZSI6IHsiZGVmaW5pdGlvbiI6ICJUaGUgQ3JvYXRpYW4gbmF0
+      aW9uYWwgZ3JhZGluZyBzY2hlbWUgY29uc2lzdHMgb2YgZml2ZSBncmFkZXMg
+      d2l0aCBudW1lcmljYWwgZXF1aXZhbGVudHM6IGl6dnJzdGFuIFx1MjAxMyA1
+      IChvdXRzdGFuZGluZyk7IHZybG8gZG9iYXIgXHUyMDEzIDQgKHZlcnkgZ29v
+      ZCk7IGRvYmFyIFx1MjAxMyAzIChnb29kKTsgZG92b2xqYW4gXHUyMDEzIDIg
+      KHN1ZmZpY2llbnQpOyBuZWRvdm9samFuIFx1MjAxMyAxIChpbnN1ZmZpY2ll
+      bnQgLSBmYWlsKS4gVGhlIG1pbmltdW0gcGFzc2luZyBncmFkZSBpcyBkb3Zv
+      bGphbiBcdTIwMTMgMi4iLCAiaWQiOiAidXJuOmVwYXNzOnNjb3JpbmdzY2hl
+      bWVzcGVjOjEiLCAidGl0bGUiOiAiR2VuZXJhbCBncmFkaW5nIHNjaGVtZSBp
+      biBDcm9hdGlhIn0sICJpZCI6ICJ1cm46ZXBhc3M6YXNzc2Vzc21lbnRzcGVj
+      OjEiLCAidGl0bGUiOiAiT3ZlcmFsbCBEaXBsb21hIEFzc2Vzc21lbnQifSwg
+      InRpdGxlIjogIk92ZXJhbGwgRGlwbG9tYSBBc3Nlc3NtZW50In1dfV0
+
+   *  Contents: ["eluV5Og3gSNII8EYnsxA_A", {"id":
+      "urn:epass:learningAchievement:1", "title": "Master of
+      Science in Civil Engineering", "wasDerivedFrom":
+      [{"assessedBy": ["did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1"],
+      "grade": "excellent (5)", "id": "urn:epass:assessment:1",
+      "specifiedBy": {"gradingScheme": {"definition": "The
+      Croatian national grading scheme consists of five grades
+      with numerical equivalents: izvrstan \u2013 5 (outstanding);
+      vrlo dobar \u2013 4 (very good); dobar \u2013 3 (good);
+      dovoljan \u2013 2 (sufficient); nedovoljan \u2013 1
+      (insufficient - fail).  The minimum passing grade is dovoljan
+      \u2013 2.", "id": "urn:epass:scoringschemespec:1", "title":
+      "General grading scheme in Croatia"}, "id":
+      "urn:epass:asssessmentspec:1", "title": "Overall Diploma
+      Assessment"}, "title": "Overall Diploma Assessment"}]}]
+
+   *Array Entry*:
+
+   *  SHA-256 Hash: n6xGyt_ZjS-k1tytK5_hidavwmnf-xFbhJF2h4iUPmY
+
+   *  Disclosure:
+      WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgeyJkZWZpbml0aW9uIjogIkNv
+      bXBldGVuY2VzIHRoZSBzdHVkZW50IGFjcXVpcmVzIGFmdGVyIHRoZSBjb21w
+      bGV0aW9uIG9mIEdyYWR1YXRlIHVuaXZlcnNpdHkgc3R1ZHkgYXJlIHN1ZmZp
+      Y2llbnQgY29uZGl0aW9ucyBmb3IgYXR0ZW5kaW5nIHRoZSBwcm9ncmFtbWUg
+      b2YgUG9zdGdyYWR1YXRlIGRvY3RvcmFsIHN0dWR5IGF0IHRoZSBGYWN1bHR5
+      IG9mIENpdmlsIEVuZ2luZWVyaW5nLCBBcmNoaXRlY3R1cmUgYW5kIEdlb2Rl
+      c3kgaW4gU3BsaXQsIGFzIHdlbGwgYXMgZm9yIGF0dGVuZGluZyB0aGUgc2Ft
+      ZSBvciBzaW1pbGFyIHByb2dyYW1tZXMgYW5kIFBvc3RncmFkdWF0ZSBzcGVj
+      aWFsaXN0IHN0dWRpZXMgYXQgb3RoZXIgZmFjdWx0aWVzIG9mIENpdmlsIEVu
+      Z2luZWVyaW5nIGluIENyb2F0aWEuIFRoZSBhY3F1aXJlZCBsZWFybmluZyBv
+      dXRjb21lcyBlbmFibGUgdGhlIHN0dWRlbnQgdG8gYXR0ZW5kIG90aGVyIHBv
+      c3RncmFkdWF0ZSBzdHVkeSBwcm9ncmFtbWVzIGluIHRoZSBmaWVsZCBvZiB0
+      ZWNobmljYWwgc2NpZW5jZXMuICIsICJpZCI6ICJ1cm46ZXBhc3M6ZW50aXRs
+      ZW1lbnQ6MSIsICJpc3N1ZWREYXRlIjogIjIwMTktMDktMjAiLCAic3BlY2lm
+      aWVkQnkiOiB7ImVudGl0bGVtZW50VHlwZSI6ICJodHRwOi8vZGF0YS5ldXJv
+      cGEuZXUvc25iL2VudGl0bGVtZW50LzY0YWFkOTI4ODEiLCAiaWQiOiAidXJu
+      OmVwYXNzOmVudGl0bGVtZW50c3BlYzoxIiwgImxpbWl0SnVyaXNkaWN0aW9u
+      IjogWyJodHRwOi8vcHVibGljYXRpb25zLmV1cm9wYS5ldS9yZXNvdXJjZS9h
+      dXRob3JpdHkvY291bnRyeS9IUlYiXSwgImxpbWl0T3JnYW5pc2F0aW9uIjog
+      WyJkaWQ6ZWJzaTp6c1NnRFhlWVBoWjNBdUtoVEZuZURmMSJdLCAic3RhdHVz
+      IjogImh0dHA6Ly9kYXRhLmV1cm9wYS5ldS9zbmIvZW50aXRsZW1lbnQtc3Rh
+      dHVzLzViOGQ2YjM0ZmIiLCAidGl0bGUiOiAiUG9zdGdyYWR1YXRlIGRvY3Rv
+      cmFsIHN0dWR5In0sICJ0aXRsZSI6ICJQb3N0Z3JhZHVhdGUgZG9jdG9yYWwg
+      c3R1ZHkifV0
+
+   *  Contents: ["6Ij7tM-a5iVPGboS5tmvVA", {"definition": "Competences
+      the
+      student acquires after the completion of Graduate university
+      study are sufficient conditions for attending the programme
+      of Postgraduate doctoral study at the Faculty of Civil
+      Engineering, Architecture and Geodesy in Split, as well as
+      for attending the same or similar programmes and
+      Postgraduate specialist studies at other faculties of Civil
+      Engineering in Croatia.  The acquired learning outcomes
+      enable the student to attend other postgraduate study
+      programmes in the field of technical sciences. ", "id":
+      "urn:epass:entitlement:1", "issuedDate": "2019-09-20",
+      "specifiedBy": {"entitlementType":
+      "http://data.europa.eu/snb/entitlement/64aad92881", "id":
+      "urn:epass:entitlementspec:1", "limitJurisdiction": ["http:/
+      /publications.europa.eu/resource/authority/country/HRV"],
+      "limitOrganisation": ["did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1"],
+      "status":
+      "http://data.europa.eu/snb/entitlement-status/5b8d6b34fb",
+      "title": "Postgraduate doctoral study"}, "title":
+      "Postgraduate doctoral study"}]
+
+D.2.  ISO 18013-5 Mobile Driving License (mDL)
+
+   This example illustrates how the artifacts defined in this
+   specification can be used to express an mDL data model defined in
+   ISO/IEC 18013-5 [ISO.18013-5] encoded as JSON.
+
+   In this example, Key Binding is applied and the Key Binding JWT is
+   signed with the private key corresponding to the raw public key
+   passed in a cnf Claim in the SD-JWT.
+
+   The following data will be used in this example:
+
+   {
+     "iss": "https://example.com",
+     "docType": "org.iso.18013.5.1.mDL",
+     "version": "1.0",
+     "validityInfo": {
+       "signed": "2022-04-15T06:23:56Z",
+       "validFrom": "2022-04-15T06:23:56Z",
+       "validUntil": "2027-01-02T00:00:00Z"
+     },
+     "nameSpaces": {
+       "nameSpace": "org.iso.18013.5.1",
+       "expiry_date": "2030-02-22",
+       "issue_date": "2020-02-23",
+       "family_name": "John",
+       "given_name": "Doe",
+       "issuing_country": "UT",
+       "document_number": "ES24689",
+       "portrait": "_9j_4AAQSkZJRgABAQEAkACQAAD_2wBDABMNDhEODBMRDxEVFBM
+         XHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j
+         214e3b_2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ
+         2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb_wAARCAAYAGQDASIAAhEBAxEB_
+         8QAGwAAAwEAAwEAAAAAAAAAAAAAAAUGBAECAwf_xAAyEAABAwMDAgUCAwkAAAA
+         AAAABAgMEAAURBhIhEzEUFVFhcSJBB4GhFjVCUnORssHx_8QAFQEBAQAAAAAAA
+         AAAAAAAAAAAAAH_xAAaEQEBAQADAQAAAAAAAAAAAAAAAUERITFh_9oADAMBAAI
+         RAxEAPwClu94i2iMpx9aSvH0NA_Us-w_3Xnp-8-dwlyOh0NrhRt37s8A5zgetK
+         9R6fjLbuN0dUtbvSyhPZKSABn37Ufh_-5X_AOuf8U0hXeZq8InORLfb3py2iQo
+         oOO3fGAePet1i1BHvTbmxCmXWuVoUc4HqDUlbkzJ1_mu6dcEUEEqLpBBBPpg9_
+         wBPWvXTS0tM3mMtC_H9FZK92RxkEfOTTC-mr2tUl10Qbc9KZa5W6FYAHrwDx84
+         p3Z7vHvEPxEfcnadq0q7pNTehun5PcN2O_wBXxt_7XhoZhUqDdY5UUodQlG7Gc
+         EhQzQN7zrCLbX0sx20zF_x7XMBPtnByacXG4MW2CuVJJCEjsOST9gKgdVWeNZl
+         w2Y24lSVFa1HJUcivoT6o6Y48WWg2eD1cY_WmGpn9tykIddtL6IqzhLu7v8cYP
+         96qYz6JUdt9o5bcSFJPsai9YRpaoqJDLzCrQgp6bTJAxxjPAx-p70ya1VAgWqA
+         pUd9KHWyEIbAVt2nbjJIpg36ivosbDTnQ66nFFITv24wO_Y0lja88RJaZ8u29R
+         YTnr5xk4_lrm-so1KxAkx5keMjnaiSoJUSVAdhn0rHc3rrpm5x1KuTs1t3koXn
+         BweRgk4-RSe9lXlFcA5GaKJyz3KJ4-3vxd_T6qCndjOPyrJp-zeSQlx-v19zhX
+         u2bccAYxk-lFFFLJOjkMXJt1wegledwSM9_sCCOPat1i05GswcUlannnBtUtQx
+         x6AUUUC5_RSes6YNxeiMu8LaCSQR6dxx85p3ZrRHs0ToR9ysnctau6jRRQYdQ6
+         b88eZc8V0OkCMdPdnP5imVxtzFyhKiyQShX3HdJ9RRRT4J0aIUUJYcuz6oqVZD
+         O3gfHOM9_tVPDitQorcdhO1tsYAoooF190_GvaEFxSmnkcJcTzx6EfcVhiaPSm
+         a3JuM96epvG1Kxgcdgck5HtRRSClooooP_2Q",
+       "driving_privileges": [
+         {
+           "expiry_date": "2024-10-20",
+           "issue_date": "2018-08-09",
+           "vehicle_category_code": "A"
+         },
+         {
+           "expiry_date": "2024-10-20",
+           "issue_date": "2017-02-20",
+           "vehicle_category_code": "B"
+         }
+       ],
+       "birth_date": "1980-02-05",
+       "issuing_authority": "Utopia",
+       "un_distinguishing_sign": null,
+       "age_over_21": true
+     }
+   }
+
+   The payload of a corresponding SD-JWT looks as follows:
+
+   {
+     "iss": "https://example.com",
+     "iat": 1683000000,
+     "exp": 1883000000,
+     "docType": "org.iso.18013.5.1.mDL",
+     "version": "1.0",
+     "validityInfo": {
+       "signed": "2022-04-15T06:23:56Z",
+       "validFrom": "2022-04-15T06:23:56Z",
+       "validUntil": "2027-01-02T00:00:00Z"
+     },
+     "nameSpaces": {
+       "_sd": [
+         "6ulzUsxXYIrPL2rM2wXS8AO0uqODP_llIs14BhkSGbg",
+         "7MRyy3gq1pbJc89Yp6LKDPnq0E5VZHbR9qJZXWcPn_A",
+         "9ZdtQ_-ganWH9PqcsZUNWBdPEXplpoyPHOm0yCnoy7s",
+         "DYRMJOObfouIY_qtlhyM0IoF7txkkuscA_4zNShqIzw",
+         "H6bLZFhykVMV6BPXcy0un9BHr41rt8lGKke5Eiyyg7g",
+         "MMwJbpZWZprdHLTW3hXmwZeaUh0VSe75SsBebvn-f5E",
+         "_i95RfpjtN4HgkfZwRjHP5EIfUNIc7nC-QrdhRdGxS0",
+         "b3jLRhzWyf2Z32oFZc9P2PHe_vcFm1ZgjpZYamISdHo",
+         "dCCy3Fym8Ft5J8nZ-xkDbHORBM4rg0KlTqE9QNAfpOc",
+         "eehuQwYayNIsVQCHO8IKuEszkBeztIgnXy93UKDv-4w",
+         "seXPdWoH8s6xGNWNVP3Cz9wrqxl7jJ2Y3YxVMu2VAlY",
+         "v3IVN9yjuBgTw1f0pYl_0p-vBRslEfdh13_dUGJjCE0",
+         "yVuhdh2mfS0kq8nlQt2_3_Jz7DJeUytBKBucScf3IrI"
+       ]
+     },
+     "_sd_alg": "sha-256",
+     "cnf": {
+       "jwk": {
+         "kty": "EC",
+         "crv": "P-256",
+         "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+         "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+       }
+     }
+   }
+
+   Disclosures:
+
+   *Claim nameSpace*:
+
+   *  SHA-256 Hash: H6bLZFhykVMV6BPXcy0un9BHr41rt8lGKke5Eiyyg7g
+
+   *  Disclosure:
+      WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgIm5hbWVTcGFjZSIsICJvcmcu
+      aXNvLjE4MDEzLjUuMSJd
+
+   *  Contents: ["2GLC42sKQveCfGfryNRN9w", "nameSpace",
+      "org.iso.18013.5.1"]
+
+   *Claim expiry_date*:
+
+   *  SHA-256 Hash: dCCy3Fym8Ft5J8nZ-xkDbHORBM4rg0KlTqE9QNAfpOc
+
+   *  Disclosure:
+      WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImV4cGlyeV9kYXRlIiwgIjIw
+      MzAtMDItMjIiXQ
+
+   *  Contents: ["eluV5Og3gSNII8EYnsxA_A", "expiry_date", "2030-02-22"]
+
+   *Claim issue_date*:
+
+   *  SHA-256 Hash: 6ulzUsxXYIrPL2rM2wXS8AO0uqODP_llIs14BhkSGbg
+
+   *  Disclosure:
+      WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImlzc3VlX2RhdGUiLCAiMjAy
+      MC0wMi0yMyJd
+
+   *  Contents: ["6Ij7tM-a5iVPGboS5tmvVA", "issue_date", "2020-02-23"]
+
+   *Claim family_name*:
+
+   *  SHA-256 Hash: seXPdWoH8s6xGNWNVP3Cz9wrqxl7jJ2Y3YxVMu2VAlY
+
+   *  Disclosure:
+      WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgImZhbWlseV9uYW1lIiwgIkpv
+      aG4iXQ
+
+   *  Contents: ["eI8ZWm9QnKPpNPeNenHdhQ", "family_name", "John"]
+
+   *Claim given_name*:
+
+   *  SHA-256 Hash: 9ZdtQ_-ganWH9PqcsZUNWBdPEXplpoyPHOm0yCnoy7s
+
+   *  Disclosure:
+      WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImdpdmVuX25hbWUiLCAiRG9l
+      Il0
+
+   *  Contents: ["Qg_O64zqAxe412a108iroA", "given_name", "Doe"]
+
+   *Claim issuing_country*:
+
+   *  SHA-256 Hash: b3jLRhzWyf2Z32oFZc9P2PHe_vcFm1ZgjpZYamISdHo
+
+   *  Disclosure:
+      WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImlzc3VpbmdfY291bnRyeSIs
+      ICJVVCJd
+
+   *  Contents: ["AJx-095VPrpTtN4QMOqROA", "issuing_country", "UT"]
+
+   *Claim document_number*:
+
+   *  SHA-256 Hash: v3IVN9yjuBgTw1f0pYl_0p-vBRslEfdh13_dUGJjCE0
+
+   *  Disclosure:
+      WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImRvY3VtZW50X251bWJlciIs
+      ICJFUzI0Njg5Il0
+
+   *  Contents: ["Pc33JM2LchcU_lHggv_ufQ", "document_number", "ES24689"]
+
+   *Claim portrait*:
+
+   *  SHA-256 Hash: DYRMJOObfouIY_qtlhyM0IoF7txkkuscA_4zNShqIzw
+
+   *  Disclosure:
+      WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgInBvcnRyYWl0IiwgIl85al80
+      QUFRU2taSlJnQUJBUUVBa0FDUUFBRF8yd0JEQUJNTkRoRU9EQk1SRHhFVkZC
+      TVhIVEFmSFJvYUhUb3FMQ013UlQxSlIwUTlRMEZNVm0xZFRGRm9Va0ZEWDRK
+      Z2FIRjFlM3g3U2x5R2tJVjNqMjE0ZTNiXzJ3QkRBUlFWRlIwWkhUZ2ZIemgy
+      VDBOUGRuWjJkbloyZG5aMmRuWjJkbloyZG5aMmRuWjJkbloyZG5aMmRuWjJk
+      bloyZG5aMmRuWjJkbloyZG5aMmRuWjJkbmJfd0FBUkNBQVlBR1FEQVNJQUFo
+      RUJBeEVCXzhRQUd3QUFBd0VBQXdFQUFBQUFBQUFBQUFBQUFBVUdCQUVDQXdm
+      X3hBQXlFQUFCQXdNREFnVUNBd2tBQUFBQUFBQUJBZ01FQUFVUkJoSWhFekVV
+      RlZGaGNTSkJCNEdoRmpWQ1VuT1Jzc0h4XzhRQUZRRUJBUUFBQUFBQUFBQUFB
+      QUFBQUFBQUFBSF94QUFhRVFFQkFRQURBUUFBQUFBQUFBQUFBQUFBQVVFUklU
+      RmhfOW9BREFNQkFBSVJBeEVBUHdDbHU5NGkyaU1weDlhU3ZIME5BX1VzLXdf
+      M1hucC04LWR3bHlPaDBOcmhSdDM3czhBNXpnZXRLOVI2ZmpMYnVOMGRVdGJ2
+      U3loUFpLU0FCbjM3VWZoXy01WF9BT3VmOFUwaFhlWnE4SW5PUkxmYjNweTJp
+      UW9vT08zZkdBZVBldDFpMUJIdlRibXhDbVhXdVZvVWM0SHFEVWxia3pKMV9t
+      dTZkY0VVRUVxTHBCQkJQcGc5X3dCUFd2WFRTMHRNM21NdENfSDlGWks5MlJ4
+      a0VmT1RUQy1tcjJ0VWwxMFFiYzlLWmE1VzZGWUFIcndEeDg0cDNaN3ZIdkVQ
+      eEVmY25hZHEwcTdwTlRlaHVuNVBjTjJPX3dCWHh0XzdYaG9aaFVxRGRZNVVV
+      b2RRbEc3R2NFaFF6UU43enJDTGJYMHN4MjB6Rl94N1hNQlB0bkJ5YWNYRzRN
+      VzJDdVZKSkNFanNPU1Q5Z0tnZFZXZU5abHcyWTI0bFNWRmExSEpVY2l2b1Q2
+      bzZZNDhXV2cyZUQxY1lfV21HcG45dHlrSWRkdEw2SXF6aEx1N3Y4Y1lQOTZx
+      WXo2SlVkdDlvNWJjU0ZKUHNhaTlZUnBhb3FKREx6Q3JRZ3A2YlRKQXh4alBB
+      eC1wNzB5YTFWQWdXcUFwVWQ5S0hXeUVJYkFWdDJuYmpKSXBnMzZpdm9zYkRU
+      blE2Nm5GRklUdjI0d09fWTBsamE4OFJKYVo4dTI5UllUbnI1eGs0X2xybS1z
+      bzFLeEFreDVrZU1qbmFpU29KVVNWQWRobjBySGMzcnJwbTV4MUt1VHMxdDNr
+      b1huQndlUmdrNC1SU2U5bFhsRmNBNUdhS0p5ejNLSjQtM3Z4ZF9UNnFDbmRq
+      T1B5ckpwLXplU1FseC12MTl6aFh1MmJjY0FZeGstbEZGRkxKT2prTVhKdDF3
+      ZWdsZWR3U005X3NDQ09QYXQxaTA1R3N3Y1VsYW5ubkJ0VXRReHg2QVVVVUM1
+      X1JTZXM2WU54ZWlNdThMYUNTUVI2ZHh4ODVwM1pyUkhzMFRvUjl5c25jdGF1
+      NmpSUlFZZFE2Yjg4ZVpjOFYwT2tDTWRQZG5QNWltVnh0ekZ5aEtpeVFTaFgz
+      SGRKOVJSUlQ0SjBhSVVVSlljdXo2b3FWWkRPM2dmSE9NOV90VlBEaXRRb3Jj
+      ZGhPMXRzWUFvb29GMTkwX0d2YUVGeFNtbmtjSmNUeng2RWZjVmhpYVBTbWEz
+      SnVNOTZlcHZHMUt4Z2NkZ2NrNUh0UlJTQ2xvb29vUF8yUSJd
+
+   *  Contents: ["G02NSrQfjFXQ7Io09syajA", "portrait",
+      "_9j_4AAQSkZJRgABAQEA
+      kACQAAD_2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FM
+      Vm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b_2wBDARQVFR0ZHTgfHzh2
+      T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2
+      dnZ2dnZ2dnb_wAARCAAYAGQDASIAAhEBAxEB_8QAGwAAAwEAAwEAAAAAAAAA
+      AAAAAAUGBAECAwf_xAAyEAABAwMDAgUCAwkAAAAAAAABAgMEAAURBhIhEzEU
+      FVFhcSJBB4GhFjVCUnORssHx_8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH_xAAa
+      EQEBAQADAQAAAAAAAAAAAAAAAUERITFh_9oADAMBAAIRAxEAPwClu94i2iMp
+      x9aSvH0NA_Us-w_3Xnp-8-dwlyOh0NrhRt37s8A5zgetK9R6fjLbuN0dUtbv
+      SyhPZKSABn37Ufh_-5X_AOuf8U0hXeZq8InORLfb3py2iQooOO3fGAePet1i
+      1BHvTbmxCmXWuVoUc4HqDUlbkzJ1_mu6dcEUEEqLpBBBPpg9_wBPWvXTS0tM
+      3mMtC_H9FZK92RxkEfOTTC-mr2tUl10Qbc9KZa5W6FYAHrwDx84p3Z7vHvEP
+      xEfcnadq0q7pNTehun5PcN2O_wBXxt_7XhoZhUqDdY5UUodQlG7GcEhQzQN7
+      zrCLbX0sx20zF_x7XMBPtnByacXG4MW2CuVJJCEjsOST9gKgdVWeNZlw2Y24
+      lSVFa1HJUcivoT6o6Y48WWg2eD1cY_WmGpn9tykIddtL6IqzhLu7v8cYP96q
+      Yz6JUdt9o5bcSFJPsai9YRpaoqJDLzCrQgp6bTJAxxjPAx-p70ya1VAgWqAp
+      Ud9KHWyEIbAVt2nbjJIpg36ivosbDTnQ66nFFITv24wO_Y0lja88RJaZ8u29
+      RYTnr5xk4_lrm-so1KxAkx5keMjnaiSoJUSVAdhn0rHc3rrpm5x1KuTs1t3k
+      oXnBweRgk4-RSe9lXlFcA5GaKJyz3KJ4-3vxd_T6qCndjOPyrJp-zeSQlx-v
+      19zhXu2bccAYxk-lFFFLJOjkMXJt1wegledwSM9_sCCOPat1i05GswcUlann
+      nBtUtQxx6AUUUC5_RSes6YNxeiMu8LaCSQR6dxx85p3ZrRHs0ToR9ysnctau
+      6jRRQYdQ6b88eZc8V0OkCMdPdnP5imVxtzFyhKiyQShX3HdJ9RRRT4J0aIUU
+      JYcuz6oqVZDO3gfHOM9_tVPDitQorcdhO1tsYAoooF190_GvaEFxSmnkcJcT
+      zx6EfcVhiaPSma3JuM96epvG1Kxgcdgck5HtRRSClooooP_2Q"]
+
+   *Claim driving_privileges*:
+
+   *  SHA-256 Hash: eehuQwYayNIsVQCHO8IKuEszkBeztIgnXy93UKDv-4w
+
+   *  Disclosure:
+      WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImRyaXZpbmdfcHJpdmlsZWdl
+      cyIsIFt7ImV4cGlyeV9kYXRlIjogIjIwMjQtMTAtMjAiLCAiaXNzdWVfZGF0
+      ZSI6ICIyMDE4LTA4LTA5IiwgInZlaGljbGVfY2F0ZWdvcnlfY29kZSI6ICJB
+      In0sIHsiZXhwaXJ5X2RhdGUiOiAiMjAyNC0xMC0yMCIsICJpc3N1ZV9kYXRl
+      IjogIjIwMTctMDItMjAiLCAidmVoaWNsZV9jYXRlZ29yeV9jb2RlIjogIkIi
+      fV1d
+
+   *  Contents: ["lklxF5jMYlGTPUovMNIvCA", "driving_privileges",
+      [{"expiry_date": "2024-10-20", "issue_date": "2018-08-09",
+      "vehicle_category_code": "A"}, {"expiry_date": "2024-10-20",
+      "issue_date": "2017-02-20", "vehicle_category_code": "B"}]]
+
+   *Claim birth_date*:
+
+   *  SHA-256 Hash: yVuhdh2mfS0kq8nlQt2_3_Jz7DJeUytBKBucScf3IrI
+
+   *  Disclosure:
+      WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgImJpcnRoX2RhdGUiLCAiMTk4
+      MC0wMi0wNSJd
+
+   *  Contents: ["nPuoQnkRFq3BIeAm7AnXFA", "birth_date", "1980-02-05"]
+
+   *Claim issuing_authority*:
+
+   *  SHA-256 Hash: _i95RfpjtN4HgkfZwRjHP5EIfUNIc7nC-QrdhRdGxS0
+
+   *  Disclosure:
+      WyI1YlBzMUlxdVpOYTBoa2FGenp6Wk53IiwgImlzc3VpbmdfYXV0aG9yaXR5
+      IiwgIlV0b3BpYSJd
+
+   *  Contents: ["5bPs1IquZNa0hkaFzzzZNw", "issuing_authority",
+      "Utopia"]
+
+   *Claim un_distinguishing_sign*:
+
+   *  SHA-256 Hash: MMwJbpZWZprdHLTW3hXmwZeaUh0VSe75SsBebvn-f5E
+
+   *  Disclosure:
+      WyI1YTJXMF9OcmxFWnpmcW1rXzdQcS13IiwgInVuX2Rpc3Rpbmd1aXNoaW5n
+      X3NpZ24iLCBudWxsXQ
+
+   *  Contents: ["5a2W0_NrlEZzfqmk_7Pq-w", "un_distinguishing_sign",
+      null]
+
+   *Claim age_over_21*:
+
+   *  SHA-256 Hash: 7MRyy3gq1pbJc89Yp6LKDPnq0E5VZHbR9qJZXWcPn_A
+
+   *  Disclosure:
+      WyJ5MXNWVTV3ZGZKYWhWZGd3UGdTN1JRIiwgImFnZV9vdmVyXzIxIiwgdHJ1
+      ZV0
+
+   *  Contents: ["y1sVU5wdfJahVdgwPgS7RQ", "age_over_21", true]
+
+   An SD-JWT Presentation that discloses only nameSpace,
+   issuing_authority, and issuing_country, and has a Key Binding JWT,
+   could look as follows:
+
+   eyJhbGciOiAiRVMyNTYifQ.eyJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbSIsICJpY
+   XQiOiAxNjgzMDAwMDAwLCAiZXhwIjogMTg4MzAwMDAwMCwgImRvY1R5cGUiOiAib3JnL
+   mlzby4xODAxMy41LjEubURMIiwgInZlcnNpb24iOiAiMS4wIiwgInZhbGlkaXR5SW5mb
+   yI6IHsic2lnbmVkIjogIjIwMjItMDQtMTVUMDY6MjM6NTZaIiwgInZhbGlkRnJvbSI6I
+   CIyMDIyLTA0LTE1VDA2OjIzOjU2WiIsICJ2YWxpZFVudGlsIjogIjIwMjctMDEtMDJUM
+   DA6MDA6MDBaIn0sICJuYW1lU3BhY2VzIjogeyJfc2QiOiBbIjZ1bHpVc3hYWUlyUEwyc
+   k0yd1hTOEFPMHVxT0RQX2xsSXMxNEJoa1NHYmciLCAiN01SeXkzZ3ExcGJKYzg5WXA2T
+   EtEUG5xMEU1VlpIYlI5cUpaWFdjUG5fQSIsICI5WmR0UV8tZ2FuV0g5UHFjc1pVTldCZ
+   FBFWHBscG95UEhPbTB5Q25veTdzIiwgIkRZUk1KT09iZm91SVlfcXRsaHlNMElvRjd0e
+   GtrdXNjQV80ek5TaHFJenciLCAiSDZiTFpGaHlrVk1WNkJQWGN5MHVuOUJIcjQxcnQ4b
+   EdLa2U1RWl5eWc3ZyIsICJNTXdKYnBaV1pwcmRITFRXM2hYbXdaZWFVaDBWU2U3NVNzQ
+   mVidm4tZjVFIiwgIl9pOTVSZnBqdE40SGdrZlp3UmpIUDVFSWZVTkljN25DLVFyZGhSZ
+   Ed4UzAiLCAiYjNqTFJoeld5ZjJaMzJvRlpjOVAyUEhlX3ZjRm0xWmdqcFpZYW1JU2RIb
+   yIsICJkQ0N5M0Z5bThGdDVKOG5aLXhrRGJIT1JCTTRyZzBLbFRxRTlRTkFmcE9jIiwgI
+   mVlaHVRd1lheU5Jc1ZRQ0hPOElLdUVzemtCZXp0SWduWHk5M1VLRHYtNHciLCAic2VYU
+   GRXb0g4czZ4R05XTlZQM0N6OXdycXhsN2pKMlkzWXhWTXUyVkFsWSIsICJ2M0lWTjl5a
+   nVCZ1R3MWYwcFlsXzBwLXZCUnNsRWZkaDEzX2RVR0pqQ0UwIiwgInlWdWhkaDJtZlMwa
+   3E4bmxRdDJfM19KejdESmVVeXRCS0J1Y1NjZjNJckkiXX0sICJfc2RfYWxnIjogInNoY
+   S0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiL
+   CAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jI
+   iwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaU
+   SJ9fX0.fdVYgUO8m8WA71dateuvni3BsqFAwjjF_t7Ele4wxVkrLwd-HQM-yst2A1vXx
+   wjz6adUbrpUV9GY02mIcys-JA~eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImtiK2p3dC
+   J9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY
+   29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTU5NzczMzV9.IpcRXFPFrtifriEK5yupIhtl
+   YR63YFocZ8zdZSn6RzPJJr_GTFYCPir4oLJ1BWZF3MZDUawaLNQmI8-2QyplBg
+
+   After the validation, the Verifier (mDL reader) will have the
+   following data for further processing:
+
+   {
+     "iss": "https://example.com",
+     "iat": 1683000000,
+     "exp": 1883000000,
+     "docType": "org.iso.18013.5.1.mDL",
+     "version": "1.0",
+     "validityInfo": {
+       "signed": "2022-04-15T06:23:56Z",
+       "validFrom": "2022-04-15T06:23:56Z",
+       "validUntil": "2027-01-02T00:00:00Z"
+     },
+     "nameSpaces": {},
+     "cnf": {
+       "jwk": {
+         "kty": "EC",
+         "crv": "P-256",
+         "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+         "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+       }
+     }
+   }
+
+D.3.  ARF PID
+
+   In this example, SD-JWT VC is used to express Person Identification
+   Data (PID) as defined in [EUDIW.ARF].
+
+   Key Binding is applied using the Holder's public key passed in a cnf
+   claim in the SD-JWT.
+
+   The Issuer is using the following input claim set:
+
+   {
+     "iss": "https://pid-provider.memberstate.example.eu",
+     "iat": 1541493724,
+     "type": "PersonIdentificationData",
+     "first_name": "Erika",
+     "family_name": "Mustermann",
+     "nationalities": [
+       "DE"
+     ],
+     "birth_family_name": "Schmidt",
+     "birthdate": "1973-01-01",
+     "address": {
+       "postal_code": "12345",
+       "locality": "Irgendwo",
+       "street_address": "Sonnenstrasse 23",
+       "country_code": "DE"
+     },
+     "is_over_18": true,
+     "is_over_21": true,
+     "is_over_65": false
+   }
+
+   The following payload is used for the SD-JWT:
+
+   {
+     "_sd": [
+       "09TbSuo12i2CqZbg31AFgbGy_UnMIXIHoMjsELpukqg",
+       "0n9yzFSWvK_BUHiaMhm12ghrCtVahrGJ6_-kZP-ySq4",
+       "4VoA3a1VmPxmdC8WIn3pOqQf3gfOVOvDYsN5E5R5Kd0",
+       "5A88AmauAao-QANao95CYUkUPNTid_gAK8aYtZ9RZwc",
+       "910byr3UVRqRzQoPzBsc20m-eMgpZAhLN6z8NoGF5mc",
+       "Ch-DBcL3kb4VbHIwtknnZdNUHthEq9MZjoFdg6idiho",
+       "I00fcFUoDXCucp5yy2ujqPssDVGaWNiUliNz_awD0gc",
+       "X9MaPaFWmQYpfHEdytRdaclnYoEru8EztBEUQuWOe44",
+       "Y1urWJV_-HBGnSf9tFOwvH4cICRBCiKwEHfkXFSfjpo",
+       "rNhKoraaq--x7BWWIVhbGXu1XXXLM8ivZXD3m2FZMgs",
+       "xpsq6cxQHDsOnZWhrqBckTkOM_efElUnDFXOFmowLSE",
+       "zU452lkGbEKh8ZuH_8Kx3CUvn1F4y1gZLqlDTgX_8Pk"
+     ],
+     "iss": "https://pid-provider.memberstate.example.eu",
+     "iat": 1541493724,
+     "exp": 1883000000,
+     "type": "PersonIdentificationData",
+     "_sd_alg": "sha-256",
+     "cnf": {
+       "jwk": {
+         "kty": "EC",
+         "crv": "P-256",
+         "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+         "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+       }
+     }
+   }
+
+   The following is the issued SD-JWT:
+
+   eyJhbGciOiAiRVMyNTYifQ.eyJfc2QiOiBbIjA5VGJTdW8xMmkyQ3FaYmczMUFGZ2JHe
+   V9Vbk1JWElIb01qc0VMcHVrcWciLCAiMG45eXpGU1d2S19CVUhpYU1obTEyZ2hyQ3RWY
+   WhyR0o2Xy1rWlAteVNxNCIsICI0Vm9BM2ExVm1QeG1kQzhXSW4zcE9xUWYzZ2ZPVk92R
+   FlzTjVFNVI1S2QwIiwgIjVBODhBbWF1QWFvLVFBTmFvOTVDWVVrVVBOVGlkX2dBSzhhW
+   XRaOVJad2MiLCAiOTEwYnlyM1VWUnFSelFvUHpCc2MyMG0tZU1ncFpBaExONno4Tm9HR
+   jVtYyIsICJDaC1EQmNMM2tiNFZiSEl3dGtublpkTlVIdGhFcTlNWmpvRmRnNmlkaWhvI
+   iwgIkkwMGZjRlVvRFhDdWNwNXl5MnVqcVBzc0RWR2FXTmlVbGlOel9hd0QwZ2MiLCAiW
+   DlNYVBhRldtUVlwZkhFZHl0UmRhY2xuWW9FcnU4RXp0QkVVUXVXT2U0NCIsICJZMXVyV
+   0pWXy1IQkduU2Y5dEZPd3ZINGNJQ1JCQ2lLd0VIZmtYRlNmanBvIiwgInJOaEtvcmFhc
+   S0teDdCV1dJVmhiR1h1MVhYWExNOGl2WlhEM20yRlpNZ3MiLCAieHBzcTZjeFFIRHNPb
+   lpXaHJxQmNrVGtPTV9lZkVsVW5ERlhPRm1vd0xTRSIsICJ6VTQ1MmxrR2JFS2g4WnVIX
+   zhLeDNDVXZuMUY0eTFnWkxxbERUZ1hfOFBrIl0sICJpc3MiOiAiaHR0cHM6Ly9waWQtc
+   HJvdmlkZXIubWVtYmVyc3RhdGUuZXhhbXBsZS5ldSIsICJpYXQiOiAxNTQxNDkzNzI0L
+   CAiZXhwIjogMTg4MzAwMDAwMCwgInR5cGUiOiAiUGVyc29uSWRlbnRpZmljYXRpb25EY
+   XRhIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJjbmYiOiB7Imp3ayI6IHsia3R5IjogI
+   kVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRDQUVSMTladnUzT0hGNGo0VzR2ZlNWb
+   0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJaeGppV1diWk1RR0hWV0tWUTRoYlNJa
+   XJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ZL2-Up_xmBKqSYOlYCJumy3ZCNC_B402-g
+   g9rUVCIVhbhl81x9PUsC9Wdehc-FevJqwq0StNNXvwIEYlk79dpw~WyIyR0xDNDJzS1F
+   2ZUNmR2ZyeU5STjl3IiwgImZpcnN0X25hbWUiLCAiRXJpa2EiXQ~WyJlbHVWNU9nM2dT
+   TklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIk11c3Rlcm1hbm4iXQ~WyI2SWo3d
+   E0tYTVpVlBHYm9TNXRtdlZBIiwgIkRFIl0~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRI
+   iwgIm5hdGlvbmFsaXRpZXMiLCBbeyIuLi4iOiAiSnVMMzJRWER6aXpsLUw2Q0xyZnhma
+   nBac1gzTzZ2c2ZwQ1ZkMWprd0pZZyJ9XV0~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BI
+   iwgImJpcnRoX2ZhbWlseV9uYW1lIiwgIlNjaG1pZHQiXQ~WyJBSngtMDk1VlBycFR0Tj
+   RRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTczLTAxLTAxIl0~WyItNmhDZVJFV3JjRW
+   g0Q2JzQ2RjVTVRIiwgImFkZHJlc3MiLCB7Il9zZCI6IFsiOHo4ejlYOWpVdGI5OWdqZW
+   pDd0ZBR3o0YXFsSGYtc0NxUTZlTV9xbXBVUSIsICJDeHE0ODcyVVhYbmdHVUxUX2tsOG
+   Zkd1ZGa3lLNkFKZlBaTHk3TDVfMGtJIiwgImxjMk8weER4WXdiZ2M4cjJERXc3eWhfSU
+   RXZXhXOENiZ3R6WVBRRlJpNGMiXSwgInBvc3RhbF9jb2RlIjogIjEyMzQ1IiwgImxvY2
+   FsaXR5IjogIklyZ2VuZHdvIiwgInN0cmVldF9hZGRyZXNzIjogIlNvbm5lbnN0cmFzc2
+   UgMjMiLCAiY291bnRyeV9jb2RlIjogIkRFIn1d~WyJzLXpVaXE1azFyU0dSb1hQUE5rM
+   zVRIiwgImlzX292ZXJfMTgiLCB0cnVlXQ~WyJyWmJUODJ1VVJuTi1xYVRfcy1yN3l3Ii
+   wgImlzX292ZXJfMjEiLCB0cnVlXQ~WyJXeFZUbkIxOGxxRlYyREEtQkx0RkhRIiwgIml
+   zX292ZXJfNjUiLCBmYWxzZV0~
+
+   The following Disclosures are created by the Issuer:
+
+   *Claim first_name*:
+
+   *  SHA-256 Hash: Ch-DBcL3kb4VbHIwtknnZdNUHthEq9MZjoFdg6idiho
+
+   *  Disclosure:
+      WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImZpcnN0X25hbWUiLCAiRXJp
+      a2EiXQ
+
+   *  Contents: ["2GLC42sKQveCfGfryNRN9w", "first_name", "Erika"]
+
+   *Claim family_name*:
+
+   *  SHA-256 Hash: I00fcFUoDXCucp5yy2ujqPssDVGaWNiUliNz_awD0gc
+
+   *  Disclosure:
+      WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIk11
+      c3Rlcm1hbm4iXQ
+
+   *  Contents: ["eluV5Og3gSNII8EYnsxA_A", "family_name", "Mustermann"]
+
+   *Array Entry*:
+
+   *  SHA-256 Hash: JuL32QXDzizl-L6CLrfxfjpZsX3O6vsfpCVd1jkwJYg
+
+   *  Disclosure:
+      WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgIkRFIl0
+
+   *  Contents: ["6Ij7tM-a5iVPGboS5tmvVA", "DE"]
+
+   *Claim nationalities*:
+
+   *  SHA-256 Hash: zU452lkGbEKh8ZuH_8Kx3CUvn1F4y1gZLqlDTgX_8Pk
+
+   *  Disclosure:
+      WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgIm5hdGlvbmFsaXRpZXMiLCBb
+      eyIuLi4iOiAiSnVMMzJRWER6aXpsLUw2Q0xyZnhmanBac1gzTzZ2c2ZwQ1Zk
+      MWprd0pZZyJ9XV0
+
+   *  Contents: ["eI8ZWm9QnKPpNPeNenHdhQ", "nationalities", [{"...":
+      "JuL32QXDzizl-L6CLrfxfjpZsX3O6vsfpCVd1jkwJYg"}]]
+
+   *Claim birth_family_name*:
+
+   *  SHA-256 Hash: X9MaPaFWmQYpfHEdytRdaclnYoEru8EztBEUQuWOe44
+
+   *  Disclosure:
+      WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImJpcnRoX2ZhbWlseV9uYW1l
+      IiwgIlNjaG1pZHQiXQ
+
+   *  Contents: ["Qg_O64zqAxe412a108iroA", "birth_family_name",
+      "Schmidt"]
+
+   *Claim birthdate*:
+
+   *  SHA-256 Hash: 0n9yzFSWvK_BUHiaMhm12ghrCtVahrGJ6_-kZP-ySq4
+
+   *  Disclosure:
+      WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTcz
+      LTAxLTAxIl0
+
+   *  Contents: ["AJx-095VPrpTtN4QMOqROA", "birthdate", "1973-01-01"]
+
+   *Claim address*:
+
+   *  SHA-256 Hash: Y1urWJV_-HBGnSf9tFOwvH4cICRBCiKwEHfkXFSfjpo
+
+   *  Disclosure:
+      WyItNmhDZVJFV3JjRWg0Q2JzQ2RjVTVRIiwgImFkZHJlc3MiLCB7Il9zZCI6
+      IFsiOHo4ejlYOWpVdGI5OWdqZWpDd0ZBR3o0YXFsSGYtc0NxUTZlTV9xbXBV
+      USIsICJDeHE0ODcyVVhYbmdHVUxUX2tsOGZkd1ZGa3lLNkFKZlBaTHk3TDVf
+      MGtJIiwgImxjMk8weER4WXdiZ2M4cjJERXc3eWhfSURXZXhXOENiZ3R6WVBR
+      RlJpNGMiXSwgInBvc3RhbF9jb2RlIjogIjEyMzQ1IiwgImxvY2FsaXR5Ijog
+      IklyZ2VuZHdvIiwgInN0cmVldF9hZGRyZXNzIjogIlNvbm5lbnN0cmFzc2Ug
+      MjMiLCAiY291bnRyeV9jb2RlIjogIkRFIn1d
+
+   *  Contents: ["-6hCeREWrcEh4CbsCdcU5Q", "address", {"_sd":
+      ["8z8z9X9jUtb99gjejCwFAGz4aqlHf-sCqQ6eM_qmpUQ",
+      "Cxq4872UXXngGULT_kl8fdwVFkyK6AJfPZLy7L5_0kI",
+      "lc2O0xDxYwbgc8r2DEw7yh_IDWexW8CbgtzYPQFRi4c"],
+      "postal_code": "12345", "locality": "Irgendwo",
+      "street_address": "Sonnenstrasse 23", "country_code": "DE"}]
+
+   *Claim is_over_18*:
+
+   *  SHA-256 Hash: rNhKoraaq--x7BWWIVhbGXu1XXXLM8ivZXD3m2FZMgs
+
+   *  Disclosure:
+      WyJzLXpVaXE1azFyU0dSb1hQUE5rMzVRIiwgImlzX292ZXJfMTgiLCB0cnVl
+      XQ
+
+   *  Contents: ["s-zUiq5k1rSGRoXPPNk35Q", "is_over_18", true]
+
+   *Claim is_over_21*:
+
+   *  SHA-256 Hash: 09TbSuo12i2CqZbg31AFgbGy_UnMIXIHoMjsELpukqg
+
+   *  Disclosure:
+      WyJyWmJUODJ1VVJuTi1xYVRfcy1yN3l3IiwgImlzX292ZXJfMjEiLCB0cnVl
+      XQ
+
+   *  Contents: ["rZbT82uURnN-qaT_s-r7yw", "is_over_21", true]
+
+   *Claim is_over_65*:
+
+   *  SHA-256 Hash: 910byr3UVRqRzQoPzBsc20m-eMgpZAhLN6z8NoGF5mc
+
+   *  Disclosure:
+      WyJXeFZUbkIxOGxxRlYyREEtQkx0RkhRIiwgImlzX292ZXJfNjUiLCBmYWxz
+      ZV0
+
+   *  Contents: ["WxVTnB18lqFV2DA-BLtFHQ", "is_over_65", false]
+
+   The following decoy digests are added:
+
+   *  8z8z9X9jUtb99gjejCwFAGz4aqlHf-sCqQ6eM_qmpUQ
+
+   *  Cxq4872UXXngGULT_kl8fdwVFkyK6AJfPZLy7L5_0kI
+
+   *  lc2O0xDxYwbgc8r2DEw7yh_IDWexW8CbgtzYPQFRi4c
+
+   *  5A88AmauAao-QANao95CYUkUPNTid_gAK8aYtZ9RZwc
+
+   *  xpsq6cxQHDsOnZWhrqBckTkOM_efElUnDFXOFmowLSE
+
+   *  4VoA3a1VmPxmdC8WIn3pOqQf3gfOVOvDYsN5E5R5Kd0
+
+   The following is how a presentation of the SD-JWT with a Key Binding
+   JWT that discloses only nationality and the fact that the person is
+   over 18 years old could look like:
+
+   eyJhbGciOiAiRVMyNTYifQ.eyJfc2QiOiBbIjA5VGJTdW8xMmkyQ3FaYmczMUFGZ2JHe
+   V9Vbk1JWElIb01qc0VMcHVrcWciLCAiMG45eXpGU1d2S19CVUhpYU1obTEyZ2hyQ3RWY
+   WhyR0o2Xy1rWlAteVNxNCIsICI0Vm9BM2ExVm1QeG1kQzhXSW4zcE9xUWYzZ2ZPVk92R
+   FlzTjVFNVI1S2QwIiwgIjVBODhBbWF1QWFvLVFBTmFvOTVDWVVrVVBOVGlkX2dBSzhhW
+   XRaOVJad2MiLCAiOTEwYnlyM1VWUnFSelFvUHpCc2MyMG0tZU1ncFpBaExONno4Tm9HR
+   jVtYyIsICJDaC1EQmNMM2tiNFZiSEl3dGtublpkTlVIdGhFcTlNWmpvRmRnNmlkaWhvI
+   iwgIkkwMGZjRlVvRFhDdWNwNXl5MnVqcVBzc0RWR2FXTmlVbGlOel9hd0QwZ2MiLCAiW
+   DlNYVBhRldtUVlwZkhFZHl0UmRhY2xuWW9FcnU4RXp0QkVVUXVXT2U0NCIsICJZMXVyV
+   0pWXy1IQkduU2Y5dEZPd3ZINGNJQ1JCQ2lLd0VIZmtYRlNmanBvIiwgInJOaEtvcmFhc
+   S0teDdCV1dJVmhiR1h1MVhYWExNOGl2WlhEM20yRlpNZ3MiLCAieHBzcTZjeFFIRHNPb
+   lpXaHJxQmNrVGtPTV9lZkVsVW5ERlhPRm1vd0xTRSIsICJ6VTQ1MmxrR2JFS2g4WnVIX
+   zhLeDNDVXZuMUY0eTFnWkxxbERUZ1hfOFBrIl0sICJpc3MiOiAiaHR0cHM6Ly9waWQtc
+   HJvdmlkZXIubWVtYmVyc3RhdGUuZXhhbXBsZS5ldSIsICJpYXQiOiAxNTQxNDkzNzI0L
+   CAiZXhwIjogMTg4MzAwMDAwMCwgInR5cGUiOiAiUGVyc29uSWRlbnRpZmljYXRpb25EY
+   XRhIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJjbmYiOiB7Imp3ayI6IHsia3R5IjogI
+   kVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRDQUVSMTladnUzT0hGNGo0VzR2ZlNWb
+   0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJaeGppV1diWk1RR0hWV0tWUTRoYlNJa
+   XJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ZL2-Up_xmBKqSYOlYCJumy3ZCNC_B402-g
+   g9rUVCIVhbhl81x9PUsC9Wdehc-FevJqwq0StNNXvwIEYlk79dpw~WyJzLXpVaXE1azF
+   yU0dSb1hQUE5rMzVRIiwgImlzX292ZXJfMTgiLCB0cnVlXQ~WyJlSThaV205UW5LUHBO
+   UGVOZW5IZGhRIiwgIm5hdGlvbmFsaXRpZXMiLCBbeyIuLi4iOiAiSnVMMzJRWER6aXps
+   LUw2Q0xyZnhmanBac1gzTzZ2c2ZwQ1ZkMWprd0pZZyJ9XV0~WyI2SWo3dE0tYTVpVlBH
+   Ym9TNXRtdlZBIiwgIkRFIl0~eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9
+   .eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29
+   tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTU5NzczMzV9.Ar2vaX-3AIOZ4gSOoO70-zkK-6
+   oG3JjK5icDzhwv_viXh2sfDt_7pSeD4N4Sh_7Mvr6gGyph1eRnRPvfId7ecQ
+
+   The following is the payload of a corresponding Key Binding JWT:
+
+   {
+     "nonce": "1234567890",
+     "aud": "https://example.com/verifier",
+     "iat": 1695977335
+   }
+
+   After the validation, the Verifier will have the following data for
+   further processing:
+
+   {
+     "iss": "https://pid-provider.memberstate.example.eu",
+     "iat": 1541493724,
+     "exp": 1883000000,
+     "type": "PersonIdentificationData",
+     "cnf": {
+       "jwk": {
+         "kty": "EC",
+         "crv": "P-256",
+         "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+         "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+       }
+     },
+     "is_over_18": true,
+     "nationalities": [
+       "DE"
+     ]
+   }
+
+Authors' Addresses
+
+   Oliver Terbu
+   Spruce Systems, Inc.
+   Email: oliver.terbu@spruceid.com
+
+
+   Daniel Fett
+   Authlete Inc.
+   Email: mail@danielfett.de

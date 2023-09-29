@@ -1,0 +1,3347 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>SD-JWT-based Verifiable Credentials (SD-JWT VC)</title>
+<meta content="Oliver Terbu" name="author">
+<meta content="Daniel Fett" name="author">
+<meta content="
+       This specification describes data formats as well as validation and processing
+rules to express Verifiable Credentials with JSON payloads with and without selective disclosure based on the SD-JWT   format. 
+    " name="description">
+<meta content="xml2rfc 3.18.0" name="generator">
+<meta content="security" name="keyword">
+<meta content="oauth2" name="keyword">
+<meta content="sd-jwt" name="keyword">
+<meta content="draft-ietf-oauth-sd-jwt-vc-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.18.0
+    Python 3.11.5
+    ConfigArgParse 1.5.3
+    google-i18n-address 3.1.0
+    intervaltree 3.1.0
+    Jinja2 3.1.2
+    lxml 4.9.3
+    platformdirs 3.10.0
+    pycountry 22.3.5
+    PyYAML 6.0
+    requests 2.31.0
+    setuptools 67.7.2
+    six 1.16.0
+    wcwidth 0.2.6
+-->
+<link href="draft-ietf-oauth-sd-jwt-vc.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cabin Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Cabin Condensed SemiBold'), local('CabinCondensed-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/cabincondensed-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+}
+:is(ol, ul) :is(ol, ul) {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  line-height: 1;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+}
+dl.olPercent {
+  --indent: 5ch;
+}
+dl > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+dl.olPercent > dt {
+  min-width: calc(var(--indent) - 2ch);
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:first-child, .break:first-child + *) {
+  margin-top: 0;
+}
+:is(dl.compact, .dlCompact) > dd > :is(:last-child) {
+  margin-bottom: 0;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    overflow-x: auto;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+}
+a.pilcrow[href] { color: var(--pilcrow-weak); }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  min-width: var(--identifier-width);
+  clear: left;
+  float: left;
+  text-align: right;
+  margin-right: 1ch;
+}
+#identifiers dd {
+  margin: 0;
+  margin-left: calc(1em + var(--identifier-width)) !important;
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 2px 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 10ch;
+  margin-right: 1.5ch;
+}
+.references dt:target::before {
+  content: "⇒";
+  width: 15px;
+  margin: 0 10px 0 -25px;
+}
+.references dd {
+  margin-left: 12ch !important;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul :is(p, li) {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">SD-JWT VC</td>
+<td class="right">September 2023</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Terbu &amp; Fett</td>
+<td class="center">Expires 1 April 2024</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Web Authorization Protocol</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-oauth-sd-jwt-vc-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2023-09-29" class="published">29 September 2023</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2024-04-01">1 April 2024</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">O. Terbu</div>
+<div class="org">Spruce Systems, Inc.</div>
+</div>
+<div class="author">
+      <div class="author-name">D. Fett</div>
+<div class="org">Authlete Inc.</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">SD-JWT-based Verifiable Credentials (SD-JWT VC)</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This specification describes data formats as well as validation and processing
+rules to express Verifiable Credentials with JSON payloads with and without selective disclosure based on the SD-JWT <span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span> format.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 1 April 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2023 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-issuer-holder-verifier-mode" class="internal xref">Issuer-Holder-Verifier Model</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="auto internal xref">1.2</a>.  <a href="#name-sd-jwt-as-a-credential-form" class="internal xref">SD-JWT as a Credential Format</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
+                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="auto internal xref">1.3</a>.  <a href="#name-requirements-notation-and-c" class="internal xref">Requirements Notation and Conventions</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.4">
+                <p id="section-toc.1-1.1.2.4.1"><a href="#section-1.4" class="auto internal xref">1.4</a>.  <a href="#name-terms-and-definitions" class="internal xref">Terms and Definitions</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-scope" class="internal xref">Scope</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-verifiable-credentials-base" class="internal xref">Verifiable Credentials based on SD-JWT</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-media-type" class="internal xref">Media Type</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-data-format" class="internal xref">Data Format</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-jose-header" class="internal xref">JOSE Header</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.2">
+                    <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="auto internal xref">3.2.2</a>.  <a href="#name-jwt-claims-set" class="internal xref">JWT Claims Set</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-example" class="internal xref">Example</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-verification-and-processing" class="internal xref">Verification and Processing</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-jwt-issuer-metadata" class="internal xref">JWT Issuer Metadata</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-jwt-issuer-metadata-request" class="internal xref">JWT Issuer Metadata Request</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-jwt-issuer-metadata-respons" class="internal xref">JWT Issuer Metadata Response</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-jwt-issuer-metadata-validat" class="internal xref">JWT Issuer Metadata Validation</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-presenting-verifiable-crede" class="internal xref">Presenting Verifiable Credentials</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-key-binding-jwt" class="internal xref">Key Binding JWT</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-server-side-request-forgery" class="internal xref">Server-Side Request Forgery</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-unlinkability" class="internal xref">Unlinkability</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-type-identifier" class="internal xref">Type Identifier</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-issuer-phone-home" class="internal xref">Issuer Phone Home</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-relationships-to-other-docu" class="internal xref">Relationships to Other Documents</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#appendix-A.1" class="auto internal xref">A.1</a>.  <a href="#name-json-web-token-claims-regis" class="internal xref">JSON Web Token Claims Registration</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2">
+                <p id="section-toc.1-1.11.2.2.1"><a href="#appendix-A.2" class="auto internal xref">A.2</a>.  <a href="#name-media-types-registry" class="internal xref">Media Types Registry</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11.2.2.2.1">
+                    <p id="section-toc.1-1.11.2.2.2.1.1"><a href="#appendix-A.2.1" class="auto internal xref">A.2.1</a>.  <a href="#name-application-vcsd-jwt" class="internal xref">application/vc+sd-jwt</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref">Appendix C</a>.  <a href="#name-document-history" class="internal xref">Document History</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-D" class="auto internal xref">Appendix D</a>.  <a href="#name-examples-2" class="internal xref">Examples</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.1">
+                <p id="section-toc.1-1.14.2.1.1"><a href="#appendix-D.1" class="auto internal xref">D.1</a>.  <a href="#name-diploma-eaa" class="internal xref">Diploma EAA</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2">
+                <p id="section-toc.1-1.14.2.2.1"><a href="#appendix-D.2" class="auto internal xref">D.2</a>.  <a href="#name-iso-18013-5-mobile-driving-" class="internal xref">ISO 18013-5 Mobile Driving License (mDL)</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3">
+                <p id="section-toc.1-1.14.2.3.1"><a href="#appendix-D.3" class="auto internal xref">D.3</a>.  <a href="#name-arf-pid" class="internal xref">ARF PID</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.15">
+            <p id="section-toc.1-1.15.1"><a href="#appendix-E" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<div id="issuer-holder-verifier-model">
+<section id="section-1.1">
+        <h3 id="name-issuer-holder-verifier-mode">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-issuer-holder-verifier-mode" class="section-name selfRef">Issuer-Holder-Verifier Model</a>
+        </h3>
+<p id="section-1.1-1">In the so-called Issuer-Holder-Verifier Model, Issuers issue so-called Verifiable Credentials to a
+Holder, who can then present the Verifiable Credentials to Verifiers. Verifiable
+Credentials are cryptographically signed statements about a Subject, typically the Holder.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<span id="name-issuer-holder-verifier-model"></span><figure id="figure-1">
+          <div class="lang-ascii-art sourcecode" id="section-1.1-2.1">
+<pre>         +------------+
+         |            |
+         |   Issuer   |
+         |            |
+         +------------+
+               |
+    Issues Verifiable Credential
+               |
+               v
+         +------------+
+         |            |
+         |   Holder   |
+         |            |
+         +------------+
+               |
+  Presents Verifiable Credential
+               |
+               v
+         +-------------+
+         |             |+                          +------------+
+         |  Verifiers  ||+                         |   Status   |
+         |             |||----- optionally -------&gt;|  Provider  |
+         +-------------+||   retrieve status of    |            |
+          +-------------+|  Verifiable Credential  +------------+
+           +-------------+
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-issuer-holder-verifier-model" class="selfRef">Issuer-Holder-Verifier Model with optional Status Provider</a>
+          </figcaption></figure>
+<p id="section-1.1-3">Verifiers can check the authenticity of the data in the Verifiable Credentials
+and optionally enforce Key Binding, i.e., ask the Holder to prove that they
+are the intended holder of the Verifiable Credential, for example, by proving possession of a
+cryptographic key referenced in the credential. This process is further
+described in <span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
+<p id="section-1.1-4">To support revocation of Verifiable Credentials, revocation information can
+optionally be retrieved from a Status Provider. The role of a Status Provider
+can be fulfilled by either a fourth party or by the Issuer.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sd-jwt-as-a-credential-format">
+<section id="section-1.2">
+        <h3 id="name-sd-jwt-as-a-credential-form">
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-sd-jwt-as-a-credential-form" class="section-name selfRef">SD-JWT as a Credential Format</a>
+        </h3>
+<p id="section-1.2-1">JSON Web Tokens (JWTs) <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> can in principle be used to express
+Verifiable Credentials in a way that is easy to understand and process as it
+builds upon established web primitives.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<p id="section-1.2-2">Selective Disclosure JWT (SD-JWT) <span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span> is
+a specification that introduces conventions to support selective disclosure for
+JWTs: For an SD-JWT document, a Holder can decide which claims to release (within
+bounds defined by the Issuer).<a href="#section-1.2-2" class="pilcrow">¶</a></p>
+<p id="section-1.2-3">SD-JWT is a superset of JWT as it can also be used when there are no selectively
+disclosable claims and also supports JWS JSON serialization, which is useful for
+long term archiving and multi signatures. However, SD-JWT itself does not define
+the claims that must be used within the payload or their semantics.<a href="#section-1.2-3" class="pilcrow">¶</a></p>
+<p id="section-1.2-4">This specification uses SD-JWT and the well-established JWT content rules and
+extensibility model as basis for representing Verifiable Credentials with JSON
+payloads. These Verifiable Credentials are called SD-JWT VCs. The use of
+selective disclosure in SD-JWT VCs is OPTIONAL.<a href="#section-1.2-4" class="pilcrow">¶</a></p>
+<p id="section-1.2-5">SD-JWTs VC can contain claims that are registered in "JSON Web Token Claims"
+registry as defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>, as well as public and
+private claims.<a href="#section-1.2-5" class="pilcrow">¶</a></p>
+<p id="section-1.2-6">Note: This specification does not utilize the W3C's Verifiable Credentials Data Model v1.0, v1.1, or v2.0.<a href="#section-1.2-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="requirements-notation-and-conventions">
+<section id="section-1.3">
+        <h3 id="name-requirements-notation-and-c">
+<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-requirements-notation-and-c" class="section-name selfRef">Requirements Notation and Conventions</a>
+        </h3>
+<p id="section-1.3-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in RFC 2119 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span>.<a href="#section-1.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="terms-and-definitions">
+<section id="section-1.4">
+        <h3 id="name-terms-and-definitions">
+<a href="#section-1.4" class="section-number selfRef">1.4. </a><a href="#name-terms-and-definitions" class="section-name selfRef">Terms and Definitions</a>
+        </h3>
+<p id="section-1.4-1">This specification uses the terms "Holder", "Issuer", "Verifier", "Key Binding JWT" defined by
+<span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>.<a href="#section-1.4-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.4-2">
+          <dt id="section-1.4-2.1">Verifiable Credential (VC):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.4-2.2">An Issuer-signed assertion with claims about a Subject.<a href="#section-1.4-2.2" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.4-2.3">SD-JWT-based Verifiable Credential (SD-JWT VC):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.4-2.4">A Verifiable Credential encoded using the format defined in
+<span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>. It may or may not contain
+selectively disclosable claims.<a href="#section-1.4-2.4" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.4-2.5">Unsecured Payload of an SD-JWT VC:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.4-2.6">A JSON object containing all selectively disclosable and non-selectively disclosable claims
+of the SD-JWT VC. The Unsecured Payload acts as the input JSON object to issue
+an SD-JWT VC complying to this specification.<a href="#section-1.4-2.6" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.4-2.7">Status Provider:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.4-2.8">An entity that provides status information (e.g. revocation) about a Verifiable Credential.<a href="#section-1.4-2.8" class="pilcrow">¶</a>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="scope">
+<section id="section-2">
+      <h2 id="name-scope">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-scope" class="section-name selfRef">Scope</a>
+      </h2>
+<ul class="normal">
+<li class="normal" id="section-2-1.1">
+          <p id="section-2-1.1.1">This specification defines<a href="#section-2-1.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-1.1.2.1">Data model and media types for Verifiable Credentials based on SD-JWTs.<a href="#section-2-1.1.2.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-2-1.1.2.2">Validation and processing rules for Verifiers and Holders.<a href="#section-2-1.1.2.2" class="pilcrow">¶</a>
+</li>
+          </ul>
+</li>
+      </ul>
+</section>
+</div>
+<div id="verifiable-credentials-based-on-sd-jwt">
+<section id="section-3">
+      <h2 id="name-verifiable-credentials-base">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-verifiable-credentials-base" class="section-name selfRef">Verifiable Credentials based on SD-JWT</a>
+      </h2>
+<p id="section-3-1">This section defines encoding, validation and processing rules for SD-JWT VCs.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div id="media-type">
+<section id="section-3.1">
+        <h3 id="name-media-type">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-media-type" class="section-name selfRef">Media Type</a>
+        </h3>
+<p id="section-3.1-1">SD-JWT VCs compliant with this specification MUST use the media type
+<code>application/vc+sd-jwt</code> as defined in <a href="#application-vc-sd-jwt" class="auto internal xref">Appendix A.2.1</a>.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="data-format">
+<section id="section-3.2">
+        <h3 id="name-data-format">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-data-format" class="section-name selfRef">Data Format</a>
+        </h3>
+<p id="section-3.2-1">SD-JWT VCs MUST be encoded using the SD-JWT format defined in Section 5 of
+<span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>. A presentation of an SD-JWT VC MAY
+contain a Key Binding JWT.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">Note that in some cases, an SD-JWT VC MAY have no selectively disclosable
+claims, and therefore the encoded SD-JWT will not contain any Disclosures.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<div id="jose-header">
+<section id="section-3.2.1">
+          <h4 id="name-jose-header">
+<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-jose-header" class="section-name selfRef">JOSE Header</a>
+          </h4>
+<p id="section-3.2.1-1">This section defines JWT header parameters for the SD-JWT component of the
+SD-JWT VC.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.2.1-2">The <code>typ</code> header parameter of the SD-JWT MUST be present. The <code>typ</code> value MUST
+use <code>vc+sd-jwt</code>. This indicates that the payload of the SD-JWT contains plain
+JSON and follows the rules as defined in this specification. It further
+indicates that the SD-JWT is a SD-JWT component of a SD-JWT VC.<a href="#section-3.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.2.1-3">The following is a non-normative example of a decoded SD-JWT header:<a href="#section-3.2.1-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2.1-4">
+<pre>{
+  "alg": "ES256",
+  "typ": "vc+sd-jwt"
+}
+</pre><a href="#section-3.2.1-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="jwt-claims-set">
+<section id="section-3.2.2">
+          <h4 id="name-jwt-claims-set">
+<a href="#section-3.2.2" class="section-number selfRef">3.2.2. </a><a href="#name-jwt-claims-set" class="section-name selfRef">JWT Claims Set</a>
+          </h4>
+<p id="section-3.2.2-1">This section defines the claims that can be included in the payload of
+SD-JWT VCs.<a href="#section-3.2.2-1" class="pilcrow">¶</a></p>
+<div id="new-jwt-claims">
+<section id="section-3.2.2.1">
+            <h5 id="name-new-jwt-claims">
+<a href="#section-3.2.2.1" class="section-number selfRef">3.2.2.1. </a><a href="#name-new-jwt-claims" class="section-name selfRef">New JWT Claims</a>
+            </h5>
+<div id="type-claim">
+<section id="section-3.2.2.1.1">
+              <h6 id="name-type-claim">
+<a href="#section-3.2.2.1.1" class="section-number selfRef">3.2.2.1.1. </a><a href="#name-type-claim" class="section-name selfRef"><code>type</code> claim</a>
+              </h6>
+<p id="section-3.2.2.1.1-1">This specification defines the JWT claim <code>type</code>. The <code>type</code> value
+MUST be a case-sensitive <code>StringOrURI</code> (see <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>) value serving as an identifier
+for the type of the SD-JWT VC. A type defines which claims may or must appear in the
+Unsecured Payload of the SD-JWT VC and whether they may, must, or must not be
+selectively disclosable. This specification does not define any <code>type</code> values; instead
+it is expected that ecosystems using SD-JWT VCs define such values including
+the semantics of the respective claims and associated rules (e.g., policies for issuing and
+validating credentials beyond what is defined in this specification).<a href="#section-3.2.2.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.2.2.1.1-2">The following is a non-normative example of how <code>type</code> is used to express
+a type:<a href="#section-3.2.2.1.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.2.2.1.1-3">
+<pre>{
+  "type": "IdentityCredential"
+}
+</pre><a href="#section-3.2.2.1.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2.2.1.1-4">For example, a type <code>IdentityCredential</code> can be defined such that at least the registered JWT claims <code>given_name</code>, <code>family_name</code>, <code>birthdate</code>, and <code>address</code> must appear in the Unsecured Payload. Additionally, the registered JWT claims <code>email</code> and <code>phone_number</code>, and the private claims <code>is_over_18</code>, <code>is_over_21</code>, and <code>is_over_65</code> may be used. The type might also indicate that <code>given_name</code>, <code>family_name</code>, <code>birthdate</code>, <code>address</code> can be selectively disclosable.<a href="#section-3.2.2.1.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="registered-jwt-claims">
+<section id="section-3.2.2.2">
+            <h5 id="name-registered-jwt-claims">
+<a href="#section-3.2.2.2" class="section-number selfRef">3.2.2.2. </a><a href="#name-registered-jwt-claims" class="section-name selfRef">Registered JWT Claims</a>
+            </h5>
+<p id="section-3.2.2.2-1">SD-JWT VCs MAY use any claim registered in the "JSON Web Token Claims"
+registry as defined in <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>.<a href="#section-3.2.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2.2.2-2">If present, the following registered JWT claims MUST be included in the SD-JWT
+and MUST NOT be included in the Disclosures, i.e. cannot be selectively
+disclosed:<a href="#section-3.2.2.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-3.1">
+                <p id="section-3.2.2.2-3.1.1"><code>iss</code><a href="#section-3.2.2.2-3.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-3.1.2.1">REQUIRED. The Issuer of the Verifiable Credential. The value of <code>iss</code>
+MUST be a URI. See <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> for more information.<a href="#section-3.2.2.2-3.1.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-3.2.2.2-3.2">
+                <p id="section-3.2.2.2-3.2.1"><code>iat</code><a href="#section-3.2.2.2-3.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-3.2.2.1">REQUIRED. The time of issuance of the Verifiable Credential. See
+<span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> for more information.<a href="#section-3.2.2.2-3.2.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-3.2.2.2-3.3">
+                <p id="section-3.2.2.2-3.3.1"><code>nbf</code><a href="#section-3.2.2.2-3.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-3.3.2.1">OPTIONAL. The time before which the Verifiable Credential MUST NOT be
+accepted before validating. See <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> for more information.<a href="#section-3.2.2.2-3.3.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-3.2.2.2-3.4">
+                <p id="section-3.2.2.2-3.4.1"><code>exp</code><a href="#section-3.2.2.2-3.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-3.4.2.1">OPTIONAL. The expiry time of the Verifiable Credential after which the
+Verifiable Credential is no longer valid. See <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> for more
+information.<a href="#section-3.2.2.2-3.4.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-3.2.2.2-3.5">
+                <p id="section-3.2.2.2-3.5.1"><code>cnf</code><a href="#section-3.2.2.2-3.5.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-3.5.2.1">REQUIRED when Cryptographic Key Binding is to be supported. Contains the confirmation method as defined in <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span>. It SHOULD contain a JWK as defined in Section 3.2 of <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span>.  For Cryptographic Key Binding, the Key Binding JWT in the Combined Format for Presentation MUST be signed by the key identified in this claim.<a href="#section-3.2.2.2-3.5.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-3.2.2.2-3.6">
+                <p id="section-3.2.2.2-3.6.1"><code>type</code><a href="#section-3.2.2.2-3.6.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-3.6.2.1">REQUIRED. The type of the Verifiable Credential, e.g.,
+<code>IdentityCredential</code>, as defined in <a href="#type-claim" class="auto internal xref">Section 3.2.2.1.1</a>.<a href="#section-3.2.2.2-3.6.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-3.2.2.2-3.7">
+                <p id="section-3.2.2.2-3.7.1"><code>status</code><a href="#section-3.2.2.2-3.7.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-3.7.2.1">OPTIONAL. The information on how to read the status of the Verifiable
+Credential. See <span>[<a href="#I-D.looker-oauth-jwt-cwt-status-list" class="cite xref">I-D.looker-oauth-jwt-cwt-status-list</a>]</span>
+for more information.<a href="#section-3.2.2.2-3.7.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+<p id="section-3.2.2.2-4">The following registered JWT claims MAY be contained in the SD-JWT or in the
+Disclosures and MAY be selectively disclosed:<a href="#section-3.2.2.2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-5.1">
+                <p id="section-3.2.2.2-5.1.1"><code>sub</code><a href="#section-3.2.2.2-5.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.2.2-5.1.2.1">OPTIONAL. The identifier of the Subject of the Verifiable Credential.
+The Issuer MAY use it to provide the Subject
+identifier known by the Issuer. There is no requirement for a binding to
+exist between <code>sub</code> and <code>cnf</code> claims.<a href="#section-3.2.2.2-5.1.2.1" class="pilcrow">¶</a>
+</li>
+                </ul>
+</li>
+            </ul>
+</section>
+</div>
+<div id="public-jwt-claims">
+<section id="section-3.2.2.3">
+            <h5 id="name-public-jwt-claims">
+<a href="#section-3.2.2.3" class="section-number selfRef">3.2.2.3. </a><a href="#name-public-jwt-claims" class="section-name selfRef">Public JWT claims</a>
+            </h5>
+<p id="section-3.2.2.3-1">Additional public claims MAY be used in SD-JWT VCs depending on the
+application.<a href="#section-3.2.2.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sd-jwt-vc-without-selectively-disclosable-claims">
+<section id="section-3.2.2.4">
+            <h5 id="name-sd-jwt-vc-without-selective">
+<a href="#section-3.2.2.4" class="section-number selfRef">3.2.2.4. </a><a href="#name-sd-jwt-vc-without-selective" class="section-name selfRef">SD-JWT VC without Selectively Disclosable Claims</a>
+            </h5>
+<p id="section-3.2.2.4-1">An SD-JWT VC MAY have no selectively disclosable claims.
+In that case, the SD-JWT VC MUST NOT contain the <code>_sd</code> claim in the JWT body. It also
+MUST NOT have any Disclosures.<a href="#section-3.2.2.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="example">
+<section id="section-3.3">
+        <h3 id="name-example">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-example" class="section-name selfRef">Example</a>
+        </h3>
+<p id="section-3.3-1">The following is a non-normative example of an unsecured payload of an
+SD-JWT VC.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-3.3-2">
+<pre>{
+  "type": "IdentityCredential",
+  "given_name": "John",
+  "family_name": "Doe",
+  "email": "johndoe@example.com",
+  "phone_number": "+1-202-555-0101",
+  "address": {
+    "street_address": "123 Main St",
+    "locality": "Anytown",
+    "region": "Anystate",
+    "country": "US"
+  },
+  "birthdate": "1940-01-01",
+  "is_over_18": true,
+  "is_over_21": true,
+  "is_over_65": true
+}
+</pre><a href="#section-3.3-2" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3-3">The following is a non-normative example of how the unsecured payload of the
+SD-JWT VC above can be used in a SD-JWT where the resulting SD-JWT VC contains
+only claims about the Subject that are selectively disclosable:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="section-3.3-4">
+<pre>{
+  "_sd": [
+    "09vKrJMOlyTWM0sjpu_pdOBVBQ2M1y3KhpH515nXkpY",
+    "2rsjGbaC0ky8mT0pJrPioWTq0_daw1sX76poUlgCwbI",
+    "EkO8dhW0dHEJbvUHlE_VCeuC9uRELOieLZhh7XbUTtA",
+    "IlDzIKeiZdDwpqpK6ZfbyphFvz5FgnWa-sN6wqQXCiw",
+    "JzYjH4svliH0R3PyEMfeZu6Jt69u5qehZo7F7EPYlSE",
+    "PorFbpKuVu6xymJagvkFsFXAbRoc2JGlAUA2BA4o7cI",
+    "TGf4oLbgwd5JQaHyKVQZU9UdGE0w5rtDsrZzfUaomLo",
+    "jdrTE8YcbY4EifugihiAe_BPekxJQZICeiUQwY9QqxI",
+    "jsu9yVulwQQlhFlM_3JlzMaSFzglhQG0DpfayQwLUK4"
+  ],
+  "iss": "https://example.com/issuer",
+  "iat": 1683000000,
+  "exp": 1883000000,
+  "type": "IdentityCredential",
+  "_sd_alg": "sha-256",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}
+</pre><a href="#section-3.3-4" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3-5">Note that a <code>cnf</code> claim has been added to the SD-JWT payload to express the
+confirmation method of the Key Binding.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.3-6">The following are the Disclosures belonging to the SD-JWT payload above:<a href="#section-3.3-6" class="pilcrow">¶</a></p>
+<p id="section-3.3-7"><strong>Claim <code>given_name</code></strong>:<a href="#section-3.3-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-8.1">SHA-256 Hash: <code>jsu9yVulwQQlhFlM_3JlzMaSFzglhQG0DpfayQwLUK4</code><a href="#section-3.3-8.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-8.2">Disclosure:<br>
+            <code>WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAiSm9o</code><br>
+            <code>biJd</code><a href="#section-3.3-8.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-8.3">Contents:
+<code>["2GLC42sKQveCfGfryNRN9w", "given_name", "John"]</code><a href="#section-3.3-8.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-9"><strong>Claim <code>family_name</code></strong>:<a href="#section-3.3-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-10.1">SHA-256 Hash: <code>TGf4oLbgwd5JQaHyKVQZU9UdGE0w5rtDsrZzfUaomLo</code><a href="#section-3.3-10.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-10.2">Disclosure:<br>
+            <code>WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkRv</code><br>
+            <code>ZSJd</code><a href="#section-3.3-10.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-10.3">Contents:
+<code>["eluV5Og3gSNII8EYnsxA_A", "family_name", "Doe"]</code><a href="#section-3.3-10.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-11"><strong>Claim <code>email</code></strong>:<a href="#section-3.3-11" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-12.1">SHA-256 Hash: <code>JzYjH4svliH0R3PyEMfeZu6Jt69u5qehZo7F7EPYlSE</code><a href="#section-3.3-12.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-12.2">Disclosure:<br>
+            <code>WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA</code><br>
+            <code>ZXhhbXBsZS5jb20iXQ</code><a href="#section-3.3-12.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-12.3">Contents:
+<code>["6Ij7tM-a5iVPGboS5tmvVA", "email", "johndoe@example.com"]</code><a href="#section-3.3-12.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-13"><strong>Claim <code>phone_number</code></strong>:<a href="#section-3.3-13" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-14.1">SHA-256 Hash: <code>PorFbpKuVu6xymJagvkFsFXAbRoc2JGlAUA2BA4o7cI</code><a href="#section-3.3-14.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-14.2">Disclosure:<br>
+            <code>WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251bWJlciIsICIr</code><br>
+            <code>MS0yMDItNTU1LTAxMDEiXQ</code><a href="#section-3.3-14.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-14.3">Contents:
+<code>["eI8ZWm9QnKPpNPeNenHdhQ", "phone_number",</code><br>
+            <code>"+1-202-555-0101"]</code><a href="#section-3.3-14.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-15"><strong>Claim <code>address</code></strong>:<a href="#section-3.3-15" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-16.1">SHA-256 Hash: <code>IlDzIKeiZdDwpqpK6ZfbyphFvz5FgnWa-sN6wqQXCiw</code><a href="#section-3.3-16.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-16.2">Disclosure:<br>
+            <code>WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVl</code><br>
+            <code>dF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRv</code><br>
+            <code>d24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0</code><a href="#section-3.3-16.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-16.3">Contents:
+<code>["Qg_O64zqAxe412a108iroA", "address", {"street_address":</code><br>
+            <code>"123 Main St", "locality": "Anytown", "region": "Anystate",</code><br>
+            <code>"country": "US"}]</code><a href="#section-3.3-16.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-17"><strong>Claim <code>birthdate</code></strong>:<a href="#section-3.3-17" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-18.1">SHA-256 Hash: <code>jdrTE8YcbY4EifugihiAe_BPekxJQZICeiUQwY9QqxI</code><a href="#section-3.3-18.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-18.2">Disclosure:<br>
+            <code>WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTQw</code><br>
+            <code>LTAxLTAxIl0</code><a href="#section-3.3-18.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-18.3">Contents:
+<code>["AJx-095VPrpTtN4QMOqROA", "birthdate", "1940-01-01"]</code><a href="#section-3.3-18.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-19"><strong>Claim <code>is_over_18</code></strong>:<a href="#section-3.3-19" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-20.1">SHA-256 Hash: <code>09vKrJMOlyTWM0sjpu_pdOBVBQ2M1y3KhpH515nXkpY</code><a href="#section-3.3-20.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-20.2">Disclosure:<br>
+            <code>WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImlzX292ZXJfMTgiLCB0cnVl</code><br>
+            <code>XQ</code><a href="#section-3.3-20.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-20.3">Contents:
+<code>["Pc33JM2LchcU_lHggv_ufQ", "is_over_18", true]</code><a href="#section-3.3-20.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-21"><strong>Claim <code>is_over_21</code></strong>:<a href="#section-3.3-21" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-22.1">SHA-256 Hash: <code>2rsjGbaC0ky8mT0pJrPioWTq0_daw1sX76poUlgCwbI</code><a href="#section-3.3-22.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-22.2">Disclosure:<br>
+            <code>WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImlzX292ZXJfMjEiLCB0cnVl</code><br>
+            <code>XQ</code><a href="#section-3.3-22.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-22.3">Contents:
+<code>["G02NSrQfjFXQ7Io09syajA", "is_over_21", true]</code><a href="#section-3.3-22.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-23"><strong>Claim <code>is_over_65</code></strong>:<a href="#section-3.3-23" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-24.1">SHA-256 Hash: <code>EkO8dhW0dHEJbvUHlE_VCeuC9uRELOieLZhh7XbUTtA</code><a href="#section-3.3-24.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-24.2">Disclosure:<br>
+            <code>WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImlzX292ZXJfNjUiLCB0cnVl</code><br>
+            <code>XQ</code><a href="#section-3.3-24.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-24.3">Contents:
+<code>["lklxF5jMYlGTPUovMNIvCA", "is_over_65", true]</code><a href="#section-3.3-24.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-25">The SD-JWT and the Disclosures would then be serialized by the Issuer into the following format for issuance to the Holder:<a href="#section-3.3-25" class="pilcrow">¶</a></p>
+<div class="lang-txt sourcecode" id="section-3.3-26">
+<pre>eyJhbGciOiAiRVMyNTYiLCAia2lkIjogImRvYy1zaWduZXItMDUtMjUtMjAyMiJ9.eyJ
+fc2QiOiBbIjA5dktySk1PbHlUV00wc2pwdV9wZE9CVkJRMk0xeTNLaHBINTE1blhrcFk
+iLCAiMnJzakdiYUMwa3k4bVQwcEpyUGlvV1RxMF9kYXcxc1g3NnBvVWxnQ3diSSIsICJ
+Fa084ZGhXMGRIRUpidlVIbEVfVkNldUM5dVJFTE9pZUxaaGg3WGJVVHRBIiwgIklsRHp
+JS2VpWmREd3BxcEs2WmZieXBoRnZ6NUZnbldhLXNONndxUVhDaXciLCAiSnpZakg0c3Z
+saUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQWWxTRSIsICJQb3JGYnBLdVZ1Nnh
+5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJIiwgIlRHZjRvTGJnd2Q1SlFhSHl
+LVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAiamRyVEU4WWNiWTRFaWZ1Z2loaUF
+lX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVN
+GemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9
+pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXB
+lIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25
+mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0F
+FUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnh
+qaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Hwstaec
+F84QrPvL_A8VptwttLHAymqV2E1V_gRcdTmYev9-UAESB0GU20NRww8QT1L_l2DB9zXj
+YP-DnmD6EaA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAi
+Sm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkR
+vZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VAZX
+hhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251bWJ
+lciIsICIrMS0yMDItNTU1LTAxMDEiXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwg
+ImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2Fs
+aXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAi
+VVMifV0~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTQw
+LTAxLTAxIl0~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImlzX292ZXJfMTgiLCB0
+cnVlXQ~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImlzX292ZXJfMjEiLCB0cnVlX
+Q~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImlzX292ZXJfNjUiLCB0cnVlXQ~
+</pre><a href="#section-3.3-26" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="vc-sd-jwt-verification-and-processing">
+<section id="section-3.4">
+        <h3 id="name-verification-and-processing">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-verification-and-processing" class="section-name selfRef">Verification and Processing</a>
+        </h3>
+<p id="section-3.4-1">The recipient (Holder or Verifier) of an SD-JWT VC MUST process and verify an
+SD-JWT VC as described in Section 6 of
+<span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">If Key Binding is required (refer to the security considerations in Section 9.6 of <span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>), the Verifier MUST verify the Key Binding JWT
+according to Section 6 of <span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>. To verify
+the Key Binding JWT, the <code>cnf</code> claim of the SD-JWT MUST be used.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">For the verification, the <code>iss</code> claim in the SD-JWT MAY be used to retrieve the
+public key from the JWT Issuer Metadata configuration (as defined in
+<a href="#jwt-issuer-metadata" class="auto internal xref">Section 4</a>) of the SD-JWT VC issuer. Alternative methods MAY be used
+to obtain the public key to verify the signature of the SD-JWT.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+<p id="section-3.4-4">If there are no selectively disclosable claims, there is no need to process the
+<code>_sd</code> claim nor any Disclosures.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
+<p id="section-3.4-5">If <code>status</code> is present in the verified payload of the SD-JWT, the status SHOULD
+be checked. It depends on the Verifier policy to reject or accept a presentation
+of a SD-JWT VC based on the status of the Verifiable Credential.<a href="#section-3.4-5" class="pilcrow">¶</a></p>
+<p id="section-3.4-6">Any claims used that are not understood MUST be ignored.<a href="#section-3.4-6" class="pilcrow">¶</a></p>
+<p id="section-3.4-7">Additional validation rules MAY apply, but their use is out of the scope of this
+specification.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="jwt-issuer-metadata">
+<section id="section-4">
+      <h2 id="name-jwt-issuer-metadata">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-jwt-issuer-metadata" class="section-name selfRef">JWT Issuer Metadata</a>
+      </h2>
+<p id="section-4-1">This specification defines the JWT Issuer Metadata to retrieve the JWT Issuer
+Metadata configuration of the JWT Issuer of the JWT. The JWT Issuer is
+identified by the <code>iss</code> claim in the JWT. Use of the JWT Issuer Metadata
+is OPTIONAL.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">JWT Issuers publishing JWT Issuer Metadata MUST make a JWT Issuer Metadata
+configuration available at the path formed by concatenating the string
+<code>/.well-known/jwt-issuer</code> to the <code>iss</code> claim value in the JWT. The <code>iss</code> MUST
+be a case-sensitive URL using the HTTPS scheme that contains scheme, host and,
+optionally, port number and path components, but no query or fragment
+components.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<div id="jwt-issuer-metadata-request">
+<section id="section-4.1">
+        <h3 id="name-jwt-issuer-metadata-request">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-jwt-issuer-metadata-request" class="section-name selfRef">JWT Issuer Metadata Request</a>
+        </h3>
+<p id="section-4.1-1">A JWT Issuer Metadata configuration MUST be queried using an HTTP <code>GET</code> request
+at the path defined in <a href="#jwt-issuer-metadata" class="auto internal xref">Section 4</a>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">The following is a non-normative example of a HTTP request for the JWT Issuer
+Metadata configuration when <code>iss</code> is set to <code>https://example.com</code>:<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.1-3">
+<pre>GET /.well-known/jwt-issuer HTTP/1.1
+Host: example.com
+</pre><a href="#section-4.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-4.1-4">If the <code>iss</code> value contains a path component, any terminating <code>/</code> MUST be
+removed before inserting <code>/.well-known/</code> and the well-known URI suffix
+between the host component and the path component.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.1-5">The following is a non-normative example of a HTTP request for the JWT Issuer
+Metadata configuration when <code>iss</code> is set to <code>https://example.com/user/1234</code>:<a href="#section-4.1-5" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.1-6">
+<pre>GET /.well-known/jwt-issuer/user/1234 HTTP/1.1
+Host: example.com
+</pre><a href="#section-4.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="jwt-issuer-metadata-response">
+<section id="section-4.2">
+        <h3 id="name-jwt-issuer-metadata-respons">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-jwt-issuer-metadata-respons" class="section-name selfRef">JWT Issuer Metadata Response</a>
+        </h3>
+<p id="section-4.2-1">A successful response MUST use the <code>200 OK HTTP</code> and return the JWT Issuer
+Metadata configuration using the <code>application/json</code> content type.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">An error response uses the applicable HTTP status code value.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">This specification defines the following JWT Issuer Metadata configuration
+parameters:<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.2-4.1">
+            <code>issuer</code>
+  REQUIRED. The JWT Issuer identifier, which MUST be identical to the <code>iss</code>
+value in the JWT.<a href="#section-4.2-4.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.2-4.2">
+            <p id="section-4.2-4.2.1"><code>jwks_uri</code><a href="#section-4.2-4.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.2-4.2.2.1">OPTIONAL. URL string referencing the JWT Issuer's JSON Web Key (JWK) Set
+<span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span> document which contains the JWT Issuer's public keys. The value of
+this field MUST point to a valid JWK Set document.<a href="#section-4.2-4.2.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-4.2-4.3">
+            <p id="section-4.2-4.3.1"><code>jwks</code><a href="#section-4.2-4.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.2-4.3.2.1">OPTIONAL. JWT Issuer's JSON Web Key Set <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span> document value, which
+contains the JWT Issuer's public keys. The value of this field MUST be a JSON
+object containing a valid JWK Set.<a href="#section-4.2-4.3.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-4.2-5">JWT Issuer Metadata MUST include either <code>jwks_uri</code> or <code>jwks</code> in their JWT
+Issuer Metadata, but not both.<a href="#section-4.2-5" class="pilcrow">¶</a></p>
+<p id="section-4.2-6">It is RECOMMENDED that the JWT contains a <code>kid</code> JWT header parameter that can
+be used to lookup the public key in the JWK Set included by value or referenced
+in the JWT Issuer Metadata.<a href="#section-4.2-6" class="pilcrow">¶</a></p>
+<p id="section-4.2-7">The following is a non-normative example of a JWT Issuer Metadata configuration
+including <code>jwks</code>:<a href="#section-4.2-7" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2-8">
+<pre>{
+   "issuer":"https://example.com",
+   "jwks":{
+      "keys":[
+         {
+            "kid":"doc-signer-05-25-2022",
+            "e":"AQAB",
+            "n":"nj3YJwsLUFl9BmpAbkOswCNVx17Eh9wMO-_AReZwBqfaWFcfG
+   HrZXsIV2VMCNVNU8Tpb4obUaSXcRcQ-VMsfQPJm9IzgtRdAY8NN8Xb7PEcYyk
+   lBjvTtuPbpzIaqyiUepzUXNDFuAOOkrIol3WmflPUUgMKULBN0EUd1fpOD70p
+   RM0rlp_gg_WNUKoW1V-3keYUJoXH9NztEDm_D2MQXj9eGOJJ8yPgGL8PAZMLe
+   2R7jb9TxOCPDED7tY_TU4nFPlxptw59A42mldEmViXsKQt60s1SLboazxFKve
+   qXC_jpLUt22OC6GUG63p-REw-ZOr3r845z50wMuzifQrMI9bQ",
+            "kty":"RSA"
+         }
+      ]
+   }
+}
+</pre><a href="#section-4.2-8" class="pilcrow">¶</a>
+</div>
+<p id="section-4.2-9">The following is a non-normative example of a JWT Issuer Metadata
+configuration including <code>jwks_uri</code>:<a href="#section-4.2-9" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-4.2-10">
+<pre>{
+   "issuer":"https://example.com",
+   "jwks_uri":"https://jwt-issuer.example.org/my_public_keys.jwks"
+}
+</pre><a href="#section-4.2-10" class="pilcrow">¶</a>
+</div>
+<p id="section-4.2-11">Additional JWT Issuer Metadata configuration parameters MAY also be used.<a href="#section-4.2-11" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="jwt-issuer-metadata-validation">
+<section id="section-4.3">
+        <h3 id="name-jwt-issuer-metadata-validat">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-jwt-issuer-metadata-validat" class="section-name selfRef">JWT Issuer Metadata Validation</a>
+        </h3>
+<p id="section-4.3-1">The <code>issuer</code> value returned MUST be identical to the <code>iss</code> value of the JWT. If
+these values are not identical, the data contained in the response MUST NOT be
+used.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="presenting-verifiable-credentials">
+<section id="section-5">
+      <h2 id="name-presenting-verifiable-crede">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-presenting-verifiable-crede" class="section-name selfRef">Presenting Verifiable Credentials</a>
+      </h2>
+<p id="section-5-1">This section defines encoding, validation and processing rules for presentations
+of SD-JWT VCs.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div id="key-binding-jwt">
+<section id="section-5.1">
+        <h3 id="name-key-binding-jwt">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-key-binding-jwt" class="section-name selfRef">Key Binding JWT</a>
+        </h3>
+<p id="section-5.1-1">If the presentation of the SD-JWT VC includes a Key Binding JWT, the
+following claims are used within the Key Binding JWT:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-2.1">
+            <p id="section-5.1-2.1.1"><code>nonce</code><a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-2.1.2.1">REQUIRED. String value used to associate a transaction between a Verifier
+an a Holder, and to mitigate replay attacks. The value is passed
+through unmodified from the Verifier to the Key Binding JWT. Sufficient
+entropy MUST be present in the <code>nonce</code> values used to prevent attackers from
+guessing values.<a href="#section-5.1-2.1.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-5.1-2.2">
+            <p id="section-5.1-2.2.1"><code>aud</code><a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-2.2.2.1">REQUIRED. The intended recipient of the Key Binding JWT which is
+typically the Verifier. See <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> for more information.<a href="#section-5.1-2.2.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-5.1-2.3">
+            <p id="section-5.1-2.3.1"><code>iat</code><a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-2.3.2.1">REQUIRED. The time of issuance of the Key Binding JWT. See
+<span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> for more information.<a href="#section-5.1-2.3.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-5.1-2.4">
+            <p id="section-5.1-2.4.1"><code>exp</code><a href="#section-5.1-2.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-2.4.2.1">OPTIONAL. The expiration time of the signature when
+the Key Binding is no longer considered valid. See <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>
+for more information.<a href="#section-5.1-2.4.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-5.1-3">The Key Binding JWT MAY include addtional claims which when not understood
+MUST be ignored.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="examples">
+<section id="section-5.2">
+        <h3 id="name-examples">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+        </h3>
+<p id="section-5.2-1">The following is a non-normative example of a presentation of the SD-JWT shown
+above including a Key Binding JWT:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<div class="lang-txt sourcecode" id="section-5.2-2">
+<pre>eyJhbGciOiAiRVMyNTYiLCAia2lkIjogImRvYy1zaWduZXItMDUtMjUtMjAyMiJ9.eyJ
+fc2QiOiBbIjA5dktySk1PbHlUV00wc2pwdV9wZE9CVkJRMk0xeTNLaHBINTE1blhrcFk
+iLCAiMnJzakdiYUMwa3k4bVQwcEpyUGlvV1RxMF9kYXcxc1g3NnBvVWxnQ3diSSIsICJ
+Fa084ZGhXMGRIRUpidlVIbEVfVkNldUM5dVJFTE9pZUxaaGg3WGJVVHRBIiwgIklsRHp
+JS2VpWmREd3BxcEs2WmZieXBoRnZ6NUZnbldhLXNONndxUVhDaXciLCAiSnpZakg0c3Z
+saUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQWWxTRSIsICJQb3JGYnBLdVZ1Nnh
+5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJIiwgIlRHZjRvTGJnd2Q1SlFhSHl
+LVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAiamRyVEU4WWNiWTRFaWZ1Z2loaUF
+lX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVN
+GemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9
+pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXB
+lIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25
+mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0F
+FUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnh
+qaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Hwstaec
+F84QrPvL_A8VptwttLHAymqV2E1V_gRcdTmYev9-UAESB0GU20NRww8QT1L_l2DB9zXj
+YP-DnmD6EaA~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7InN0
+cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd24i
+LCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOiAi
+RVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF
+1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTU5Nzc
+zMzV9.2SuP5EFW-TPRp6KRZ2D1msZG5pB3kptFG7aV3UPDbM0sfN3wj1vIv91VmdywPU
+-XjgP7hQZl1H6gk6Kn7gj-4Q
+</pre><a href="#section-5.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-5.2-3">In this presentation, the Holder provides only the Disclosure for the claim
+<code>address</code>. Other claims are not disclosed to the Verifier.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-4">The following example shows a presentation of a (different) SD-JWT without a
+Key Binding JWT:<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<div class="lang-txt sourcecode" id="section-5.2-5">
+<pre>eyJhbGciOiAiRVMyNTYifQ.eyJfc2QiOiBbIjA5dktySk1PbHlUV00wc2pwdV9wZE9CV
+kJRMk0xeTNLaHBINTE1blhrcFkiLCAiMnJzakdiYUMwa3k4bVQwcEpyUGlvV1RxMF9kY
+Xcxc1g3NnBvVWxnQ3diSSIsICJFa084ZGhXMGRIRUpidlVIbEVfVkNldUM5dVJFTE9pZ
+UxaaGg3WGJVVHRBIiwgIklsRHpJS2VpWmREd3BxcEs2WmZieXBoRnZ6NUZnbldhLXNON
+ndxUVhDaXciLCAiSnpZakg0c3ZsaUgwUjNQeUVNZmVadTZKdDY5dTVxZWhabzdGN0VQW
+WxTRSIsICJQb3JGYnBLdVZ1Nnh5bUphZ3ZrRnNGWEFiUm9jMkpHbEFVQTJCQTRvN2NJI
+iwgIlRHZjRvTGJnd2Q1SlFhSHlLVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAia
+mRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5e
+VZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAia
+HR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4c
+CI6IDE4ODMwMDAwMDAsICJ0eXBlIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfY
+WxnIjogInNoYS0yNTYifQ.tRR1qwcG11v9Al5_Np-Rq3DRpzWliKhHayxRVYTFiazjzz
+7V6eld1vuv8-vEzABsigXXfPe8xnlN5oUTl0AoLw~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
+gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
+0cnkiOiAiVVMifV0~
+</pre><a href="#section-5.2-5" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">The Security Considerations in the SD-JWT specification
+<span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span> apply to this specification.
+Additionally, the following security considerations need to be taken into
+account when using SD-JWT VCs:<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="server-side-request-forgery">
+<section id="section-6.1">
+        <h3 id="name-server-side-request-forgery">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-server-side-request-forgery" class="section-name selfRef">Server-Side Request Forgery</a>
+        </h3>
+<p id="section-6.1-1">The JWT Issuer Metadata configuration is retrieved from the JWT Issuer by the
+Holder or Verifier. Similar to other metadata endpoints, the URL for the
+retrieval MUST be considered an untrusted value and could be a vector for
+Server-Side Request Forgery (SSRF) attacks.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">Before making a request to the JWT Issuer Metadata endpoint, the Holder or
+Verifier MUST validate the URL to ensure that it is a valid HTTPS URL and that
+it does not point to internal resources. This requires, in particular, ensuring
+that the host part of the URL does not address an internal service (by IP
+address or an internal host name) and that, if an external DNS name is used, the
+resolved DNS name does not point to an internal IPv4 or IPv6 address.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">When retrieving the metadata, the Holder or Verifier MUST ensure that the
+request is made in a time-bound and size-bound manner to prevent denial of
+service attacks. The Holder or Verifier MUST also ensure that the response is a
+valid JWT Issuer Metadata configuration document before processing it.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">Additional considerations can be found in <span>[<a href="#OWASP_SSRF" class="cite xref">OWASP_SSRF</a>]</span>.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="privacy-considerations">
+<section id="section-7">
+      <h2 id="name-privacy-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
+      </h2>
+<p id="section-7-1">The Privacy Considerations in the SD-JWT specification
+<span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span> apply to this specification.
+Additionally, the following privacy considerations need to be taken into
+account when using SD-JWT VCs.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<div id="unlinkability">
+<section id="section-7.1">
+        <h3 id="name-unlinkability">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-unlinkability" class="section-name selfRef">Unlinkability</a>
+        </h3>
+<p id="section-7.1-1">The Privacy Considerations in Section 10.5 of <span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>
+apply especially to the <code>cnf</code> claim.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="type-identifier">
+<section id="section-7.2">
+        <h3 id="name-type-identifier">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-type-identifier" class="section-name selfRef">Type Identifier</a>
+        </h3>
+<p id="section-7.2-1">Issuers and Holders have to be aware that while this specification supports selective
+disclosure of claims of a given SD-JWT VC, the <code>type</code> claim is not selectively disclosable.
+In certain situations this could lead to unwanted leakage of additional context information.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">In general, Issuers are advised to choose <code>type</code> values following data minimization principles.
+For example, government Issuers issuing an SD-JWT VC to their citizens to enable them to prove their age,
+might consider using a <code>type</code> value that does not allow third-parties to infer additional personal information
+about the Holder, e.g., country of residency or citizenship.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+<p id="section-7.2-3">Additionally, Holders have to be informed that, besides the actual requested claims, the
+<code>type</code> information is shared with the Verifier.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="issuer-phone-home">
+<section id="section-7.3">
+        <h3 id="name-issuer-phone-home">
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-issuer-phone-home" class="section-name selfRef">Issuer Phone Home</a>
+        </h3>
+<p id="section-7.3-1">A malicious Issuer can choose the Issuer identifier of the SD-JWT VC to enable tracking
+the usage behavior of the Holder if the Issuer identifier is Holder-specific and if the
+resolution of the key material to verify the Issuer-signed JWT requires the Verifier
+to phone home to the Issuer.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">For example, a malicious Issuer could generate a unique value for the Issuer identifier
+per Holder, e.g., <code>https://example.com/issuer/holder-1234</code> and host the JWT Issuer Metadata.
+The Verifier would create a HTTPS GET request to the Holder-specific well-known URI
+when the SD-JWT VC is verified. This would allow the malicious Issuer to keep track where
+and how often the SD-JWT VC was used.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-3">Verifiers are advised to establish trust in an SD-JWT VC by pinning specific Issuer identifiers
+and should monitor suspicious behaviour such as frequently rotating Issuer identifiers.
+If such behaviour was detected, Verifiers are advised to reject SD-JWT VCs issued by such
+Issuers.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3-4">Holders are advised to reject SD-JWT VCs if they contain easily correlatable information
+in the Issuer identifier.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="relationships-to-other-documents">
+<section id="section-8">
+      <h2 id="name-relationships-to-other-docu">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-relationships-to-other-docu" class="section-name selfRef">Relationships to Other Documents</a>
+      </h2>
+<p id="section-8-1">TBD<a href="#section-8-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-9">
+      <h2 id="name-normative-references">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+      </h2>
+<dl class="references">
+<dt id="I-D.ietf-oauth-selective-disclosure-jwt">[I-D.ietf-oauth-selective-disclosure-jwt]</dt>
+      <dd>
+<span class="refAuthor">Fett, D.</span>, <span class="refAuthor">Yasuda, K.</span>, and <span class="refAuthor">B. Campbell</span>, <span class="refTitle">"Selective Disclosure for JWTs (SD-JWT)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-oauth-selective-disclosure-jwt-05</span>, <time datetime="2023-06-30" class="refDate">30 June 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-05">https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-05</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.looker-oauth-jwt-cwt-status-list">[I-D.looker-oauth-jwt-cwt-status-list]</dt>
+      <dd>
+<span class="refAuthor">Looker, T.</span> and <span class="refAuthor">P. Bastian</span>, <span class="refTitle">"JWT and CWT Status List"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-looker-oauth-jwt-cwt-status-list-01</span>, <time datetime="2023-07-10" class="refDate">10 July 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-looker-oauth-jwt-cwt-status-list-01">https://datatracker.ietf.org/doc/html/draft-looker-oauth-jwt-cwt-status-list-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+      <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7519">[RFC7519]</dt>
+      <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">N. Sakimura</span>, <span class="refTitle">"JSON Web Token (JWT)"</span>, <span class="seriesInfo">RFC 7519</span>, <span class="seriesInfo">DOI 10.17487/RFC7519</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7519">https://www.rfc-editor.org/info/rfc7519</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7800">[RFC7800]</dt>
+    <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">H. Tschofenig</span>, <span class="refTitle">"Proof-of-Possession Key Semantics for JSON Web Tokens (JWTs)"</span>, <span class="seriesInfo">RFC 7800</span>, <span class="seriesInfo">DOI 10.17487/RFC7800</span>, <time datetime="2016-04" class="refDate">April 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7800">https://www.rfc-editor.org/info/rfc7800</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<section id="section-10">
+      <h2 id="name-informative-references">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+      </h2>
+<dl class="references">
+<dt id="EUDIW.ARF">[EUDIW.ARF]</dt>
+      <dd>
+<span class="refAuthor">Commission, E.</span>, <span class="refTitle">"The European Digital Identity Wallet Architecture and Reference Framework"</span>, <span>&lt;<a href="https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/releases">https://github.com/eu-digital-identity-wallet/eudi-doc-architecture-and-reference-framework/releases</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="ISO.18013-5">[ISO.18013-5]</dt>
+      <dd>
+<span class="refAuthor">ISO/IEC JTC 1/SC 17 Cards and security devices for personal identification</span>, <span class="refTitle">"ISO/IEC 18013-5:2021 Personal identification — ISO-compliant driving licence — Part 5: Mobile driving licence (mDL) application"</span>, <time datetime="2021" class="refDate">2021</time>, <span>&lt;<a href="https://www.iso.org/standard/69084.html">https://www.iso.org/standard/69084.html</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="OWASP_SSRF">[OWASP_SSRF]</dt>
+      <dd>
+<span class="refAuthor">OWASP</span>, <span class="refTitle">"Server Side Request Forgery Prevention Cheat Sheet"</span>, <span>&lt;<a href="https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html/">https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7517">[RFC7517]</dt>
+    <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refTitle">"JSON Web Key (JWK)"</span>, <span class="seriesInfo">RFC 7517</span>, <span class="seriesInfo">DOI 10.17487/RFC7517</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7517">https://www.rfc-editor.org/info/rfc7517</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<div id="iana-considerations">
+<section id="appendix-A">
+      <h2 id="name-iana-considerations">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="json-web-token-claims-registration">
+<section id="appendix-A.1">
+        <h3 id="name-json-web-token-claims-regis">
+<a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-json-web-token-claims-regis" class="section-name selfRef">JSON Web Token Claims Registration</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-A.1-1.1">
+            <p id="appendix-A.1-1.1.1">Claim Name: "type"<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.1-1.1.2.1">Claim Description: Credential Type<a href="#appendix-A.1-1.1.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="appendix-A.1-1.1.2.2">Change Controller: IESG<a href="#appendix-A.1-1.1.2.2" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="appendix-A.1-1.1.2.3">Specification Document(s): <a href="#type-claim" class="auto internal xref">Section 3.2.2.1.1</a> of this document<a href="#appendix-A.1-1.1.2.3" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+</section>
+</div>
+<div id="media-types-registry">
+<section id="appendix-A.2">
+        <h3 id="name-media-types-registry">
+<a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-media-types-registry" class="section-name selfRef">Media Types Registry</a>
+        </h3>
+<div id="application-vc-sd-jwt">
+<section id="appendix-A.2.1">
+          <h4 id="name-application-vcsd-jwt">
+<a href="#appendix-A.2.1" class="section-number selfRef">A.2.1. </a><a href="#name-application-vcsd-jwt" class="section-name selfRef">application/vc+sd-jwt</a>
+          </h4>
+<p id="appendix-A.2.1-1">The Internet media type for a SD-JWT VC is <code>application/vc+sd-jwt</code>.<a href="#appendix-A.2.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-2">Type name: : <code>application</code><a href="#appendix-A.2.1-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-3">Subtype name: : <code>vc+sd-jwt</code><a href="#appendix-A.2.1-3" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-4">Required parameters: : n/a<a href="#appendix-A.2.1-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-5">Optional parameters: : n/a<a href="#appendix-A.2.1-5" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-6">Encoding considerations: : 8-bit code points; SD-JWT VC values are encoded as a
+series of base64url-encoded values (some of which may be the empty string)
+separated by period ('.') and tilde ('~') characters.<a href="#appendix-A.2.1-6" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-7">Security considerations: : See Security Considerations in <a href="#security-considerations" class="auto internal xref">Section 6</a>.<a href="#appendix-A.2.1-7" class="pilcrow">¶</a></p>
+<p id="appendix-A.2.1-8">Interoperability considerations: : n/a<a href="#appendix-A.2.1-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.1-9.1">Published specification: : RFC TODO<a href="#appendix-A.2.1-9.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="appendix-A.2.1-9.2">Applications that use this media type: : Applications that issue, present,
+verify verifiable credentials and presentations.<a href="#appendix-A.2.1-9.2" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="appendix-A.2.1-9.3">
+              <p id="appendix-A.2.1-9.3.1">Additional information:<a href="#appendix-A.2.1-9.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A.2.1-9.3.2.1">Magic number(s): n/a<a href="#appendix-A.2.1-9.3.2.1" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="appendix-A.2.1-9.3.2.2">File extension(s): n/a<a href="#appendix-A.2.1-9.3.2.2" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="appendix-A.2.1-9.3.2.3">Macintosh file type code(s): n/a<a href="#appendix-A.2.1-9.3.2.3" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="appendix-A.2.1-9.3.2.4">Person &amp; email address to contact for further information: TBD<a href="#appendix-A.2.1-9.3.2.4" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="appendix-A.2.1-9.3.2.5">Intended usage: COMMON<a href="#appendix-A.2.1-9.3.2.5" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="appendix-A.2.1-9.3.2.6">Restrictions on usage: none<a href="#appendix-A.2.1-9.3.2.6" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="appendix-A.2.1-9.3.2.7">Author: Oliver Terbu <a href="mailto:oliver.terbu@spruceid.com">oliver.terbu@spruceid.com</a><a href="#appendix-A.2.1-9.3.2.7" class="pilcrow">¶</a>
+</li>
+                <li class="normal" id="appendix-A.2.1-9.3.2.8">Change controller: IETF<a href="#appendix-A.2.1-9.3.2.8" class="pilcrow">¶</a>
+</li>
+              </ul>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="Acknowledgements">
+<section id="appendix-B">
+      <h2 id="name-acknowledgements">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+      </h2>
+<p id="appendix-B-1">We would like to thank
+Alen Horvat,
+Andres Uribe,
+Brian Campbell,
+Christian Bormann,
+Giuseppe De Marco,
+Michael Jones,
+Mike Prorock,
+Orie Steele,
+Paul Bastian,
+Torsten Lodderstedt,
+Tobias Looker, and
+Kristina Yasuda
+for their contributions (some of which substantial) to this draft and to the initial set of implementations.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="document-history">
+<section id="appendix-C">
+      <h2 id="name-document-history">
+<a href="#appendix-C" class="section-number selfRef">Appendix C. </a><a href="#name-document-history" class="section-name selfRef">Document History</a>
+      </h2>
+<p id="appendix-C-1">-00<a href="#appendix-C-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-C-2.1">Upload as draft-ietf-oauth-sd-jwt-vc-00<a href="#appendix-C-2.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-2.2">Aligned terminology and descriptions with latest version of SD-JWT<a href="#appendix-C-2.2" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="appendix-C-3">[[ pre Working Group Adoption: ]]<a href="#appendix-C-3" class="pilcrow">¶</a></p>
+<p id="appendix-C-4">-00<a href="#appendix-C-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-C-5.1">Initial Version<a href="#appendix-C-5.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-5.2">Removed W3C VCDM transformation algorithm<a href="#appendix-C-5.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-5.3">Various editorial changes based on feedback<a href="#appendix-C-5.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-5.4">Adjusted terminology based on feedback<a href="#appendix-C-5.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-5.5">Added non-selectively disclosable JWT VC<a href="#appendix-C-5.5" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-5.6">Added a note that this is not W3C VCDM<a href="#appendix-C-5.6" class="pilcrow">¶</a>
+</li>
+      </ul>
+</section>
+</div>
+<div id="examples-1">
+<section id="appendix-D">
+      <h2 id="name-examples-2">
+<a href="#appendix-D" class="section-number selfRef">Appendix D. </a><a href="#name-examples-2" class="section-name selfRef">Examples</a>
+      </h2>
+<p id="appendix-D-1">Important: The following examples are not normative and provided for
+illustration purposes only. In particular, neither the structure of the claims
+nor the selection of selectively disclosable claims are normative.<a href="#appendix-D-1" class="pilcrow">¶</a></p>
+<p id="appendix-D-2">Line breaks have been added for readability.<a href="#appendix-D-2" class="pilcrow">¶</a></p>
+<div id="diploma-eaa">
+<section id="appendix-D.1">
+        <h3 id="name-diploma-eaa">
+<a href="#appendix-D.1" class="section-number selfRef">D.1. </a><a href="#name-diploma-eaa" class="section-name selfRef">Diploma EAA</a>
+        </h3>
+<p id="appendix-D.1-1">This example shows an Electronic Attestation of Attributes (EAA) for a diploma.<a href="#appendix-D.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-D.1-2">The following user claims are used as the basis for this credential:<a href="#appendix-D.1-2" class="pilcrow">¶</a></p>
+<div class="breakable lang-json sourcecode" id="appendix-D.1-3">
+<pre>{
+  "binding": [
+    {
+      "dateOfBirth": "1973-01-01",
+      "famileName": "Mustermann",
+      "givenName": "Erika",
+      "type": "ClaimsBinding2022"
+    }
+  ],
+  "credentialSubject": {
+    "achieved": [
+      {
+        "id": "urn:epass:learningAchievement:1",
+        "title": "Master of Science in Civil Engineering",
+        "wasDerivedFrom": [
+          {
+            "assessedBy": [
+              "did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1"
+            ],
+            "grade": "excellent (5)",
+            "id": "urn:epass:assessment:1",
+            "specifiedBy": {
+              "gradingScheme": {
+                "definition": "The Croatian national grading scheme
+                  consists of five grades with numerical
+                  equivalents: izvrstan – 5 (outstanding); vrlo
+                  dobar – 4 (very good); dobar – 3 (good); dovoljan
+                  – 2 (sufficient); nedovoljan – 1 (insufficient -
+                  fail). The minimum passing grade is dovoljan –
+                  2.",
+                "id": "urn:epass:scoringschemespec:1",
+                "title": "General grading scheme in Croatia"
+              },
+              "id": "urn:epass:asssessmentspec:1",
+              "title": "Overall Diploma Assessment"
+            },
+            "title": "Overall Diploma Assessment"
+          }
+        ]
+      }
+    ],
+    "entitledTo": [
+      {
+        "definition": "Competences the student acquires after the
+          completion of Graduate university study are sufficient
+          conditions for attending the programme of Postgraduate
+          doctoral study at the Faculty of Civil Engineering,
+          Architecture and Geodesy in Split, as well as for
+          attending the same or similar programmes and Postgraduate
+          specialist studies at other faculties of Civil Engineering
+          in Croatia. The acquired learning outcomes enable the
+          student to attend other postgraduate study programmes in
+          the field of technical sciences. ",
+        "id": "urn:epass:entitlement:1",
+        "issuedDate": "2019-09-20",
+        "specifiedBy": {
+          "entitlementType":
+            "http://data.europa.eu/snb/entitlement/64aad92881",
+          "id": "urn:epass:entitlementspec:1",
+          "limitJurisdiction": [
+            "http://publications.europa.eu/resource/authority/countr
+              y/HRV"
+          ],
+          "limitOrganisation": [
+            "did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1"
+          ],
+          "status": "http://data.europa.eu/snb/entitlement-status/5b
+            8d6b34fb",
+          "title": "Postgraduate doctoral study"
+        },
+        "title": "Postgraduate doctoral study"
+      }
+    ]
+  },
+  "iss": "did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1",
+  "jti": "urn:credential:5a4d5412-27e3-4540-a5e5-f1aa4d55b20c",
+  "type": "Europass"
+}
+</pre><a href="#appendix-D.1-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.1-4">The Issuer would produce an SD-JWT with the following payload:<a href="#appendix-D.1-4" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-D.1-5">
+<pre>{
+  "iss": "did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1",
+  "iat": 1683000000,
+  "exp": 1883000000,
+  "binding": [
+    {
+      "...": "MtwyK2Fd2dKhFW6DTOHHE4jX6IzB9zHK6fh6aHQNuDc"
+    }
+  ],
+  "credentialSubject": {
+    "achieved": [
+      {
+        "...": "RkCV-ktSqeQYHDZQLhKXqs0FiTVh2nfYnQ6NahmYeFo"
+      }
+    ],
+    "entitledTo": [
+      {
+        "...": "n6xGyt_ZjS-k1tytK5_hidavwmnf-xFbhJF2h4iUPmY"
+      }
+    ]
+  },
+  "jti": "urn:credential:5a4d5412-27e3-4540-a5e5-f1aa4d55b20c",
+  "type": "Europass",
+  "_sd_alg": "sha-256"
+}
+</pre><a href="#appendix-D.1-5" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.1-6">The following disclosures would be produced:<a href="#appendix-D.1-6" class="pilcrow">¶</a></p>
+<p id="appendix-D.1-7"><strong>Array Entry</strong>:<a href="#appendix-D.1-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.1-8.1">SHA-256 Hash: <code>MtwyK2Fd2dKhFW6DTOHHE4jX6IzB9zHK6fh6aHQNuDc</code><a href="#appendix-D.1-8.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.1-8.2">Disclosure:<br>
+            <code>WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgeyJkYXRlT2ZCaXJ0aCI6ICIx</code><br>
+            <code>OTczLTAxLTAxIiwgImZhbWlsZU5hbWUiOiAiTXVzdGVybWFubiIsICJnaXZl</code><br>
+            <code>bk5hbWUiOiAiRXJpa2EiLCAidHlwZSI6ICJDbGFpbXNCaW5kaW5nMjAyMiJ9</code><br>
+            <code>XQ</code><a href="#appendix-D.1-8.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.1-8.3">Contents:
+<code>["2GLC42sKQveCfGfryNRN9w", {"dateOfBirth": "1973-01-01",</code><br>
+            <code>"famileName": "Mustermann", "givenName": "Erika", "type":</code><br>
+            <code>"ClaimsBinding2022"}]</code><a href="#appendix-D.1-8.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.1-9"><strong>Array Entry</strong>:<a href="#appendix-D.1-9" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.1-10.1">SHA-256 Hash: <code>RkCV-ktSqeQYHDZQLhKXqs0FiTVh2nfYnQ6NahmYeFo</code><a href="#appendix-D.1-10.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.1-10.2">Disclosure:<br>
+            <code>WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgeyJpZCI6ICJ1cm46ZXBhc3M6</code><br>
+            <code>bGVhcm5pbmdBY2hpZXZlbWVudDoxIiwgInRpdGxlIjogIk1hc3RlciBvZiBT</code><br>
+            <code>Y2llbmNlIGluIENpdmlsIEVuZ2luZWVyaW5nIiwgIndhc0Rlcml2ZWRGcm9t</code><br>
+            <code>IjogW3siYXNzZXNzZWRCeSI6IFsiZGlkOmVic2k6enNTZ0RYZVlQaFozQXVL</code><br>
+            <code>aFRGbmVEZjEiXSwgImdyYWRlIjogImV4Y2VsbGVudCAoNSkiLCAiaWQiOiAi</code><br>
+            <code>dXJuOmVwYXNzOmFzc2Vzc21lbnQ6MSIsICJzcGVjaWZpZWRCeSI6IHsiZ3Jh</code><br>
+            <code>ZGluZ1NjaGVtZSI6IHsiZGVmaW5pdGlvbiI6ICJUaGUgQ3JvYXRpYW4gbmF0</code><br>
+            <code>aW9uYWwgZ3JhZGluZyBzY2hlbWUgY29uc2lzdHMgb2YgZml2ZSBncmFkZXMg</code><br>
+            <code>d2l0aCBudW1lcmljYWwgZXF1aXZhbGVudHM6IGl6dnJzdGFuIFx1MjAxMyA1</code><br>
+            <code>IChvdXRzdGFuZGluZyk7IHZybG8gZG9iYXIgXHUyMDEzIDQgKHZlcnkgZ29v</code><br>
+            <code>ZCk7IGRvYmFyIFx1MjAxMyAzIChnb29kKTsgZG92b2xqYW4gXHUyMDEzIDIg</code><br>
+            <code>KHN1ZmZpY2llbnQpOyBuZWRvdm9samFuIFx1MjAxMyAxIChpbnN1ZmZpY2ll</code><br>
+            <code>bnQgLSBmYWlsKS4gVGhlIG1pbmltdW0gcGFzc2luZyBncmFkZSBpcyBkb3Zv</code><br>
+            <code>bGphbiBcdTIwMTMgMi4iLCAiaWQiOiAidXJuOmVwYXNzOnNjb3JpbmdzY2hl</code><br>
+            <code>bWVzcGVjOjEiLCAidGl0bGUiOiAiR2VuZXJhbCBncmFkaW5nIHNjaGVtZSBp</code><br>
+            <code>biBDcm9hdGlhIn0sICJpZCI6ICJ1cm46ZXBhc3M6YXNzc2Vzc21lbnRzcGVj</code><br>
+            <code>OjEiLCAidGl0bGUiOiAiT3ZlcmFsbCBEaXBsb21hIEFzc2Vzc21lbnQifSwg</code><br>
+            <code>InRpdGxlIjogIk92ZXJhbGwgRGlwbG9tYSBBc3Nlc3NtZW50In1dfV0</code><a href="#appendix-D.1-10.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.1-10.3">Contents:
+<code>["eluV5Og3gSNII8EYnsxA_A", {"id":</code><br>
+            <code>"urn:epass:learningAchievement:1", "title": "Master of</code><br>
+            <code>Science in Civil Engineering", "wasDerivedFrom":</code><br>
+            <code>[{"assessedBy": ["did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1"],</code><br>
+            <code>"grade": "excellent (5)", "id": "urn:epass:assessment:1",</code><br>
+            <code>"specifiedBy": {"gradingScheme": {"definition": "The</code><br>
+            <code>Croatian national grading scheme consists of five grades</code><br>
+            <code>with numerical equivalents: izvrstan \u2013 5 (outstanding);</code><br>
+            <code>vrlo dobar \u2013 4 (very good); dobar \u2013 3 (good);</code><br>
+            <code>dovoljan \u2013 2 (sufficient); nedovoljan \u2013 1</code><br>
+            <code>(insufficient - fail). The minimum passing grade is dovoljan</code><br>
+            <code>\u2013 2.", "id": "urn:epass:scoringschemespec:1", "title":</code><br>
+            <code>"General grading scheme in Croatia"}, "id":</code><br>
+            <code>"urn:epass:asssessmentspec:1", "title": "Overall Diploma</code><br>
+            <code>Assessment"}, "title": "Overall Diploma Assessment"}]}]</code><a href="#appendix-D.1-10.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.1-11"><strong>Array Entry</strong>:<a href="#appendix-D.1-11" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.1-12.1">SHA-256 Hash: <code>n6xGyt_ZjS-k1tytK5_hidavwmnf-xFbhJF2h4iUPmY</code><a href="#appendix-D.1-12.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.1-12.2">Disclosure:<br>
+            <code>WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgeyJkZWZpbml0aW9uIjogIkNv</code><br>
+            <code>bXBldGVuY2VzIHRoZSBzdHVkZW50IGFjcXVpcmVzIGFmdGVyIHRoZSBjb21w</code><br>
+            <code>bGV0aW9uIG9mIEdyYWR1YXRlIHVuaXZlcnNpdHkgc3R1ZHkgYXJlIHN1ZmZp</code><br>
+            <code>Y2llbnQgY29uZGl0aW9ucyBmb3IgYXR0ZW5kaW5nIHRoZSBwcm9ncmFtbWUg</code><br>
+            <code>b2YgUG9zdGdyYWR1YXRlIGRvY3RvcmFsIHN0dWR5IGF0IHRoZSBGYWN1bHR5</code><br>
+            <code>IG9mIENpdmlsIEVuZ2luZWVyaW5nLCBBcmNoaXRlY3R1cmUgYW5kIEdlb2Rl</code><br>
+            <code>c3kgaW4gU3BsaXQsIGFzIHdlbGwgYXMgZm9yIGF0dGVuZGluZyB0aGUgc2Ft</code><br>
+            <code>ZSBvciBzaW1pbGFyIHByb2dyYW1tZXMgYW5kIFBvc3RncmFkdWF0ZSBzcGVj</code><br>
+            <code>aWFsaXN0IHN0dWRpZXMgYXQgb3RoZXIgZmFjdWx0aWVzIG9mIENpdmlsIEVu</code><br>
+            <code>Z2luZWVyaW5nIGluIENyb2F0aWEuIFRoZSBhY3F1aXJlZCBsZWFybmluZyBv</code><br>
+            <code>dXRjb21lcyBlbmFibGUgdGhlIHN0dWRlbnQgdG8gYXR0ZW5kIG90aGVyIHBv</code><br>
+            <code>c3RncmFkdWF0ZSBzdHVkeSBwcm9ncmFtbWVzIGluIHRoZSBmaWVsZCBvZiB0</code><br>
+            <code>ZWNobmljYWwgc2NpZW5jZXMuICIsICJpZCI6ICJ1cm46ZXBhc3M6ZW50aXRs</code><br>
+            <code>ZW1lbnQ6MSIsICJpc3N1ZWREYXRlIjogIjIwMTktMDktMjAiLCAic3BlY2lm</code><br>
+            <code>aWVkQnkiOiB7ImVudGl0bGVtZW50VHlwZSI6ICJodHRwOi8vZGF0YS5ldXJv</code><br>
+            <code>cGEuZXUvc25iL2VudGl0bGVtZW50LzY0YWFkOTI4ODEiLCAiaWQiOiAidXJu</code><br>
+            <code>OmVwYXNzOmVudGl0bGVtZW50c3BlYzoxIiwgImxpbWl0SnVyaXNkaWN0aW9u</code><br>
+            <code>IjogWyJodHRwOi8vcHVibGljYXRpb25zLmV1cm9wYS5ldS9yZXNvdXJjZS9h</code><br>
+            <code>dXRob3JpdHkvY291bnRyeS9IUlYiXSwgImxpbWl0T3JnYW5pc2F0aW9uIjog</code><br>
+            <code>WyJkaWQ6ZWJzaTp6c1NnRFhlWVBoWjNBdUtoVEZuZURmMSJdLCAic3RhdHVz</code><br>
+            <code>IjogImh0dHA6Ly9kYXRhLmV1cm9wYS5ldS9zbmIvZW50aXRsZW1lbnQtc3Rh</code><br>
+            <code>dHVzLzViOGQ2YjM0ZmIiLCAidGl0bGUiOiAiUG9zdGdyYWR1YXRlIGRvY3Rv</code><br>
+            <code>cmFsIHN0dWR5In0sICJ0aXRsZSI6ICJQb3N0Z3JhZHVhdGUgZG9jdG9yYWwg</code><br>
+            <code>c3R1ZHkifV0</code><a href="#appendix-D.1-12.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.1-12.3">Contents:
+<code>["6Ij7tM-a5iVPGboS5tmvVA", {"definition": "Competences the</code><br>
+            <code>student acquires after the completion of Graduate university</code><br>
+            <code>study are sufficient conditions for attending the programme</code><br>
+            <code>of Postgraduate doctoral study at the Faculty of Civil</code><br>
+            <code>Engineering, Architecture and Geodesy in Split, as well as</code><br>
+            <code>for attending the same or similar programmes and</code><br>
+            <code>Postgraduate specialist studies at other faculties of Civil</code><br>
+            <code>Engineering in Croatia. The acquired learning outcomes</code><br>
+            <code>enable the student to attend other postgraduate study</code><br>
+            <code>programmes in the field of technical sciences. ", "id":</code><br>
+            <code>"urn:epass:entitlement:1", "issuedDate": "2019-09-20",</code><br>
+            <code>"specifiedBy": {"entitlementType":</code><br>
+            <code>"http://data.europa.eu/snb/entitlement/64aad92881", "id":</code><br>
+            <code>"urn:epass:entitlementspec:1", "limitJurisdiction": ["http:/</code><br>
+            <code>/publications.europa.eu/resource/authority/country/HRV"],</code><br>
+            <code>"limitOrganisation": ["did:ebsi:zsSgDXeYPhZ3AuKhTFneDf1"],</code><br>
+            <code>"status":</code><br>
+            <code>"http://data.europa.eu/snb/entitlement-status/5b8d6b34fb",</code><br>
+            <code>"title": "Postgraduate doctoral study"}, "title":</code><br>
+            <code>"Postgraduate doctoral study"}]</code><a href="#appendix-D.1-12.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+<div id="iso-18013-5-mobile-driving-license-mdl">
+<section id="appendix-D.2">
+        <h3 id="name-iso-18013-5-mobile-driving-">
+<a href="#appendix-D.2" class="section-number selfRef">D.2. </a><a href="#name-iso-18013-5-mobile-driving-" class="section-name selfRef">ISO 18013-5 Mobile Driving License (mDL)</a>
+        </h3>
+<p id="appendix-D.2-1">This example illustrates how the artifacts defined in this specification can be
+used to express an mDL data model defined in ISO/IEC 18013-5 <span>[<a href="#ISO.18013-5" class="cite xref">ISO.18013-5</a>]</span>
+encoded as JSON.<a href="#appendix-D.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-D.2-2">In this example, Key Binding is applied and the Key Binding JWT is signed with
+the private key corresponding to the raw public key passed in a <code>cnf</code> Claim in
+the SD-JWT.<a href="#appendix-D.2-2" class="pilcrow">¶</a></p>
+<p id="appendix-D.2-3">The following data will be used in this example:<a href="#appendix-D.2-3" class="pilcrow">¶</a></p>
+<div class="breakable lang-json sourcecode" id="appendix-D.2-4">
+<pre>{
+  "iss": "https://example.com",
+  "docType": "org.iso.18013.5.1.mDL",
+  "version": "1.0",
+  "validityInfo": {
+    "signed": "2022-04-15T06:23:56Z",
+    "validFrom": "2022-04-15T06:23:56Z",
+    "validUntil": "2027-01-02T00:00:00Z"
+  },
+  "nameSpaces": {
+    "nameSpace": "org.iso.18013.5.1",
+    "expiry_date": "2030-02-22",
+    "issue_date": "2020-02-23",
+    "family_name": "John",
+    "given_name": "Doe",
+    "issuing_country": "UT",
+    "document_number": "ES24689",
+    "portrait": "_9j_4AAQSkZJRgABAQEAkACQAAD_2wBDABMNDhEODBMRDxEVFBM
+      XHTAfHRoaHToqLCMwRT1JR0Q9Q0FMVm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j
+      214e3b_2wBDARQVFR0ZHTgfHzh2T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ
+      2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnb_wAARCAAYAGQDASIAAhEBAxEB_
+      8QAGwAAAwEAAwEAAAAAAAAAAAAAAAUGBAECAwf_xAAyEAABAwMDAgUCAwkAAAA
+      AAAABAgMEAAURBhIhEzEUFVFhcSJBB4GhFjVCUnORssHx_8QAFQEBAQAAAAAAA
+      AAAAAAAAAAAAAH_xAAaEQEBAQADAQAAAAAAAAAAAAAAAUERITFh_9oADAMBAAI
+      RAxEAPwClu94i2iMpx9aSvH0NA_Us-w_3Xnp-8-dwlyOh0NrhRt37s8A5zgetK
+      9R6fjLbuN0dUtbvSyhPZKSABn37Ufh_-5X_AOuf8U0hXeZq8InORLfb3py2iQo
+      oOO3fGAePet1i1BHvTbmxCmXWuVoUc4HqDUlbkzJ1_mu6dcEUEEqLpBBBPpg9_
+      wBPWvXTS0tM3mMtC_H9FZK92RxkEfOTTC-mr2tUl10Qbc9KZa5W6FYAHrwDx84
+      p3Z7vHvEPxEfcnadq0q7pNTehun5PcN2O_wBXxt_7XhoZhUqDdY5UUodQlG7Gc
+      EhQzQN7zrCLbX0sx20zF_x7XMBPtnByacXG4MW2CuVJJCEjsOST9gKgdVWeNZl
+      w2Y24lSVFa1HJUcivoT6o6Y48WWg2eD1cY_WmGpn9tykIddtL6IqzhLu7v8cYP
+      96qYz6JUdt9o5bcSFJPsai9YRpaoqJDLzCrQgp6bTJAxxjPAx-p70ya1VAgWqA
+      pUd9KHWyEIbAVt2nbjJIpg36ivosbDTnQ66nFFITv24wO_Y0lja88RJaZ8u29R
+      YTnr5xk4_lrm-so1KxAkx5keMjnaiSoJUSVAdhn0rHc3rrpm5x1KuTs1t3koXn
+      BweRgk4-RSe9lXlFcA5GaKJyz3KJ4-3vxd_T6qCndjOPyrJp-zeSQlx-v19zhX
+      u2bccAYxk-lFFFLJOjkMXJt1wegledwSM9_sCCOPat1i05GswcUlannnBtUtQx
+      x6AUUUC5_RSes6YNxeiMu8LaCSQR6dxx85p3ZrRHs0ToR9ysnctau6jRRQYdQ6
+      b88eZc8V0OkCMdPdnP5imVxtzFyhKiyQShX3HdJ9RRRT4J0aIUUJYcuz6oqVZD
+      O3gfHOM9_tVPDitQorcdhO1tsYAoooF190_GvaEFxSmnkcJcTzx6EfcVhiaPSm
+      a3JuM96epvG1Kxgcdgck5HtRRSClooooP_2Q",
+    "driving_privileges": [
+      {
+        "expiry_date": "2024-10-20",
+        "issue_date": "2018-08-09",
+        "vehicle_category_code": "A"
+      },
+      {
+        "expiry_date": "2024-10-20",
+        "issue_date": "2017-02-20",
+        "vehicle_category_code": "B"
+      }
+    ],
+    "birth_date": "1980-02-05",
+    "issuing_authority": "Utopia",
+    "un_distinguishing_sign": null,
+    "age_over_21": true
+  }
+}
+</pre><a href="#appendix-D.2-4" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.2-5">The payload of a corresponding SD-JWT looks as follows:<a href="#appendix-D.2-5" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-D.2-6">
+<pre>{
+  "iss": "https://example.com",
+  "iat": 1683000000,
+  "exp": 1883000000,
+  "docType": "org.iso.18013.5.1.mDL",
+  "version": "1.0",
+  "validityInfo": {
+    "signed": "2022-04-15T06:23:56Z",
+    "validFrom": "2022-04-15T06:23:56Z",
+    "validUntil": "2027-01-02T00:00:00Z"
+  },
+  "nameSpaces": {
+    "_sd": [
+      "6ulzUsxXYIrPL2rM2wXS8AO0uqODP_llIs14BhkSGbg",
+      "7MRyy3gq1pbJc89Yp6LKDPnq0E5VZHbR9qJZXWcPn_A",
+      "9ZdtQ_-ganWH9PqcsZUNWBdPEXplpoyPHOm0yCnoy7s",
+      "DYRMJOObfouIY_qtlhyM0IoF7txkkuscA_4zNShqIzw",
+      "H6bLZFhykVMV6BPXcy0un9BHr41rt8lGKke5Eiyyg7g",
+      "MMwJbpZWZprdHLTW3hXmwZeaUh0VSe75SsBebvn-f5E",
+      "_i95RfpjtN4HgkfZwRjHP5EIfUNIc7nC-QrdhRdGxS0",
+      "b3jLRhzWyf2Z32oFZc9P2PHe_vcFm1ZgjpZYamISdHo",
+      "dCCy3Fym8Ft5J8nZ-xkDbHORBM4rg0KlTqE9QNAfpOc",
+      "eehuQwYayNIsVQCHO8IKuEszkBeztIgnXy93UKDv-4w",
+      "seXPdWoH8s6xGNWNVP3Cz9wrqxl7jJ2Y3YxVMu2VAlY",
+      "v3IVN9yjuBgTw1f0pYl_0p-vBRslEfdh13_dUGJjCE0",
+      "yVuhdh2mfS0kq8nlQt2_3_Jz7DJeUytBKBucScf3IrI"
+    ]
+  },
+  "_sd_alg": "sha-256",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}
+</pre><a href="#appendix-D.2-6" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.2-7">Disclosures:<a href="#appendix-D.2-7" class="pilcrow">¶</a></p>
+<p id="appendix-D.2-8"><strong>Claim <code>nameSpace</code></strong>:<a href="#appendix-D.2-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-9.1">SHA-256 Hash: <code>H6bLZFhykVMV6BPXcy0un9BHr41rt8lGKke5Eiyyg7g</code><a href="#appendix-D.2-9.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-9.2">Disclosure:<br>
+            <code>WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgIm5hbWVTcGFjZSIsICJvcmcu</code><br>
+            <code>aXNvLjE4MDEzLjUuMSJd</code><a href="#appendix-D.2-9.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-9.3">Contents:
+<code>["2GLC42sKQveCfGfryNRN9w", "nameSpace", "org.iso.18013.5.1"]</code><a href="#appendix-D.2-9.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-10"><strong>Claim <code>expiry_date</code></strong>:<a href="#appendix-D.2-10" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-11.1">SHA-256 Hash: <code>dCCy3Fym8Ft5J8nZ-xkDbHORBM4rg0KlTqE9QNAfpOc</code><a href="#appendix-D.2-11.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-11.2">Disclosure:<br>
+            <code>WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImV4cGlyeV9kYXRlIiwgIjIw</code><br>
+            <code>MzAtMDItMjIiXQ</code><a href="#appendix-D.2-11.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-11.3">Contents:
+<code>["eluV5Og3gSNII8EYnsxA_A", "expiry_date", "2030-02-22"]</code><a href="#appendix-D.2-11.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-12"><strong>Claim <code>issue_date</code></strong>:<a href="#appendix-D.2-12" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-13.1">SHA-256 Hash: <code>6ulzUsxXYIrPL2rM2wXS8AO0uqODP_llIs14BhkSGbg</code><a href="#appendix-D.2-13.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-13.2">Disclosure:<br>
+            <code>WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImlzc3VlX2RhdGUiLCAiMjAy</code><br>
+            <code>MC0wMi0yMyJd</code><a href="#appendix-D.2-13.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-13.3">Contents:
+<code>["6Ij7tM-a5iVPGboS5tmvVA", "issue_date", "2020-02-23"]</code><a href="#appendix-D.2-13.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-14"><strong>Claim <code>family_name</code></strong>:<a href="#appendix-D.2-14" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-15.1">SHA-256 Hash: <code>seXPdWoH8s6xGNWNVP3Cz9wrqxl7jJ2Y3YxVMu2VAlY</code><a href="#appendix-D.2-15.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-15.2">Disclosure:<br>
+            <code>WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgImZhbWlseV9uYW1lIiwgIkpv</code><br>
+            <code>aG4iXQ</code><a href="#appendix-D.2-15.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-15.3">Contents:
+<code>["eI8ZWm9QnKPpNPeNenHdhQ", "family_name", "John"]</code><a href="#appendix-D.2-15.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-16"><strong>Claim <code>given_name</code></strong>:<a href="#appendix-D.2-16" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-17.1">SHA-256 Hash: <code>9ZdtQ_-ganWH9PqcsZUNWBdPEXplpoyPHOm0yCnoy7s</code><a href="#appendix-D.2-17.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-17.2">Disclosure:<br>
+            <code>WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImdpdmVuX25hbWUiLCAiRG9l</code><br>
+            <code>Il0</code><a href="#appendix-D.2-17.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-17.3">Contents:
+<code>["Qg_O64zqAxe412a108iroA", "given_name", "Doe"]</code><a href="#appendix-D.2-17.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-18"><strong>Claim <code>issuing_country</code></strong>:<a href="#appendix-D.2-18" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-19.1">SHA-256 Hash: <code>b3jLRhzWyf2Z32oFZc9P2PHe_vcFm1ZgjpZYamISdHo</code><a href="#appendix-D.2-19.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-19.2">Disclosure:<br>
+            <code>WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImlzc3VpbmdfY291bnRyeSIs</code><br>
+            <code>ICJVVCJd</code><a href="#appendix-D.2-19.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-19.3">Contents:
+<code>["AJx-095VPrpTtN4QMOqROA", "issuing_country", "UT"]</code><a href="#appendix-D.2-19.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-20"><strong>Claim <code>document_number</code></strong>:<a href="#appendix-D.2-20" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-21.1">SHA-256 Hash: <code>v3IVN9yjuBgTw1f0pYl_0p-vBRslEfdh13_dUGJjCE0</code><a href="#appendix-D.2-21.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-21.2">Disclosure:<br>
+            <code>WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImRvY3VtZW50X251bWJlciIs</code><br>
+            <code>ICJFUzI0Njg5Il0</code><a href="#appendix-D.2-21.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-21.3">Contents:
+<code>["Pc33JM2LchcU_lHggv_ufQ", "document_number", "ES24689"]</code><a href="#appendix-D.2-21.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-22"><strong>Claim <code>portrait</code></strong>:<a href="#appendix-D.2-22" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-23.1">SHA-256 Hash: <code>DYRMJOObfouIY_qtlhyM0IoF7txkkuscA_4zNShqIzw</code><a href="#appendix-D.2-23.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-23.2">Disclosure:<br>
+            <code>WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgInBvcnRyYWl0IiwgIl85al80</code><br>
+            <code>QUFRU2taSlJnQUJBUUVBa0FDUUFBRF8yd0JEQUJNTkRoRU9EQk1SRHhFVkZC</code><br>
+            <code>TVhIVEFmSFJvYUhUb3FMQ013UlQxSlIwUTlRMEZNVm0xZFRGRm9Va0ZEWDRK</code><br>
+            <code>Z2FIRjFlM3g3U2x5R2tJVjNqMjE0ZTNiXzJ3QkRBUlFWRlIwWkhUZ2ZIemgy</code><br>
+            <code>VDBOUGRuWjJkbloyZG5aMmRuWjJkbloyZG5aMmRuWjJkbloyZG5aMmRuWjJk</code><br>
+            <code>bloyZG5aMmRuWjJkbloyZG5aMmRuWjJkbmJfd0FBUkNBQVlBR1FEQVNJQUFo</code><br>
+            <code>RUJBeEVCXzhRQUd3QUFBd0VBQXdFQUFBQUFBQUFBQUFBQUFBVUdCQUVDQXdm</code><br>
+            <code>X3hBQXlFQUFCQXdNREFnVUNBd2tBQUFBQUFBQUJBZ01FQUFVUkJoSWhFekVV</code><br>
+            <code>RlZGaGNTSkJCNEdoRmpWQ1VuT1Jzc0h4XzhRQUZRRUJBUUFBQUFBQUFBQUFB</code><br>
+            <code>QUFBQUFBQUFBSF94QUFhRVFFQkFRQURBUUFBQUFBQUFBQUFBQUFBQVVFUklU</code><br>
+            <code>RmhfOW9BREFNQkFBSVJBeEVBUHdDbHU5NGkyaU1weDlhU3ZIME5BX1VzLXdf</code><br>
+            <code>M1hucC04LWR3bHlPaDBOcmhSdDM3czhBNXpnZXRLOVI2ZmpMYnVOMGRVdGJ2</code><br>
+            <code>U3loUFpLU0FCbjM3VWZoXy01WF9BT3VmOFUwaFhlWnE4SW5PUkxmYjNweTJp</code><br>
+            <code>UW9vT08zZkdBZVBldDFpMUJIdlRibXhDbVhXdVZvVWM0SHFEVWxia3pKMV9t</code><br>
+            <code>dTZkY0VVRUVxTHBCQkJQcGc5X3dCUFd2WFRTMHRNM21NdENfSDlGWks5MlJ4</code><br>
+            <code>a0VmT1RUQy1tcjJ0VWwxMFFiYzlLWmE1VzZGWUFIcndEeDg0cDNaN3ZIdkVQ</code><br>
+            <code>eEVmY25hZHEwcTdwTlRlaHVuNVBjTjJPX3dCWHh0XzdYaG9aaFVxRGRZNVVV</code><br>
+            <code>b2RRbEc3R2NFaFF6UU43enJDTGJYMHN4MjB6Rl94N1hNQlB0bkJ5YWNYRzRN</code><br>
+            <code>VzJDdVZKSkNFanNPU1Q5Z0tnZFZXZU5abHcyWTI0bFNWRmExSEpVY2l2b1Q2</code><br>
+            <code>bzZZNDhXV2cyZUQxY1lfV21HcG45dHlrSWRkdEw2SXF6aEx1N3Y4Y1lQOTZx</code><br>
+            <code>WXo2SlVkdDlvNWJjU0ZKUHNhaTlZUnBhb3FKREx6Q3JRZ3A2YlRKQXh4alBB</code><br>
+            <code>eC1wNzB5YTFWQWdXcUFwVWQ5S0hXeUVJYkFWdDJuYmpKSXBnMzZpdm9zYkRU</code><br>
+            <code>blE2Nm5GRklUdjI0d09fWTBsamE4OFJKYVo4dTI5UllUbnI1eGs0X2xybS1z</code><br>
+            <code>bzFLeEFreDVrZU1qbmFpU29KVVNWQWRobjBySGMzcnJwbTV4MUt1VHMxdDNr</code><br>
+            <code>b1huQndlUmdrNC1SU2U5bFhsRmNBNUdhS0p5ejNLSjQtM3Z4ZF9UNnFDbmRq</code><br>
+            <code>T1B5ckpwLXplU1FseC12MTl6aFh1MmJjY0FZeGstbEZGRkxKT2prTVhKdDF3</code><br>
+            <code>ZWdsZWR3U005X3NDQ09QYXQxaTA1R3N3Y1VsYW5ubkJ0VXRReHg2QVVVVUM1</code><br>
+            <code>X1JTZXM2WU54ZWlNdThMYUNTUVI2ZHh4ODVwM1pyUkhzMFRvUjl5c25jdGF1</code><br>
+            <code>NmpSUlFZZFE2Yjg4ZVpjOFYwT2tDTWRQZG5QNWltVnh0ekZ5aEtpeVFTaFgz</code><br>
+            <code>SGRKOVJSUlQ0SjBhSVVVSlljdXo2b3FWWkRPM2dmSE9NOV90VlBEaXRRb3Jj</code><br>
+            <code>ZGhPMXRzWUFvb29GMTkwX0d2YUVGeFNtbmtjSmNUeng2RWZjVmhpYVBTbWEz</code><br>
+            <code>SnVNOTZlcHZHMUt4Z2NkZ2NrNUh0UlJTQ2xvb29vUF8yUSJd</code><a href="#appendix-D.2-23.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-23.3">Contents:
+<code>["G02NSrQfjFXQ7Io09syajA", "portrait", "_9j_4AAQSkZJRgABAQEA</code><br>
+            <code>kACQAAD_2wBDABMNDhEODBMRDxEVFBMXHTAfHRoaHToqLCMwRT1JR0Q9Q0FM</code><br>
+            <code>Vm1dTFFoUkFDX4JgaHF1e3x7SlyGkIV3j214e3b_2wBDARQVFR0ZHTgfHzh2</code><br>
+            <code>T0NPdnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2</code><br>
+            <code>dnZ2dnZ2dnb_wAARCAAYAGQDASIAAhEBAxEB_8QAGwAAAwEAAwEAAAAAAAAA</code><br>
+            <code>AAAAAAUGBAECAwf_xAAyEAABAwMDAgUCAwkAAAAAAAABAgMEAAURBhIhEzEU</code><br>
+            <code>FVFhcSJBB4GhFjVCUnORssHx_8QAFQEBAQAAAAAAAAAAAAAAAAAAAAH_xAAa</code><br>
+            <code>EQEBAQADAQAAAAAAAAAAAAAAAUERITFh_9oADAMBAAIRAxEAPwClu94i2iMp</code><br>
+            <code>x9aSvH0NA_Us-w_3Xnp-8-dwlyOh0NrhRt37s8A5zgetK9R6fjLbuN0dUtbv</code><br>
+            <code>SyhPZKSABn37Ufh_-5X_AOuf8U0hXeZq8InORLfb3py2iQooOO3fGAePet1i</code><br>
+            <code>1BHvTbmxCmXWuVoUc4HqDUlbkzJ1_mu6dcEUEEqLpBBBPpg9_wBPWvXTS0tM</code><br>
+            <code>3mMtC_H9FZK92RxkEfOTTC-mr2tUl10Qbc9KZa5W6FYAHrwDx84p3Z7vHvEP</code><br>
+            <code>xEfcnadq0q7pNTehun5PcN2O_wBXxt_7XhoZhUqDdY5UUodQlG7GcEhQzQN7</code><br>
+            <code>zrCLbX0sx20zF_x7XMBPtnByacXG4MW2CuVJJCEjsOST9gKgdVWeNZlw2Y24</code><br>
+            <code>lSVFa1HJUcivoT6o6Y48WWg2eD1cY_WmGpn9tykIddtL6IqzhLu7v8cYP96q</code><br>
+            <code>Yz6JUdt9o5bcSFJPsai9YRpaoqJDLzCrQgp6bTJAxxjPAx-p70ya1VAgWqAp</code><br>
+            <code>Ud9KHWyEIbAVt2nbjJIpg36ivosbDTnQ66nFFITv24wO_Y0lja88RJaZ8u29</code><br>
+            <code>RYTnr5xk4_lrm-so1KxAkx5keMjnaiSoJUSVAdhn0rHc3rrpm5x1KuTs1t3k</code><br>
+            <code>oXnBweRgk4-RSe9lXlFcA5GaKJyz3KJ4-3vxd_T6qCndjOPyrJp-zeSQlx-v</code><br>
+            <code>19zhXu2bccAYxk-lFFFLJOjkMXJt1wegledwSM9_sCCOPat1i05GswcUlann</code><br>
+            <code>nBtUtQxx6AUUUC5_RSes6YNxeiMu8LaCSQR6dxx85p3ZrRHs0ToR9ysnctau</code><br>
+            <code>6jRRQYdQ6b88eZc8V0OkCMdPdnP5imVxtzFyhKiyQShX3HdJ9RRRT4J0aIUU</code><br>
+            <code>JYcuz6oqVZDO3gfHOM9_tVPDitQorcdhO1tsYAoooF190_GvaEFxSmnkcJcT</code><br>
+            <code>zx6EfcVhiaPSma3JuM96epvG1Kxgcdgck5HtRRSClooooP_2Q"]</code><a href="#appendix-D.2-23.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-24"><strong>Claim <code>driving_privileges</code></strong>:<a href="#appendix-D.2-24" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-25.1">SHA-256 Hash: <code>eehuQwYayNIsVQCHO8IKuEszkBeztIgnXy93UKDv-4w</code><a href="#appendix-D.2-25.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-25.2">Disclosure:<br>
+            <code>WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImRyaXZpbmdfcHJpdmlsZWdl</code><br>
+            <code>cyIsIFt7ImV4cGlyeV9kYXRlIjogIjIwMjQtMTAtMjAiLCAiaXNzdWVfZGF0</code><br>
+            <code>ZSI6ICIyMDE4LTA4LTA5IiwgInZlaGljbGVfY2F0ZWdvcnlfY29kZSI6ICJB</code><br>
+            <code>In0sIHsiZXhwaXJ5X2RhdGUiOiAiMjAyNC0xMC0yMCIsICJpc3N1ZV9kYXRl</code><br>
+            <code>IjogIjIwMTctMDItMjAiLCAidmVoaWNsZV9jYXRlZ29yeV9jb2RlIjogIkIi</code><br>
+            <code>fV1d</code><a href="#appendix-D.2-25.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-25.3">Contents:
+<code>["lklxF5jMYlGTPUovMNIvCA", "driving_privileges",</code><br>
+            <code>[{"expiry_date": "2024-10-20", "issue_date": "2018-08-09",</code><br>
+            <code>"vehicle_category_code": "A"}, {"expiry_date": "2024-10-20",</code><br>
+            <code>"issue_date": "2017-02-20", "vehicle_category_code": "B"}]]</code><a href="#appendix-D.2-25.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-26"><strong>Claim <code>birth_date</code></strong>:<a href="#appendix-D.2-26" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-27.1">SHA-256 Hash: <code>yVuhdh2mfS0kq8nlQt2_3_Jz7DJeUytBKBucScf3IrI</code><a href="#appendix-D.2-27.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-27.2">Disclosure:<br>
+            <code>WyJuUHVvUW5rUkZxM0JJZUFtN0FuWEZBIiwgImJpcnRoX2RhdGUiLCAiMTk4</code><br>
+            <code>MC0wMi0wNSJd</code><a href="#appendix-D.2-27.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-27.3">Contents:
+<code>["nPuoQnkRFq3BIeAm7AnXFA", "birth_date", "1980-02-05"]</code><a href="#appendix-D.2-27.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-28"><strong>Claim <code>issuing_authority</code></strong>:<a href="#appendix-D.2-28" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-29.1">SHA-256 Hash: <code>_i95RfpjtN4HgkfZwRjHP5EIfUNIc7nC-QrdhRdGxS0</code><a href="#appendix-D.2-29.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-29.2">Disclosure:<br>
+            <code>WyI1YlBzMUlxdVpOYTBoa2FGenp6Wk53IiwgImlzc3VpbmdfYXV0aG9yaXR5</code><br>
+            <code>IiwgIlV0b3BpYSJd</code><a href="#appendix-D.2-29.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-29.3">Contents:
+<code>["5bPs1IquZNa0hkaFzzzZNw", "issuing_authority", "Utopia"]</code><a href="#appendix-D.2-29.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-30"><strong>Claim <code>un_distinguishing_sign</code></strong>:<a href="#appendix-D.2-30" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-31.1">SHA-256 Hash: <code>MMwJbpZWZprdHLTW3hXmwZeaUh0VSe75SsBebvn-f5E</code><a href="#appendix-D.2-31.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-31.2">Disclosure:<br>
+            <code>WyI1YTJXMF9OcmxFWnpmcW1rXzdQcS13IiwgInVuX2Rpc3Rpbmd1aXNoaW5n</code><br>
+            <code>X3NpZ24iLCBudWxsXQ</code><a href="#appendix-D.2-31.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-31.3">Contents:
+<code>["5a2W0_NrlEZzfqmk_7Pq-w", "un_distinguishing_sign", null]</code><a href="#appendix-D.2-31.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-32"><strong>Claim <code>age_over_21</code></strong>:<a href="#appendix-D.2-32" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.2-33.1">SHA-256 Hash: <code>7MRyy3gq1pbJc89Yp6LKDPnq0E5VZHbR9qJZXWcPn_A</code><a href="#appendix-D.2-33.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-33.2">Disclosure:<br>
+            <code>WyJ5MXNWVTV3ZGZKYWhWZGd3UGdTN1JRIiwgImFnZV9vdmVyXzIxIiwgdHJ1</code><br>
+            <code>ZV0</code><a href="#appendix-D.2-33.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.2-33.3">Contents:
+<code>["y1sVU5wdfJahVdgwPgS7RQ", "age_over_21", true]</code><a href="#appendix-D.2-33.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.2-34">An SD-JWT Presentation that discloses only <code>nameSpace</code>, <code>issuing_authority</code>, and
+<code>issuing_country</code>, and has a Key Binding JWT, could look as follows:<a href="#appendix-D.2-34" class="pilcrow">¶</a></p>
+<div class="lang-txt sourcecode" id="appendix-D.2-35">
+<pre>eyJhbGciOiAiRVMyNTYifQ.eyJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbSIsICJpY
+XQiOiAxNjgzMDAwMDAwLCAiZXhwIjogMTg4MzAwMDAwMCwgImRvY1R5cGUiOiAib3JnL
+mlzby4xODAxMy41LjEubURMIiwgInZlcnNpb24iOiAiMS4wIiwgInZhbGlkaXR5SW5mb
+yI6IHsic2lnbmVkIjogIjIwMjItMDQtMTVUMDY6MjM6NTZaIiwgInZhbGlkRnJvbSI6I
+CIyMDIyLTA0LTE1VDA2OjIzOjU2WiIsICJ2YWxpZFVudGlsIjogIjIwMjctMDEtMDJUM
+DA6MDA6MDBaIn0sICJuYW1lU3BhY2VzIjogeyJfc2QiOiBbIjZ1bHpVc3hYWUlyUEwyc
+k0yd1hTOEFPMHVxT0RQX2xsSXMxNEJoa1NHYmciLCAiN01SeXkzZ3ExcGJKYzg5WXA2T
+EtEUG5xMEU1VlpIYlI5cUpaWFdjUG5fQSIsICI5WmR0UV8tZ2FuV0g5UHFjc1pVTldCZ
+FBFWHBscG95UEhPbTB5Q25veTdzIiwgIkRZUk1KT09iZm91SVlfcXRsaHlNMElvRjd0e
+GtrdXNjQV80ek5TaHFJenciLCAiSDZiTFpGaHlrVk1WNkJQWGN5MHVuOUJIcjQxcnQ4b
+EdLa2U1RWl5eWc3ZyIsICJNTXdKYnBaV1pwcmRITFRXM2hYbXdaZWFVaDBWU2U3NVNzQ
+mVidm4tZjVFIiwgIl9pOTVSZnBqdE40SGdrZlp3UmpIUDVFSWZVTkljN25DLVFyZGhSZ
+Ed4UzAiLCAiYjNqTFJoeld5ZjJaMzJvRlpjOVAyUEhlX3ZjRm0xWmdqcFpZYW1JU2RIb
+yIsICJkQ0N5M0Z5bThGdDVKOG5aLXhrRGJIT1JCTTRyZzBLbFRxRTlRTkFmcE9jIiwgI
+mVlaHVRd1lheU5Jc1ZRQ0hPOElLdUVzemtCZXp0SWduWHk5M1VLRHYtNHciLCAic2VYU
+GRXb0g4czZ4R05XTlZQM0N6OXdycXhsN2pKMlkzWXhWTXUyVkFsWSIsICJ2M0lWTjl5a
+nVCZ1R3MWYwcFlsXzBwLXZCUnNsRWZkaDEzX2RVR0pqQ0UwIiwgInlWdWhkaDJtZlMwa
+3E4bmxRdDJfM19KejdESmVVeXRCS0J1Y1NjZjNJckkiXX0sICJfc2RfYWxnIjogInNoY
+S0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiL
+CAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jI
+iwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaU
+SJ9fX0.fdVYgUO8m8WA71dateuvni3BsqFAwjjF_t7Ele4wxVkrLwd-HQM-yst2A1vXx
+wjz6adUbrpUV9GY02mIcys-JA~eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImtiK2p3dC
+J9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY
+29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTU5NzczMzV9.IpcRXFPFrtifriEK5yupIhtl
+YR63YFocZ8zdZSn6RzPJJr_GTFYCPir4oLJ1BWZF3MZDUawaLNQmI8-2QyplBg
+</pre><a href="#appendix-D.2-35" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.2-36">After the validation, the Verifier (mDL reader) will have the following data for
+further processing:<a href="#appendix-D.2-36" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-D.2-37">
+<pre>{
+  "iss": "https://example.com",
+  "iat": 1683000000,
+  "exp": 1883000000,
+  "docType": "org.iso.18013.5.1.mDL",
+  "version": "1.0",
+  "validityInfo": {
+    "signed": "2022-04-15T06:23:56Z",
+    "validFrom": "2022-04-15T06:23:56Z",
+    "validUntil": "2027-01-02T00:00:00Z"
+  },
+  "nameSpaces": {},
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}
+</pre><a href="#appendix-D.2-37" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="arf-pid">
+<section id="appendix-D.3">
+        <h3 id="name-arf-pid">
+<a href="#appendix-D.3" class="section-number selfRef">D.3. </a><a href="#name-arf-pid" class="section-name selfRef">ARF PID</a>
+        </h3>
+<p id="appendix-D.3-1">In this example, SD-JWT VC is used to express Person Identification Data (PID)
+as defined in <span>[<a href="#EUDIW.ARF" class="cite xref">EUDIW.ARF</a>]</span>.<a href="#appendix-D.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-D.3-2">Key Binding is applied using the Holder's public key passed in a <code>cnf</code> claim in
+the SD-JWT.<a href="#appendix-D.3-2" class="pilcrow">¶</a></p>
+<p id="appendix-D.3-3">The Issuer is using the following input claim set:<a href="#appendix-D.3-3" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-D.3-4">
+<pre>{
+  "iss": "https://pid-provider.memberstate.example.eu",
+  "iat": 1541493724,
+  "type": "PersonIdentificationData",
+  "first_name": "Erika",
+  "family_name": "Mustermann",
+  "nationalities": [
+    "DE"
+  ],
+  "birth_family_name": "Schmidt",
+  "birthdate": "1973-01-01",
+  "address": {
+    "postal_code": "12345",
+    "locality": "Irgendwo",
+    "street_address": "Sonnenstrasse 23",
+    "country_code": "DE"
+  },
+  "is_over_18": true,
+  "is_over_21": true,
+  "is_over_65": false
+}
+</pre><a href="#appendix-D.3-4" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.3-5">The following payload is used for the SD-JWT:<a href="#appendix-D.3-5" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-D.3-6">
+<pre>{
+  "_sd": [
+    "09TbSuo12i2CqZbg31AFgbGy_UnMIXIHoMjsELpukqg",
+    "0n9yzFSWvK_BUHiaMhm12ghrCtVahrGJ6_-kZP-ySq4",
+    "4VoA3a1VmPxmdC8WIn3pOqQf3gfOVOvDYsN5E5R5Kd0",
+    "5A88AmauAao-QANao95CYUkUPNTid_gAK8aYtZ9RZwc",
+    "910byr3UVRqRzQoPzBsc20m-eMgpZAhLN6z8NoGF5mc",
+    "Ch-DBcL3kb4VbHIwtknnZdNUHthEq9MZjoFdg6idiho",
+    "I00fcFUoDXCucp5yy2ujqPssDVGaWNiUliNz_awD0gc",
+    "X9MaPaFWmQYpfHEdytRdaclnYoEru8EztBEUQuWOe44",
+    "Y1urWJV_-HBGnSf9tFOwvH4cICRBCiKwEHfkXFSfjpo",
+    "rNhKoraaq--x7BWWIVhbGXu1XXXLM8ivZXD3m2FZMgs",
+    "xpsq6cxQHDsOnZWhrqBckTkOM_efElUnDFXOFmowLSE",
+    "zU452lkGbEKh8ZuH_8Kx3CUvn1F4y1gZLqlDTgX_8Pk"
+  ],
+  "iss": "https://pid-provider.memberstate.example.eu",
+  "iat": 1541493724,
+  "exp": 1883000000,
+  "type": "PersonIdentificationData",
+  "_sd_alg": "sha-256",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  }
+}
+</pre><a href="#appendix-D.3-6" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.3-7">The following is the issued SD-JWT:<a href="#appendix-D.3-7" class="pilcrow">¶</a></p>
+<div class="lang-txt sourcecode" id="appendix-D.3-8">
+<pre>eyJhbGciOiAiRVMyNTYifQ.eyJfc2QiOiBbIjA5VGJTdW8xMmkyQ3FaYmczMUFGZ2JHe
+V9Vbk1JWElIb01qc0VMcHVrcWciLCAiMG45eXpGU1d2S19CVUhpYU1obTEyZ2hyQ3RWY
+WhyR0o2Xy1rWlAteVNxNCIsICI0Vm9BM2ExVm1QeG1kQzhXSW4zcE9xUWYzZ2ZPVk92R
+FlzTjVFNVI1S2QwIiwgIjVBODhBbWF1QWFvLVFBTmFvOTVDWVVrVVBOVGlkX2dBSzhhW
+XRaOVJad2MiLCAiOTEwYnlyM1VWUnFSelFvUHpCc2MyMG0tZU1ncFpBaExONno4Tm9HR
+jVtYyIsICJDaC1EQmNMM2tiNFZiSEl3dGtublpkTlVIdGhFcTlNWmpvRmRnNmlkaWhvI
+iwgIkkwMGZjRlVvRFhDdWNwNXl5MnVqcVBzc0RWR2FXTmlVbGlOel9hd0QwZ2MiLCAiW
+DlNYVBhRldtUVlwZkhFZHl0UmRhY2xuWW9FcnU4RXp0QkVVUXVXT2U0NCIsICJZMXVyV
+0pWXy1IQkduU2Y5dEZPd3ZINGNJQ1JCQ2lLd0VIZmtYRlNmanBvIiwgInJOaEtvcmFhc
+S0teDdCV1dJVmhiR1h1MVhYWExNOGl2WlhEM20yRlpNZ3MiLCAieHBzcTZjeFFIRHNPb
+lpXaHJxQmNrVGtPTV9lZkVsVW5ERlhPRm1vd0xTRSIsICJ6VTQ1MmxrR2JFS2g4WnVIX
+zhLeDNDVXZuMUY0eTFnWkxxbERUZ1hfOFBrIl0sICJpc3MiOiAiaHR0cHM6Ly9waWQtc
+HJvdmlkZXIubWVtYmVyc3RhdGUuZXhhbXBsZS5ldSIsICJpYXQiOiAxNTQxNDkzNzI0L
+CAiZXhwIjogMTg4MzAwMDAwMCwgInR5cGUiOiAiUGVyc29uSWRlbnRpZmljYXRpb25EY
+XRhIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJjbmYiOiB7Imp3ayI6IHsia3R5IjogI
+kVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRDQUVSMTladnUzT0hGNGo0VzR2ZlNWb
+0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJaeGppV1diWk1RR0hWV0tWUTRoYlNJa
+XJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ZL2-Up_xmBKqSYOlYCJumy3ZCNC_B402-g
+g9rUVCIVhbhl81x9PUsC9Wdehc-FevJqwq0StNNXvwIEYlk79dpw~WyIyR0xDNDJzS1F
+2ZUNmR2ZyeU5STjl3IiwgImZpcnN0X25hbWUiLCAiRXJpa2EiXQ~WyJlbHVWNU9nM2dT
+TklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIk11c3Rlcm1hbm4iXQ~WyI2SWo3d
+E0tYTVpVlBHYm9TNXRtdlZBIiwgIkRFIl0~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRI
+iwgIm5hdGlvbmFsaXRpZXMiLCBbeyIuLi4iOiAiSnVMMzJRWER6aXpsLUw2Q0xyZnhma
+nBac1gzTzZ2c2ZwQ1ZkMWprd0pZZyJ9XV0~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BI
+iwgImJpcnRoX2ZhbWlseV9uYW1lIiwgIlNjaG1pZHQiXQ~WyJBSngtMDk1VlBycFR0Tj
+RRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTczLTAxLTAxIl0~WyItNmhDZVJFV3JjRW
+g0Q2JzQ2RjVTVRIiwgImFkZHJlc3MiLCB7Il9zZCI6IFsiOHo4ejlYOWpVdGI5OWdqZW
+pDd0ZBR3o0YXFsSGYtc0NxUTZlTV9xbXBVUSIsICJDeHE0ODcyVVhYbmdHVUxUX2tsOG
+Zkd1ZGa3lLNkFKZlBaTHk3TDVfMGtJIiwgImxjMk8weER4WXdiZ2M4cjJERXc3eWhfSU
+RXZXhXOENiZ3R6WVBRRlJpNGMiXSwgInBvc3RhbF9jb2RlIjogIjEyMzQ1IiwgImxvY2
+FsaXR5IjogIklyZ2VuZHdvIiwgInN0cmVldF9hZGRyZXNzIjogIlNvbm5lbnN0cmFzc2
+UgMjMiLCAiY291bnRyeV9jb2RlIjogIkRFIn1d~WyJzLXpVaXE1azFyU0dSb1hQUE5rM
+zVRIiwgImlzX292ZXJfMTgiLCB0cnVlXQ~WyJyWmJUODJ1VVJuTi1xYVRfcy1yN3l3Ii
+wgImlzX292ZXJfMjEiLCB0cnVlXQ~WyJXeFZUbkIxOGxxRlYyREEtQkx0RkhRIiwgIml
+zX292ZXJfNjUiLCBmYWxzZV0~
+</pre><a href="#appendix-D.3-8" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.3-9">The following Disclosures are created by the Issuer:<a href="#appendix-D.3-9" class="pilcrow">¶</a></p>
+<p id="appendix-D.3-10"><strong>Claim <code>first_name</code></strong>:<a href="#appendix-D.3-10" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-11.1">SHA-256 Hash: <code>Ch-DBcL3kb4VbHIwtknnZdNUHthEq9MZjoFdg6idiho</code><a href="#appendix-D.3-11.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-11.2">Disclosure:<br>
+            <code>WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImZpcnN0X25hbWUiLCAiRXJp</code><br>
+            <code>a2EiXQ</code><a href="#appendix-D.3-11.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-11.3">Contents:
+<code>["2GLC42sKQveCfGfryNRN9w", "first_name", "Erika"]</code><a href="#appendix-D.3-11.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-12"><strong>Claim <code>family_name</code></strong>:<a href="#appendix-D.3-12" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-13.1">SHA-256 Hash: <code>I00fcFUoDXCucp5yy2ujqPssDVGaWNiUliNz_awD0gc</code><a href="#appendix-D.3-13.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-13.2">Disclosure:<br>
+            <code>WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIk11</code><br>
+            <code>c3Rlcm1hbm4iXQ</code><a href="#appendix-D.3-13.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-13.3">Contents:
+<code>["eluV5Og3gSNII8EYnsxA_A", "family_name", "Mustermann"]</code><a href="#appendix-D.3-13.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-14"><strong>Array Entry</strong>:<a href="#appendix-D.3-14" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-15.1">SHA-256 Hash: <code>JuL32QXDzizl-L6CLrfxfjpZsX3O6vsfpCVd1jkwJYg</code><a href="#appendix-D.3-15.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-15.2">Disclosure:<br>
+            <code>WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgIkRFIl0</code><a href="#appendix-D.3-15.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-15.3">Contents:
+<code>["6Ij7tM-a5iVPGboS5tmvVA", "DE"]</code><a href="#appendix-D.3-15.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-16"><strong>Claim <code>nationalities</code></strong>:<a href="#appendix-D.3-16" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-17.1">SHA-256 Hash: <code>zU452lkGbEKh8ZuH_8Kx3CUvn1F4y1gZLqlDTgX_8Pk</code><a href="#appendix-D.3-17.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-17.2">Disclosure:<br>
+            <code>WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgIm5hdGlvbmFsaXRpZXMiLCBb</code><br>
+            <code>eyIuLi4iOiAiSnVMMzJRWER6aXpsLUw2Q0xyZnhmanBac1gzTzZ2c2ZwQ1Zk</code><br>
+            <code>MWprd0pZZyJ9XV0</code><a href="#appendix-D.3-17.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-17.3">Contents:
+<code>["eI8ZWm9QnKPpNPeNenHdhQ", "nationalities", [{"...":</code><br>
+            <code>"JuL32QXDzizl-L6CLrfxfjpZsX3O6vsfpCVd1jkwJYg"}]]</code><a href="#appendix-D.3-17.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-18"><strong>Claim <code>birth_family_name</code></strong>:<a href="#appendix-D.3-18" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-19.1">SHA-256 Hash: <code>X9MaPaFWmQYpfHEdytRdaclnYoEru8EztBEUQuWOe44</code><a href="#appendix-D.3-19.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-19.2">Disclosure:<br>
+            <code>WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImJpcnRoX2ZhbWlseV9uYW1l</code><br>
+            <code>IiwgIlNjaG1pZHQiXQ</code><a href="#appendix-D.3-19.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-19.3">Contents:
+<code>["Qg_O64zqAxe412a108iroA", "birth_family_name", "Schmidt"]</code><a href="#appendix-D.3-19.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-20"><strong>Claim <code>birthdate</code></strong>:<a href="#appendix-D.3-20" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-21.1">SHA-256 Hash: <code>0n9yzFSWvK_BUHiaMhm12ghrCtVahrGJ6_-kZP-ySq4</code><a href="#appendix-D.3-21.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-21.2">Disclosure:<br>
+            <code>WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTcz</code><br>
+            <code>LTAxLTAxIl0</code><a href="#appendix-D.3-21.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-21.3">Contents:
+<code>["AJx-095VPrpTtN4QMOqROA", "birthdate", "1973-01-01"]</code><a href="#appendix-D.3-21.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-22"><strong>Claim <code>address</code></strong>:<a href="#appendix-D.3-22" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-23.1">SHA-256 Hash: <code>Y1urWJV_-HBGnSf9tFOwvH4cICRBCiKwEHfkXFSfjpo</code><a href="#appendix-D.3-23.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-23.2">Disclosure:<br>
+            <code>WyItNmhDZVJFV3JjRWg0Q2JzQ2RjVTVRIiwgImFkZHJlc3MiLCB7Il9zZCI6</code><br>
+            <code>IFsiOHo4ejlYOWpVdGI5OWdqZWpDd0ZBR3o0YXFsSGYtc0NxUTZlTV9xbXBV</code><br>
+            <code>USIsICJDeHE0ODcyVVhYbmdHVUxUX2tsOGZkd1ZGa3lLNkFKZlBaTHk3TDVf</code><br>
+            <code>MGtJIiwgImxjMk8weER4WXdiZ2M4cjJERXc3eWhfSURXZXhXOENiZ3R6WVBR</code><br>
+            <code>RlJpNGMiXSwgInBvc3RhbF9jb2RlIjogIjEyMzQ1IiwgImxvY2FsaXR5Ijog</code><br>
+            <code>IklyZ2VuZHdvIiwgInN0cmVldF9hZGRyZXNzIjogIlNvbm5lbnN0cmFzc2Ug</code><br>
+            <code>MjMiLCAiY291bnRyeV9jb2RlIjogIkRFIn1d</code><a href="#appendix-D.3-23.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-23.3">Contents:
+<code>["-6hCeREWrcEh4CbsCdcU5Q", "address", {"_sd":</code><br>
+            <code>["8z8z9X9jUtb99gjejCwFAGz4aqlHf-sCqQ6eM_qmpUQ",</code><br>
+            <code>"Cxq4872UXXngGULT_kl8fdwVFkyK6AJfPZLy7L5_0kI",</code><br>
+            <code>"lc2O0xDxYwbgc8r2DEw7yh_IDWexW8CbgtzYPQFRi4c"],</code><br>
+            <code>"postal_code": "12345", "locality": "Irgendwo",</code><br>
+            <code>"street_address": "Sonnenstrasse 23", "country_code": "DE"}]</code><a href="#appendix-D.3-23.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-24"><strong>Claim <code>is_over_18</code></strong>:<a href="#appendix-D.3-24" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-25.1">SHA-256 Hash: <code>rNhKoraaq--x7BWWIVhbGXu1XXXLM8ivZXD3m2FZMgs</code><a href="#appendix-D.3-25.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-25.2">Disclosure:<br>
+            <code>WyJzLXpVaXE1azFyU0dSb1hQUE5rMzVRIiwgImlzX292ZXJfMTgiLCB0cnVl</code><br>
+            <code>XQ</code><a href="#appendix-D.3-25.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-25.3">Contents:
+<code>["s-zUiq5k1rSGRoXPPNk35Q", "is_over_18", true]</code><a href="#appendix-D.3-25.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-26"><strong>Claim <code>is_over_21</code></strong>:<a href="#appendix-D.3-26" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-27.1">SHA-256 Hash: <code>09TbSuo12i2CqZbg31AFgbGy_UnMIXIHoMjsELpukqg</code><a href="#appendix-D.3-27.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-27.2">Disclosure:<br>
+            <code>WyJyWmJUODJ1VVJuTi1xYVRfcy1yN3l3IiwgImlzX292ZXJfMjEiLCB0cnVl</code><br>
+            <code>XQ</code><a href="#appendix-D.3-27.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-27.3">Contents:
+<code>["rZbT82uURnN-qaT_s-r7yw", "is_over_21", true]</code><a href="#appendix-D.3-27.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-28"><strong>Claim <code>is_over_65</code></strong>:<a href="#appendix-D.3-28" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-29.1">SHA-256 Hash: <code>910byr3UVRqRzQoPzBsc20m-eMgpZAhLN6z8NoGF5mc</code><a href="#appendix-D.3-29.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-29.2">Disclosure:<br>
+            <code>WyJXeFZUbkIxOGxxRlYyREEtQkx0RkhRIiwgImlzX292ZXJfNjUiLCBmYWxz</code><br>
+            <code>ZV0</code><a href="#appendix-D.3-29.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-29.3">Contents:
+<code>["WxVTnB18lqFV2DA-BLtFHQ", "is_over_65", false]</code><a href="#appendix-D.3-29.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-30">The following decoy digests are added:<a href="#appendix-D.3-30" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-D.3-31.1">
+            <code>8z8z9X9jUtb99gjejCwFAGz4aqlHf-sCqQ6eM_qmpUQ</code><a href="#appendix-D.3-31.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-31.2">
+            <code>Cxq4872UXXngGULT_kl8fdwVFkyK6AJfPZLy7L5_0kI</code><a href="#appendix-D.3-31.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-31.3">
+            <code>lc2O0xDxYwbgc8r2DEw7yh_IDWexW8CbgtzYPQFRi4c</code><a href="#appendix-D.3-31.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-31.4">
+            <code>5A88AmauAao-QANao95CYUkUPNTid_gAK8aYtZ9RZwc</code><a href="#appendix-D.3-31.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-31.5">
+            <code>xpsq6cxQHDsOnZWhrqBckTkOM_efElUnDFXOFmowLSE</code><a href="#appendix-D.3-31.5" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="appendix-D.3-31.6">
+            <code>4VoA3a1VmPxmdC8WIn3pOqQf3gfOVOvDYsN5E5R5Kd0</code><a href="#appendix-D.3-31.6" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="appendix-D.3-32">The following is how a presentation of the SD-JWT with a Key Binding JWT that
+discloses only nationality and the fact that the person is over 18 years old
+could look like:<a href="#appendix-D.3-32" class="pilcrow">¶</a></p>
+<div class="lang-txt sourcecode" id="appendix-D.3-33">
+<pre>eyJhbGciOiAiRVMyNTYifQ.eyJfc2QiOiBbIjA5VGJTdW8xMmkyQ3FaYmczMUFGZ2JHe
+V9Vbk1JWElIb01qc0VMcHVrcWciLCAiMG45eXpGU1d2S19CVUhpYU1obTEyZ2hyQ3RWY
+WhyR0o2Xy1rWlAteVNxNCIsICI0Vm9BM2ExVm1QeG1kQzhXSW4zcE9xUWYzZ2ZPVk92R
+FlzTjVFNVI1S2QwIiwgIjVBODhBbWF1QWFvLVFBTmFvOTVDWVVrVVBOVGlkX2dBSzhhW
+XRaOVJad2MiLCAiOTEwYnlyM1VWUnFSelFvUHpCc2MyMG0tZU1ncFpBaExONno4Tm9HR
+jVtYyIsICJDaC1EQmNMM2tiNFZiSEl3dGtublpkTlVIdGhFcTlNWmpvRmRnNmlkaWhvI
+iwgIkkwMGZjRlVvRFhDdWNwNXl5MnVqcVBzc0RWR2FXTmlVbGlOel9hd0QwZ2MiLCAiW
+DlNYVBhRldtUVlwZkhFZHl0UmRhY2xuWW9FcnU4RXp0QkVVUXVXT2U0NCIsICJZMXVyV
+0pWXy1IQkduU2Y5dEZPd3ZINGNJQ1JCQ2lLd0VIZmtYRlNmanBvIiwgInJOaEtvcmFhc
+S0teDdCV1dJVmhiR1h1MVhYWExNOGl2WlhEM20yRlpNZ3MiLCAieHBzcTZjeFFIRHNPb
+lpXaHJxQmNrVGtPTV9lZkVsVW5ERlhPRm1vd0xTRSIsICJ6VTQ1MmxrR2JFS2g4WnVIX
+zhLeDNDVXZuMUY0eTFnWkxxbERUZ1hfOFBrIl0sICJpc3MiOiAiaHR0cHM6Ly9waWQtc
+HJvdmlkZXIubWVtYmVyc3RhdGUuZXhhbXBsZS5ldSIsICJpYXQiOiAxNTQxNDkzNzI0L
+CAiZXhwIjogMTg4MzAwMDAwMCwgInR5cGUiOiAiUGVyc29uSWRlbnRpZmljYXRpb25EY
+XRhIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJjbmYiOiB7Imp3ayI6IHsia3R5IjogI
+kVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRDQUVSMTladnUzT0hGNGo0VzR2ZlNWb
+0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJaeGppV1diWk1RR0hWV0tWUTRoYlNJa
+XJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ZL2-Up_xmBKqSYOlYCJumy3ZCNC_B402-g
+g9rUVCIVhbhl81x9PUsC9Wdehc-FevJqwq0StNNXvwIEYlk79dpw~WyJzLXpVaXE1azF
+yU0dSb1hQUE5rMzVRIiwgImlzX292ZXJfMTgiLCB0cnVlXQ~WyJlSThaV205UW5LUHBO
+UGVOZW5IZGhRIiwgIm5hdGlvbmFsaXRpZXMiLCBbeyIuLi4iOiAiSnVMMzJRWER6aXps
+LUw2Q0xyZnhmanBac1gzTzZ2c2ZwQ1ZkMWprd0pZZyJ9XV0~WyI2SWo3dE0tYTVpVlBH
+Ym9TNXRtdlZBIiwgIkRFIl0~eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9
+.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29
+tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTU5NzczMzV9.Ar2vaX-3AIOZ4gSOoO70-zkK-6
+oG3JjK5icDzhwv_viXh2sfDt_7pSeD4N4Sh_7Mvr6gGyph1eRnRPvfId7ecQ
+</pre><a href="#appendix-D.3-33" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.3-34">The following is the payload of a corresponding Key Binding JWT:<a href="#appendix-D.3-34" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-D.3-35">
+<pre>{
+  "nonce": "1234567890",
+  "aud": "https://example.com/verifier",
+  "iat": 1695977335
+}
+</pre><a href="#appendix-D.3-35" class="pilcrow">¶</a>
+</div>
+<p id="appendix-D.3-36">After the validation, the Verifier will have the following data for further
+processing:<a href="#appendix-D.3-36" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-D.3-37">
+<pre>{
+  "iss": "https://pid-provider.memberstate.example.eu",
+  "iat": 1541493724,
+  "exp": 1883000000,
+  "type": "PersonIdentificationData",
+  "cnf": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc",
+      "y": "ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ"
+    }
+  },
+  "is_over_18": true,
+  "nationalities": [
+    "DE"
+  ]
+}
+</pre><a href="#appendix-D.3-37" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-E">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Oliver Terbu</span></div>
+<div dir="auto" class="left"><span class="org">Spruce Systems, Inc.</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:oliver.terbu@spruceid.com" class="email">oliver.terbu@spruceid.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel Fett</span></div>
+<div dir="auto" class="left"><span class="org">Authlete Inc.</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:mail@danielfett.de" class="email">mail@danielfett.de</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
