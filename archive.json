@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-09-24T01:19:53.848587+00:00",
+  "timestamp": "2023-10-01T01:25:50.113910+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -12309,6 +12309,77 @@
           "createdAt": "2023-09-21T09:53:24Z",
           "updatedAt": "2023-09-21T09:53:24Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 170,
+      "id": "PR_kwDOJbVClc5bg-uE",
+      "title": "Adding examples for ARF/mDL, fixes #144",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/170",
+      "state": "OPEN",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This adds the examples previously provided for SD-JWT to this specification, with minor adaptions.\r\n\r\nSee rendered text here: https://drafts.oauth.net/oauth-sd-jwt-vc/danielfett/arf-examples/draft-ietf-oauth-sd-jwt-vc.html#name-examples-2\r\n\r\nFixes #144 ",
+      "createdAt": "2023-09-29T08:42:55Z",
+      "updatedAt": "2023-09-29T09:22:00Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "danielfett/arf-examples",
+      "headRefOid": "847a627f01c313d5424920abd1dc141338d1f151",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5iXsSB",
+          "commit": {
+            "abbreviatedOid": "3f91c50"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2023-09-29T09:10:23Z",
+          "updatedAt": "2023-09-29T09:16:39Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n  !sd given_name: Erika\r\n```",
+              "createdAt": "2023-09-29T09:10:24Z",
+              "updatedAt": "2023-09-29T09:16:39Z"
+            },
+            {
+              "originalPosition": 9,
+              "body": "Why are these not using iat, exp?",
+              "createdAt": "2023-09-29T09:12:54Z",
+              "updatedAt": "2023-09-29T09:16:39Z"
+            },
+            {
+              "originalPosition": 8,
+              "body": "Whats the use of credentialSubject here?",
+              "createdAt": "2023-09-29T09:14:41Z",
+              "updatedAt": "2023-09-29T09:16:39Z"
+            },
+            {
+              "originalPosition": 2,
+              "body": "I expect this to be the equievalent of cnf for claim-based binding. This should be a standardized claim in the spec imo.",
+              "createdAt": "2023-09-29T09:15:43Z",
+              "updatedAt": "2023-09-29T09:16:39Z"
+            },
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n      birth_date: '1973-01-01'\r\n      family_name: Mustermann\r\n      given_name: Erika\r\n```",
+              "createdAt": "2023-09-29T09:16:27Z",
+              "updatedAt": "2023-09-29T09:16:39Z"
+            }
+          ]
         }
       ]
     }
