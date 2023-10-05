@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-01T01:25:50.113910+00:00",
+  "timestamp": "2023-10-05T01:16:47.247858+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -77,6 +77,11 @@
       "name": "individual-03",
       "description": "individual-03",
       "color": "e99695"
+    },
+    {
+      "name": "wg-01",
+      "description": "wg-01 draft (target is October 23th, IETF 118 cutoff)",
+      "color": "0e8a16"
     }
   ],
   "issues": [
@@ -2110,15 +2115,16 @@
       "state": "OPEN",
       "author": "peppelinux",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "danielfett"
+      ],
       "labels": [
         "HAS PR",
-        "discuss",
-        "individual-??"
+        "discuss"
       ],
       "body": "Every entity in the OAuth/OpenID is potentially a JWT issuer, then I found the name of this endpoint misleading.\r\n\r\nConsidering that this brand new specification defines a profile for SD JWT verifiable credentials, I'd propose to change the pathname to\r\n\r\n.well-known/vc-jwt-issuer\r\n ",
       "createdAt": "2023-05-25T22:30:38Z",
-      "updatedAt": "2023-07-18T16:54:06Z",
+      "updatedAt": "2023-10-04T11:37:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -2303,7 +2309,7 @@
       "id": "I_kwDOJbVClc5m86Tt",
       "title": "Add support for JWT without SD",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/102",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "awoie",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -2314,8 +2320,8 @@
       ],
       "body": "Ideally, we have one spec for SD-JWT VC and JWT VC. This issue is about adding support for vanilla JWTs.",
       "createdAt": "2023-05-26T09:23:57Z",
-      "updatedAt": "2023-07-18T16:55:16Z",
-      "closedAt": null,
+      "updatedAt": "2023-10-04T11:36:05Z",
+      "closedAt": "2023-10-04T11:36:04Z",
       "comments": [
         {
           "author": "mprorock",
@@ -2351,6 +2357,13 @@
           "body": "Seems like this was merged / should be closed.... We should address the spec title next (in an other issue)",
           "createdAt": "2023-06-27T16:06:47Z",
           "updatedAt": "2023-06-27T16:06:47Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this issue as it has been addressed.",
+          "createdAt": "2023-10-04T11:36:05Z",
+          "updatedAt": "2023-10-04T11:36:05Z"
         }
       ]
     },
@@ -2594,15 +2607,15 @@
       "author": "andresuribe87",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
-        "tlodderstedt"
+        "awoie"
       ],
       "labels": [
-        "individual-01",
-        "NEEDS PR"
+        "NEEDS PR",
+        "wg-01"
       ],
       "body": "Mechanisms to go from `iss` -> cryptographic public key that can be used for signature verification seem to be out of scope for this document. Why is it included? ",
       "createdAt": "2023-05-26T21:37:48Z",
-      "updatedAt": "2023-07-18T16:55:17Z",
+      "updatedAt": "2023-10-04T11:35:31Z",
       "closedAt": null,
       "comments": [
         {
@@ -2639,6 +2652,13 @@
           "body": "@tlodderstedt This question came up a couple of times already. Can you please provide a PR with some considerations along the lines of what you said above for inclusion in the spec?",
           "createdAt": "2023-06-22T10:02:33Z",
           "updatedAt": "2023-06-22T10:02:33Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "related to #168 ",
+          "createdAt": "2023-10-04T11:35:31Z",
+          "updatedAt": "2023-10-04T11:35:31Z"
         }
       ]
     },
@@ -2740,12 +2760,11 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "NEEDS PR",
-        "individual-??"
+        "NEEDS PR"
       ],
       "body": "If SD-JWT holder binding is focusing on key (device/wallet) binding in terms of cloning/replay protection, we will need some mechanism to define how we want to communicate how the holder was authenticated if certain claims are presented to verifiers. To verifiers it will be also interesting to understand the confidence (ISO 23220-5) / assurance levels (eIDAS) especially if credentials and wallets support multiple levels. This information could be conveyed by another claim, or it could be just some annotations in form of new members of the specific `cnf` method.\r\n\r\nFor example:\r\n\r\n```\r\n\"cnf\": {\r\n  \"jwk\": {\r\n     ... JWK members ...,\r\n     \"trust_framework\": \"some-ecosystem\",\r\n     \"profile\": \"some-configuration-type\"\r\n  }\r\n}\r\n```\r\n\r\nVS something like the following ...\r\n\r\n```\r\n\"cnf\": {\r\n  \"jwk\": {\r\n     ... JWK members ...\r\n  }\r\n},\r\n\"holder_authentication\": {\r\n  \"trust_framework\": \"some-ecosystem\",\r\n  \"profile\": \"some-configuration-type\"\r\n}\r\n\r\n```\r\n\r\nIMO, it makes no sense to provide the authenticator assertion directly to the verifier. ",
       "createdAt": "2023-06-07T17:37:11Z",
-      "updatedAt": "2023-06-22T10:09:58Z",
+      "updatedAt": "2023-10-04T11:33:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -2853,10 +2872,12 @@
       "author": "alenhorvat",
       "authorAssociation": "NONE",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "question"
+      ],
       "body": "<img width=\"591\" alt=\"image\" src=\"https://github.com/vcstuff/draft-terbu-sd-jwt-vc/assets/10848802/48c0ead3-3657-4cf5-8380-6bcb6063ce08\">\r\n\r\nAll the claims need to be present, along with the @context.\r\n\r\nWould this be a valid SD-JWT-VC?",
       "createdAt": "2023-06-09T15:18:28Z",
-      "updatedAt": "2023-06-10T12:19:31Z",
+      "updatedAt": "2023-10-04T11:59:58Z",
       "closedAt": null,
       "comments": [
         {
@@ -2900,6 +2921,20 @@
           "body": "Hi @alenhorvat, \r\n\r\nyou have added a lot of information to this issue. I suggest we discuss them step by step. \r\n\r\nI would like to start with `type` vs `typ`. \r\n\r\nThe JOSE `typ` header is used to determine the structure and processing rules of the payload. The `typ` value `vc+sd-jwt` indicates \"this thing is a VC with pure JSON content following the rules defined for JWTs and it can selectively disclosed using SD-JWT + there are some more rules defined in the sd-jwt vc spec\". This `typ` value plays the same role the \"VerifiableCredential\" type values has in the VCDM. So we don't need it in the `type`.\r\n\r\nPart of the rules defined for `vc+sd-jwt` is the presence of the `type` claim. \r\n\r\n> This specification defines the JWT claim type. The type claim is used to express the type of the JSON object that is secured by the JWT. The type value MUST be a case-sensitive StringOrURI value.\r\n\r\nThis is an application type, such as \"MyEMailCredential\", so it basically tells you what end-user (or subject) claims to expect in this type of a credential. The `type` value is especially important for presentation requests, as it used to determine the kind of credential that is being requested and it also determines what claims can be used to filter matching credentials and those claims can also be selectively disclosed. \r\n\r\nTo me, the `type` as defined in sd-jwt vc and `type` as well as `credentialSchema` that you use have a similar purpose. \r\n\r\nI have a couple of questions to that end: \r\n\r\n1. Can you shed some light on why you use both, `type` and `credentialSchema`? The reason why I'm asking is, I assume the schema could be derived from the type value or the type value could even be the schema URL. \r\n2. Can you please share examples of credentials where you use two or more type values in addition to the \"VerifiableCredential\". The reason I'm asking is, in my observation VCs typically have the \"VerifiableCredential\" value plus another application specific type. As \"VerifiableCredential\" is replaced in sd-jwt vc by the `typ`value, we have come to the conclusion (for now), a String literal is enough. I'm a bit hesitant to make that an array because I think there might be unintended consequences as clashes between rules defined for the different VC types. ",
           "createdAt": "2023-06-10T12:19:31Z",
           "updatedAt": "2023-06-10T12:19:31Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@alenhorvat The example you provided is not a valid SD-JWT VC because the `type` cannot be an array. Also note, we have an existing issue to rename `type` which would have an impact on your example. In your new example, `iat` is supposed to be at the top-level and not inside the `validity` claim. Does this answer your question?\r\n\r\nIf you want to have something changed, please create a more specific issue.",
+          "createdAt": "2023-10-04T11:32:33Z",
+          "updatedAt": "2023-10-04T11:32:33Z"
+        },
+        {
+          "author": "alenhorvat",
+          "authorAssociation": "NONE",
+          "body": "No. If it cannot be mapped, it's quite an issue. Ignore the \"validity\" claim.",
+          "createdAt": "2023-10-04T11:59:57Z",
+          "updatedAt": "2023-10-04T11:59:57Z"
         }
       ]
     },
@@ -2999,12 +3034,11 @@
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [
-        "individual-01",
         "NEEDS PR"
       ],
       "body": "Data model in this document resembles to the ID Token data model as defined in OIDC (with the addition of cnf).\r\n\r\nOn the other hand, the data model is trying to follow the W3C VC data model.\r\nWhat is the benefit of this data model over the W3C VC data model (except that the claim names are different and iss can be a URI, and not an object and that JSON-LD is not supported by the data model, which basically excludes some significant use cases such as Europass that are leveraging JSON-LD for internationalization, for example)?",
       "createdAt": "2023-06-13T19:39:17Z",
-      "updatedAt": "2023-07-18T16:55:19Z",
+      "updatedAt": "2023-10-04T11:33:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -3192,14 +3226,14 @@
       "author": "danielfett",
       "authorAssociation": "MEMBER",
       "assignees": [
-        "awoie"
+        "danielfett"
       ],
       "labels": [
-        "discuss"
+        "wg-01"
       ],
       "body": "I think we should use short JWT-style names for the type and status list claims in order to show that these claims are at the core of the JWT (just like `exp`, `iss`, etc.). I therefore propose that we use `scm` (for \"scheme\", since the short form of \"type\" is already taken) and `stu` (for status list URI).",
       "createdAt": "2023-06-15T12:50:33Z",
-      "updatedAt": "2023-09-21T09:44:57Z",
+      "updatedAt": "2023-10-04T11:39:49Z",
       "closedAt": null,
       "comments": [
         {
@@ -3331,13 +3365,15 @@
       "state": "OPEN",
       "author": "alenhorvat",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "awoie"
+      ],
       "labels": [
-        "discuss"
+        "wg-01"
       ],
       "body": "Hi.\r\n\r\nDIDs, allow key rotation. Use case: legal entities/organisations/companies\r\n\r\nhttps://www.rfc-editor.org/rfc/rfc7800\r\n\r\nsays:\r\n\r\n>  By including a \"cnf\" (confirmation) claim in a JWT, the issuer of the\r\n>    JWT declares that the presenter possesses a particular key and that\r\n>    the recipient can cryptographically confirm that the presenter has\r\n>    possession of that key.  The value of the \"cnf\" claim is a JSON\r\n>    object and the members of that object identify the proof-of-\r\n>    possession key.\r\n\r\nkid can be a DID, which is legal according to the rfc7800 (The content of the \"kid\" value is application specific.)\r\n\r\n> issuer of the JWT declares that the presenter possesses a particular key\r\n\r\nCan the holder (legal entity) present the credential with a different key from the one defined in the cnf? E.g., legal entity is rotating keys every year.",
       "createdAt": "2023-06-21T08:41:28Z",
-      "updatedAt": "2023-06-23T10:10:22Z",
+      "updatedAt": "2023-10-04T11:26:16Z",
       "closedAt": null,
       "comments": [
         {
@@ -3367,6 +3403,13 @@
           "body": "Hi @awoie . Yes.\r\n\r\nYou plan to keep the requirement for the endpoint (.well-known) or (.well-known) is default you recommend, but other endpoints are possible?",
           "createdAt": "2023-06-23T10:10:22Z",
           "updatedAt": "2023-06-23T10:10:22Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Relates #168 that will explain different means of issuer key discovery and DIDs will become one informative option. We will also changed SHOULD to RECOMMEND to address this issue.",
+          "createdAt": "2023-10-04T11:26:02Z",
+          "updatedAt": "2023-10-04T11:26:02Z"
         }
       ]
     },
@@ -3456,7 +3499,7 @@
       "id": "I_kwDOJbVClc5pXjQN",
       "title": "Make section on public claims to include private claims as well",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/137",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "awoie",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -3465,8 +3508,8 @@
       ],
       "body": "Currently, we have a section about public claims. This should be either removed or it should be generalized to something like \"Additional Claims\" where it mentions additional private and public claims MAY be added.",
       "createdAt": "2023-06-21T14:47:10Z",
-      "updatedAt": "2023-08-09T08:39:25Z",
-      "closedAt": null,
+      "updatedAt": "2023-10-04T11:24:03Z",
+      "closedAt": "2023-10-04T11:24:02Z",
       "comments": [
         {
           "author": "tlodderstedt",
@@ -3474,6 +3517,13 @@
           "body": "I think this issue was already resolved. The current text is \"SD-JWTs VC can contain claims that are registered in \"JSON Web Token Claims\" registry as defined in [RFC7519], as well as public and private claims.\"",
           "createdAt": "2023-07-05T12:49:07Z",
           "updatedAt": "2023-07-05T12:49:07Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing since issue has been addressed.",
+          "createdAt": "2023-10-04T11:24:02Z",
+          "updatedAt": "2023-10-04T11:24:02Z"
         }
       ]
     },
@@ -3503,13 +3553,25 @@
       "state": "OPEN",
       "author": "c2bo",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "awoie"
+      ],
+      "labels": [
+        "wg-01"
+      ],
       "body": "There was an on-going discussion in #101 on the new metadata endpoint, but the discussion should have it's own issue (separated from the naming issue).\r\n\r\nImho, we should add a section that adds more clarity on the intended use of the endpoint introduced in this spec during verification (e.g., by making the resolution of the key using this endpoint mandatory during verification if the JWS header indicates web-based key resolution).\r\nPerhaps adding a small part to the \"Verification and Processing\" section makes sense?\r\n\r\nPrior discussion was here: https://github.com/vcstuff/draft-terbu-sd-jwt-vc/issues/101#issuecomment-1595828680",
       "createdAt": "2023-06-27T20:35:00Z",
-      "updatedAt": "2023-06-27T20:35:00Z",
+      "updatedAt": "2023-10-04T11:26:27Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Relates to #168 ",
+          "createdAt": "2023-10-04T11:23:25Z",
+          "updatedAt": "2023-10-04T11:23:25Z"
+        }
+      ]
     },
     {
       "number": 144,
@@ -3522,10 +3584,12 @@
       "assignees": [
         "danielfett"
       ],
-      "labels": [],
+      "labels": [
+        "wg-01"
+      ],
       "body": "moving @tlodderstedt's and my work on adding examples how to represent PID/EAA/mDLs as SD-JWT VC to this repo from the sd-jwt repo.\r\nEAA: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/211\r\nmDL: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/issues/144 and https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/233\r\nPID as a reference point: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/304- ",
       "createdAt": "2023-06-28T17:54:26Z",
-      "updatedAt": "2023-09-21T09:33:16Z",
+      "updatedAt": "2023-10-04T11:22:13Z",
       "closedAt": null,
       "comments": []
     },
@@ -3538,10 +3602,12 @@
       "author": "Sakurann",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "like biometrics-based binding\r\n\r\nTorsten started with this example in [this PR in sd-jwt repo](https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/210/files) but i do not think it's viable anymore: \r\n\r\n```\r\n    \"binding\":\r\n      [\r\n        {\r\n          \"type\": \"CryptographicBinding2022\",\r\n          \"cnf\":\r\n            {\r\n              \"jwk\":\r\n                {\r\n                  \"kty\": \"RSA\",\r\n                  \"n\": \"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbf\r\n                    AAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMst\r\n                    n64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_F\r\n                    DW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n9\r\n                    1CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHa\r\n                    Q-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw\",\r\n                  \"e\": \"AQAB\",\r\n                },\r\n            },\r\n        },\r\n        { \"type\": \"BiometricBinding2022\", \"template\": \"...\" },\r\n      ]\r\n```",
       "createdAt": "2023-06-28T19:25:10Z",
-      "updatedAt": "2023-06-30T07:46:31Z",
+      "updatedAt": "2023-10-04T11:21:43Z",
       "closedAt": null,
       "comments": [
         {
@@ -3564,6 +3630,13 @@
           "body": "> @awoie I created that example based on you proposal ;-)\r\n> \r\n> Have you implemented any of the proposed options? I'm asking since I have come to the conclusion that it is to pre-mature to standardize the representation of bindings. I would like to see more requirements, concrete use cases and implementations before.\r\n\r\nWe have only an implementation based on the W3C VCDM. Back then we used the binding in the VP actually. So, no, we don't have an implementation.",
           "createdAt": "2023-06-30T07:33:44Z",
           "updatedAt": "2023-06-30T07:33:44Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@Sakurann what do you want to have changed, or was this just a question and we can we close this issue?",
+          "createdAt": "2023-10-04T11:21:36Z",
+          "updatedAt": "2023-10-04T11:21:36Z"
         }
       ]
     },
@@ -3784,10 +3857,12 @@
       "author": "paulbastian",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "wg-01"
+      ],
       "body": "SD-JWT defines the KB-JWT header, SD-JWT-VC only refers to the claims. Is it necessary to reference to the SD-JWT spec for this?",
       "createdAt": "2023-08-31T09:57:45Z",
-      "updatedAt": "2023-09-08T12:40:32Z",
+      "updatedAt": "2023-10-04T11:22:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -3810,12 +3885,45 @@
       "assignees": [
         "awoie"
       ],
-      "labels": [],
+      "labels": [
+        "wg-01"
+      ],
       "body": "Show possible options like JWT Issuer Metadata, `kid` being a DID URL etc.",
       "createdAt": "2023-09-21T09:36:58Z",
-      "updatedAt": "2023-09-21T09:37:06Z",
+      "updatedAt": "2023-10-04T11:22:14Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 171,
+      "id": "I_kwDOJbVClc5y14vY",
+      "title": "How to choose `type` values for your credential format?",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/171",
+      "state": "OPEN",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "We need to give guidance in the spec on choosing `type` values for a credential format.\r\n\r\nWe need to think about collision resistance - either by a registry or something DNS-based like URIs or java package name notation.\r\n\r\nPersonal opinion: Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required for potentially large amounts of values, and we can think about extending this in the future with machine-readable information about credential format.",
+      "createdAt": "2023-10-04T18:06:38Z",
+      "updatedAt": "2023-10-04T18:19:48Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@selfissued suggestion is worth consideration: to have a registry and recommend that the type value either be a registered value or be a collision-resistant value. ",
+          "createdAt": "2023-10-04T18:16:47Z",
+          "updatedAt": "2023-10-04T18:16:47Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "body": "My suggestion would be to recommend either registering values in a registry that we create as community service and/or to use collision-resistant names, as defined at https://www.rfc-editor.org/rfc/rfc7515.html#section-2.  In particular, if we make a recommendation for using some form of collision-resistant names, we should just cite RFC 7515's definition and not create our own that is similar but different.",
+          "createdAt": "2023-10-04T18:19:48Z",
+          "updatedAt": "2023-10-04T18:19:48Z"
+        }
+      ]
     }
   ],
   "pulls": [
