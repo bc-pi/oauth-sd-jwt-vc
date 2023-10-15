@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-05T01:16:47.247858+00:00",
+  "timestamp": "2023-10-15T01:21:59.688388+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -2877,7 +2877,7 @@
       ],
       "body": "<img width=\"591\" alt=\"image\" src=\"https://github.com/vcstuff/draft-terbu-sd-jwt-vc/assets/10848802/48c0ead3-3657-4cf5-8380-6bcb6063ce08\">\r\n\r\nAll the claims need to be present, along with the @context.\r\n\r\nWould this be a valid SD-JWT-VC?",
       "createdAt": "2023-06-09T15:18:28Z",
-      "updatedAt": "2023-10-04T11:59:58Z",
+      "updatedAt": "2023-10-14T16:49:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -2935,6 +2935,13 @@
           "body": "No. If it cannot be mapped, it's quite an issue. Ignore the \"validity\" claim.",
           "createdAt": "2023-10-04T11:59:57Z",
           "updatedAt": "2023-10-04T11:59:57Z"
+        },
+        {
+          "author": "peacekeeper",
+          "authorAssociation": "NONE",
+          "body": "> I guess \"credentialSubject\" is intended to be used for holder binding.\r\n\r\n> credentialSubject contains domain-specific claims about the subject (name, ...)\r\n\r\nThis example also uses \"credentialSubject\": https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-04#name-example-4a-w3c-verifiable-c",
+          "createdAt": "2023-10-14T16:49:39Z",
+          "updatedAt": "2023-10-14T16:49:39Z"
         }
       ]
     },
@@ -3906,7 +3913,7 @@
       "labels": [],
       "body": "We need to give guidance in the spec on choosing `type` values for a credential format.\r\n\r\nWe need to think about collision resistance - either by a registry or something DNS-based like URIs or java package name notation.\r\n\r\nPersonal opinion: Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required for potentially large amounts of values, and we can think about extending this in the future with machine-readable information about credential format.",
       "createdAt": "2023-10-04T18:06:38Z",
-      "updatedAt": "2023-10-04T18:19:48Z",
+      "updatedAt": "2023-10-14T03:55:26Z",
       "closedAt": null,
       "comments": [
         {
@@ -3922,6 +3929,13 @@
           "body": "My suggestion would be to recommend either registering values in a registry that we create as community service and/or to use collision-resistant names, as defined at https://www.rfc-editor.org/rfc/rfc7515.html#section-2.  In particular, if we make a recommendation for using some form of collision-resistant names, we should just cite RFC 7515's definition and not create our own that is similar but different.",
           "createdAt": "2023-10-04T18:19:48Z",
           "updatedAt": "2023-10-04T18:19:48Z"
+        },
+        {
+          "author": "peacekeeper",
+          "authorAssociation": "NONE",
+          "body": "> How to choose type values\r\n\r\n> Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required\r\n\r\nSounds a bit like you are re-inventing (parts of) JSON-LD :)",
+          "createdAt": "2023-10-14T03:55:25Z",
+          "updatedAt": "2023-10-14T03:55:25Z"
         }
       ]
     }
@@ -12432,7 +12446,7 @@
       "labels": [],
       "body": "This adds the examples previously provided for SD-JWT to this specification, with minor adaptions.\r\n\r\nSee rendered text here: https://drafts.oauth.net/oauth-sd-jwt-vc/danielfett/arf-examples/draft-ietf-oauth-sd-jwt-vc.html#name-examples-2\r\n\r\nFixes #144 ",
       "createdAt": "2023-09-29T08:42:55Z",
-      "updatedAt": "2023-09-29T09:22:00Z",
+      "updatedAt": "2023-10-14T20:53:57Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
@@ -12443,7 +12457,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "peacekeeper",
+          "authorAssociation": "NONE",
+          "body": "Thank you for your efforts on this. Please allow some time for participants from the EBSI community to review this.",
+          "createdAt": "2023-10-14T10:41:35Z",
+          "updatedAt": "2023-10-14T10:41:35Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Fyi: To my knowledge, the examples will be split into separate PRs and will undergo some changes",
+          "createdAt": "2023-10-14T20:53:56Z",
+          "updatedAt": "2023-10-14T20:53:56Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOJbVClc5iXsSB",
