@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-15T01:21:59.688388+00:00",
+  "timestamp": "2023-10-17T01:17:23.996313+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -3913,7 +3913,7 @@
       "labels": [],
       "body": "We need to give guidance in the spec on choosing `type` values for a credential format.\r\n\r\nWe need to think about collision resistance - either by a registry or something DNS-based like URIs or java package name notation.\r\n\r\nPersonal opinion: Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required for potentially large amounts of values, and we can think about extending this in the future with machine-readable information about credential format.",
       "createdAt": "2023-10-04T18:06:38Z",
-      "updatedAt": "2023-10-14T03:55:26Z",
+      "updatedAt": "2023-10-16T12:02:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -3936,6 +3936,13 @@
           "body": "> How to choose type values\r\n\r\n> Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required\r\n\r\nSounds a bit like you are re-inventing (parts of) JSON-LD :)",
           "createdAt": "2023-10-14T03:55:25Z",
           "updatedAt": "2023-10-14T03:55:25Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > How to choose type values\r\n> \r\n> > Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required\r\n> \r\n> Sounds a bit like you are re-inventing (parts of) JSON-LD :)\r\n\r\nOnly the requirement that type might have to be a URL bit. JSON-LD is an RDF implementation and therefore has more boilerplate that is not needed that goes beyond this problem. ",
+          "createdAt": "2023-10-16T12:02:52Z",
+          "updatedAt": "2023-10-16T12:02:52Z"
         }
       ]
     }
@@ -12446,7 +12453,7 @@
       "labels": [],
       "body": "This adds the examples previously provided for SD-JWT to this specification, with minor adaptions.\r\n\r\nSee rendered text here: https://drafts.oauth.net/oauth-sd-jwt-vc/danielfett/arf-examples/draft-ietf-oauth-sd-jwt-vc.html#name-examples-2\r\n\r\nFixes #144 ",
       "createdAt": "2023-09-29T08:42:55Z",
-      "updatedAt": "2023-10-14T20:53:57Z",
+      "updatedAt": "2023-10-16T12:08:18Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
@@ -12471,6 +12478,34 @@
           "body": "Fyi: To my knowledge, the examples will be split into separate PRs and will undergo some changes",
           "createdAt": "2023-10-14T20:53:56Z",
           "updatedAt": "2023-10-14T20:53:56Z"
+        },
+        {
+          "author": "peacekeeper",
+          "authorAssociation": "NONE",
+          "body": "In all the SD-JWT VC work, why does it sometimes use \"credentialSubject\" from the VCDM, and sometimes not?",
+          "createdAt": "2023-10-16T11:45:05Z",
+          "updatedAt": "2023-10-16T11:45:05Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "In my opinion, examples with credentialSubject are deprecated",
+          "createdAt": "2023-10-16T11:57:43Z",
+          "updatedAt": "2023-10-16T11:57:43Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Fyi: To my knowledge, the examples will be split into separate PRs and will undergo some changes\r\n\r\nYes, those examples will undergo some changes.",
+          "createdAt": "2023-10-16T12:01:11Z",
+          "updatedAt": "2023-10-16T12:01:11Z"
+        },
+        {
+          "author": "peacekeeper",
+          "authorAssociation": "NONE",
+          "body": "So this means that by now, compatibility of SD-JWT VC with VCDM has been completely abandoned, right? At this point, we're faced not only with different proof formats, but also completely different data models.",
+          "createdAt": "2023-10-16T12:08:17Z",
+          "updatedAt": "2023-10-16T12:08:17Z"
         }
       ],
       "reviews": [
