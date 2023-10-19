@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-17T01:17:23.996313+00:00",
+  "timestamp": "2023-10-19T01:16:44.730138+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -3240,7 +3240,7 @@
       ],
       "body": "I think we should use short JWT-style names for the type and status list claims in order to show that these claims are at the core of the JWT (just like `exp`, `iss`, etc.). I therefore propose that we use `scm` (for \"scheme\", since the short form of \"type\" is already taken) and `stu` (for status list URI).",
       "createdAt": "2023-06-15T12:50:33Z",
-      "updatedAt": "2023-10-04T11:39:49Z",
+      "updatedAt": "2023-10-18T10:05:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -3361,6 +3361,13 @@
           "body": "@awoie \r\n\r\nI'd prefer Digital Credential Type, then `dct` but I admit that I dream a world where the parameter names are self explanatory.\r\n\r\ndog -> it's a dog\r\ntoken -> it's a token!\r\n\r\neven if we have the `iat` -> issued_at, that's good for me, but for the world I would give to my sons I would like `issued_at`.\r\nBecause once you have read it, you don't need to read the documentation, because the good semantic is self-documentationary. But coming back to the world of the conventions, I'd say\r\n\r\nthe loved ISO 18013-5 defines `docType`, and `doctype` is not so bad.\r\nfrom Digital Credential Type (or Verifiable) I'd remove the first word, so `Credential Type` since the flow is digital ...\r\n\r\n`credential_type` or `dctype` or `vctype` or whatever but  the word `type` would be good to be there ",
           "createdAt": "2023-07-31T21:26:25Z",
           "updatedAt": "2023-07-31T21:26:25Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "I plan to do a PR for this, moving to `dct`, but will wait for PRs #173 and #172  to be merged first.",
+          "createdAt": "2023-10-18T10:05:46Z",
+          "updatedAt": "2023-10-18T10:05:46Z"
         }
       ]
     },
@@ -3614,7 +3621,7 @@
       ],
       "body": "like biometrics-based binding\r\n\r\nTorsten started with this example in [this PR in sd-jwt repo](https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/210/files) but i do not think it's viable anymore: \r\n\r\n```\r\n    \"binding\":\r\n      [\r\n        {\r\n          \"type\": \"CryptographicBinding2022\",\r\n          \"cnf\":\r\n            {\r\n              \"jwk\":\r\n                {\r\n                  \"kty\": \"RSA\",\r\n                  \"n\": \"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbf\r\n                    AAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMst\r\n                    n64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_F\r\n                    DW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n9\r\n                    1CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHa\r\n                    Q-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw\",\r\n                  \"e\": \"AQAB\",\r\n                },\r\n            },\r\n        },\r\n        { \"type\": \"BiometricBinding2022\", \"template\": \"...\" },\r\n      ]\r\n```",
       "createdAt": "2023-06-28T19:25:10Z",
-      "updatedAt": "2023-10-04T11:21:43Z",
+      "updatedAt": "2023-10-18T08:56:13Z",
       "closedAt": null,
       "comments": [
         {
@@ -3644,6 +3651,13 @@
           "body": "@Sakurann what do you want to have changed, or was this just a question and we can we close this issue?",
           "createdAt": "2023-10-04T11:21:36Z",
           "updatedAt": "2023-10-04T11:21:36Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "We had a Session on this topic at IIW#37.\r\nI still support the ideas that Oliver, I and others described at RWOT#11 Holding Binding Paper.\r\n\r\nIn my opinion, the `cnf` claim is the form of binding for cryptogaphic keys.\r\nThe alternative binding mechanisms are either claim-based bindings or biometric (claim-based) binding.\r\nToday, there is no equivalent for these claim-based bindings in the SD-JWT-VC Data model and I would suggest something like `cbb` for claim-based bindings.\r\n\r\nLets take an example as a diploma. The trivial data model could look like:\r\n```json\r\n{\r\n  \"title\" : \"Master of Science in Physics\",\r\n  \"grade\" : \"excellent\",\r\n  \"given_name\" : \"Erika\",\r\n  \"family_name\" : \"Mustermann\",\r\n  \"date_of_birth\" : \"1970-01-01\"\r\n}\r\n```\r\n\r\nHowever, this does not communicate which claims are \"actually\" about the diploma and which ones the diploma issuer used to authenticate the subject and are intended for a relying party to validate user binding of the diploma. The fact that firstname, lastname and birthdate are used for \"binding\" the diploma is just common human knowledge but not explicitly communicated, the semantic meaning is missing.\r\n\r\nA simple approach therefore could be:\r\n```json\r\n{\r\n  \"title\" : \"Master of Science in Physics\",\r\n  \"grade\" : \"excellent\",\r\n  \"cbb\" : {\r\n    \"given_name\" : \"Erika\",\r\n    \"family_name\" : \"Mustermann\",\r\n    \"date_of_birth\" : \"1970-01-01\"\r\n  }\r\n}\r\n```\r\nOther approaches inside `cbb` are possible.\r\n\r\n`cbb` is not anything mandatory for the Relying Party and things might be different in various jurisdictions. One of the key questions is wehther these policy shall be inside vc or in metadata. I would prefer to have some guidance inside the VC.",
+          "createdAt": "2023-10-18T08:56:12Z",
+          "updatedAt": "2023-10-18T08:56:12Z"
         }
       ]
     },
@@ -3913,7 +3927,7 @@
       "labels": [],
       "body": "We need to give guidance in the spec on choosing `type` values for a credential format.\r\n\r\nWe need to think about collision resistance - either by a registry or something DNS-based like URIs or java package name notation.\r\n\r\nPersonal opinion: Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required for potentially large amounts of values, and we can think about extending this in the future with machine-readable information about credential format.",
       "createdAt": "2023-10-04T18:06:38Z",
-      "updatedAt": "2023-10-16T12:02:52Z",
+      "updatedAt": "2023-10-18T20:07:31Z",
       "closedAt": null,
       "comments": [
         {
@@ -3943,6 +3957,20 @@
           "body": "> > How to choose type values\r\n> \r\n> > Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required\r\n> \r\n> Sounds a bit like you are re-inventing (parts of) JSON-LD :)\r\n\r\nOnly the requirement that type might have to be a URL bit. JSON-LD is an RDF implementation and therefore has more boilerplate that is not needed that goes beyond this problem. ",
           "createdAt": "2023-10-16T12:02:52Z",
           "updatedAt": "2023-10-16T12:02:52Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "This PR introduces the requirement for identifiers to be Collision-Resistant Names: https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/173\r\n\r\nI still think that moving towards an identifier format that will later allow discoverability of credential rules and policies would be beneficial. For that, I think that URIs would be most useful, as explained above. There is a ton of information that Holders and Verifiers might want to be able to discover:\r\n- What kind of binding is employed for a certain credential type (see https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/145)\r\n- More generally, what data can or cannot be used for checking the holder binding.\r\n- Information about credential types (e.g., display names, colors, logos, etc.) \u2014 this clearly overlaps with what is transported by OpenID4VCI today\r\n- A schema for content verification, including what can or cannot be made selectively disclosable\r\n- Information about individual data fields (e.g., the human-readable label for a claim name, including its translations)",
+          "createdAt": "2023-10-18T09:46:12Z",
+          "updatedAt": "2023-10-18T09:46:12Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "That kind of discoverability could be pointing to or just contained in a human readable spec or document that has that kind of information. ",
+          "createdAt": "2023-10-18T20:07:30Z",
+          "updatedAt": "2023-10-18T20:07:30Z"
         }
       ]
     }
@@ -12453,7 +12481,7 @@
       "labels": [],
       "body": "This adds the examples previously provided for SD-JWT to this specification, with minor adaptions.\r\n\r\nSee rendered text here: https://drafts.oauth.net/oauth-sd-jwt-vc/danielfett/arf-examples/draft-ietf-oauth-sd-jwt-vc.html#name-examples-2\r\n\r\nFixes #144 ",
       "createdAt": "2023-09-29T08:42:55Z",
-      "updatedAt": "2023-10-16T12:08:18Z",
+      "updatedAt": "2023-10-18T13:06:19Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
@@ -12550,6 +12578,112 @@
               "body": "```suggestion\r\n      birth_date: '1973-01-01'\r\n      family_name: Mustermann\r\n      given_name: Erika\r\n```",
               "createdAt": "2023-09-29T09:16:27Z",
               "updatedAt": "2023-09-29T09:16:39Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 172,
+      "id": "PR_kwDOJbVClc5dHcuj",
+      "title": "Add proper typ header to examples",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/172",
+      "state": "OPEN",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-18T09:24:00Z",
+      "updatedAt": "2023-10-18T09:26:10Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "danielfett/fix-typ-header",
+      "headRefOid": "b47a6ae069597a7d51f002e619357ad634b84d2c",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 173,
+      "id": "PR_kwDOJbVClc5dHi3N",
+      "title": "Introduce rules for type identifiers",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/173",
+      "state": "OPEN",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "- Type identifiers MUST be collision-resistant names as defined in RFC7515\r\n- Changed the example to a URI",
+      "createdAt": "2023-10-18T09:38:02Z",
+      "updatedAt": "2023-10-18T18:51:00Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "danielfett/fix-171",
+      "headRefOid": "aad6523feb562ae8eba03565fb85cafd99c6540b",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5kby1p",
+          "commit": {
+            "abbreviatedOid": "aad6523"
+          },
+          "author": "paulbastian",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-18T12:57:27Z",
+          "updatedAt": "2023-10-18T12:57:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJbVClc5ke7rb",
+          "commit": {
+            "abbreviatedOid": "aad6523"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-18T18:27:39Z",
+          "updatedAt": "2023-10-18T18:27:39Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "I know it's not normative but the example elsewhere in the document uses all the same claims (and was the same type value) and has them all selectively disclosable. It'd be good to not give the impression of contradictory type definition even if it's not a real definition. \r\n\r\n```suggestion\r\nFor example, a type `https://credentials.example.com/identity_credential` can be associated with rules that define that at least the registered JWT claims `given_name`, `family_name`, `birthdate`, and `address` must appear in the Unsecured Payload. Additionally, the registered JWT claims `email` and `phone_number`, and the private claims `is_over_18`, `is_over_21`, and `is_over_65` may be used. The type might also indicate that any of the aforementioned claims can be selectively disclosable.\r\n```",
+              "createdAt": "2023-10-18T18:27:39Z",
+              "updatedAt": "2023-10-18T18:27:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5kfEuG",
+          "commit": {
+            "abbreviatedOid": "aad6523"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-18T18:50:59Z",
+          "updatedAt": "2023-10-18T18:51:00Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "Also, kinda related, the generated example(s) currently still have `type: IdentityCredential` (at [this yml](https://github.com/oauth-wg/oauth-sd-jwt-vc/blob/danielfett/fix-171/examples/01/specification.yml#L2) and [this other yml](https://github.com/oauth-wg/oauth-sd-jwt-vc/blob/danielfett/fix-171/examples/02/specification.yml#L4)) which of course isn't a Collision-Resistant Name.  Should probably update those to `https://credentials.example.com/identity_credential` to line up with the examples given in text and align with the requirement of being a Collision-Resistant Name.",
+              "createdAt": "2023-10-18T18:50:59Z",
+              "updatedAt": "2023-10-18T20:28:06Z"
             }
           ]
         }
