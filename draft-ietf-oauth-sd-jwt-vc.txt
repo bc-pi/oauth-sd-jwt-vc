@@ -5,8 +5,8 @@
 Web Authorization Protocol                                      O. Terbu
 Internet-Draft                                      Spruce Systems, Inc.
 Intended status: Standards Track                                 D. Fett
-Expires: 24 March 2024                                     Authlete Inc.
-                                                       21 September 2023
+Expires: 21 April 2024                                     Authlete Inc.
+                                                         19 October 2023
 
 
             SD-JWT-based Verifiable Credentials (SD-JWT VC)
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 March 2024.
+   This Internet-Draft will expire on 21 April 2024.
 
 Copyright Notice
 
@@ -257,28 +257,32 @@ Table of Contents
 
    This specification defines the JWT claim type.  The type value MUST
    be a case-sensitive StringOrURI (see [RFC7519]) value serving as an
-   identifier for the type of the SD-JWT VC.  A type defines which
-   claims may or must appear in the Unsecured Payload of the SD-JWT VC
-   and whether they may, must, or must not be selectively disclosable.
-   This specification does not define any type values; instead it is
-   expected that ecosystems using SD-JWT VCs define such values
-   including the semantics of the respective claims and associated rules
-   (e.g., policies for issuing and validating credentials beyond what is
+   identifier for the type of the SD-JWT VC.  The type value MUST be a
+   Collision-Resistant Name as defined in Section 2 of [RFC7515].
+
+   A type is associated with rules defining which claims may or must
+   appear in the Unsecured Payload of the SD-JWT VC and whether they
+   may, must, or must not be selectively disclosable.  This
+   specification does not define any type values; instead it is expected
+   that ecosystems using SD-JWT VCs define such values including the
+   semantics of the respective claims and associated rules (e.g.,
+   policies for issuing and validating credentials beyond what is
    defined in this specification).
 
    The following is a non-normative example of how type is used to
    express a type:
 
    {
-     "type": "IdentityCredential"
+     "type": "https://credentials.example.com/identity_credential"
    }
 
-   For example, a type IdentityCredential can be defined such that at
+   For example, a type https://credentials.example.com/
+   identity_credential can be associated with rules that define that at
    least the registered JWT claims given_name, family_name, birthdate,
    and address must appear in the Unsecured Payload.  Additionally, the
    registered JWT claims email and phone_number, and the private claims
    is_over_18, is_over_21, and is_over_65 may be used.  The type might
-   also indicate that given_name, family_name, birthdate, address can be
+   also indicate that any of the aforementioned claims can be
    selectively disclosable.
 
 3.2.2.2.  Registered JWT Claims
@@ -324,7 +328,8 @@ Table of Contents
    *  type
 
       -  REQUIRED.  The type of the Verifiable Credential, e.g.,
-         IdentityCredential, as defined in Section 3.2.2.1.1.
+         https://credentials.example.com/identity_credential, as defined
+         in Section 3.2.2.1.1.
 
    *  status
 
@@ -359,7 +364,7 @@ Table of Contents
    an SD-JWT VC.
 
    {
-     "type": "IdentityCredential",
+     "type": "https://credentials.example.com/identity_credential",
      "given_name": "John",
      "family_name": "Doe",
      "email": "johndoe@example.com",
@@ -396,7 +401,7 @@ Table of Contents
      "iss": "https://example.com/issuer",
      "iat": 1683000000,
      "exp": 1883000000,
-     "type": "IdentityCredential",
+     "type": "https://credentials.example.com/identity_credential",
      "_sd_alg": "sha-256",
      "cnf": {
        "jwk": {
@@ -523,22 +528,23 @@ Table of Contents
    lX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVN
    GemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9
    pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXB
-   lIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25
-   mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0F
-   FUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnh
-   qaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.a6RWdP2
-   yeIEUZiFIVp79_wMasvn28Z7TZA3spJ6lbuyfvl66tmLv9KPdow50f2HSSCn3nYICrMh
-   dOggsK8m3rA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAi
-   Sm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkR
-   vZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VAZX
-   hhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251bWJ
-   lciIsICIrMS0yMDItNTU1LTAxMDEiXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwg
-   ImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2Fs
-   aXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAi
-   VVMifV0~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTQw
-   LTAxLTAxIl0~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImlzX292ZXJfMTgiLCB0
-   cnVlXQ~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImlzX292ZXJfMjEiLCB0cnVlX
-   Q~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImlzX292ZXJfNjUiLCB0cnVlXQ~
+   lIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGV
+   udGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI
+   6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZ
+   TVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJ
+   TSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.AN5UWO1jklDFvMRB8eWlJCaD5qI5ho1
+   944nZ3ZJhlca_qoBKmnHD14dYPdiGsg_fsYwhY1103c5mD0kwG4U9wA~WyIyR0xDNDJz
+   S1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLCAiSm9obiJd~WyJlbHVWNU9nM2d
+   TTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgIkRvZSJd~WyI2SWo3dE0tYTVpVl
+   BHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VAZXhhbXBsZS5jb20iXQ~WyJlSTh
+   aV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251bWJlciIsICIrMS0yMDItNTU1LTA
+   xMDEiXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVl
+   dF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd24iLCAi
+   cmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~WyJBSngtMDk1VlBy
+   cFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOTQwLTAxLTAxIl0~WyJQYzMzSk0y
+   TGNoY1VfbEhnZ3ZfdWZRIiwgImlzX292ZXJfMTgiLCB0cnVlXQ~WyJHMDJOU3JRZmpGW
+   FE3SW8wOXN5YWpBIiwgImlzX292ZXJfMjEiLCB0cnVlXQ~WyJsa2x4RjVqTVlsR1RQVW
+   92TU5JdkNBIiwgImlzX292ZXJfNjUiLCB0cnVlXQ~
 
 3.4.  Verification and Processing
 
@@ -734,18 +740,18 @@ Table of Contents
    lX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVN
    GemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9
    pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXB
-   lIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25
-   mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0F
-   FUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnh
-   qaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.a6RWdP2
-   yeIEUZiFIVp79_wMasvn28Z7TZA3spJ6lbuyfvl66tmLv9KPdow50f2HSSCn3nYICrMh
-   dOggsK8m3rA~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7InN0
-   cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd24i
-   LCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOiAi
-   RVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF
-   1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTUyOTA
-   wNzJ9.rvVXmYZgACbYLanskVNhXU9ldlxTL1PFCtTxfGfylglgaRvpJ6aZR9iseAfSKZ
-   EZVhQsAHUmBM_Y0gKp5Xa8Kw
+   lIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGV
+   udGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAiY25mIjogeyJqd2siOiB7Imt0eSI
+   6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZ
+   TVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJ
+   TSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.AN5UWO1jklDFvMRB8eWlJCaD5qI5ho1
+   944nZ3ZJhlca_qoBKmnHD14dYPdiGsg_fsYwhY1103c5mD0kwG4U9wA~WyJRZ19PNjR6
+   cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEy
+   MyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0
+   YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOiAiRVMyNTYiLCAidHlwIjogImti
+   K2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgImF1ZCI6ICJodHRwczovL2V4YW1
+   wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTc3MDQzNTR9.r0N5h29BSGZGCKu_yF
+   7XVr5zG2bQlWlxk0C_1HaYmVgral7AdXtASfydyjLXo6jTdnuDuF_NbWJdgRnvo2F_RQ
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -763,12 +769,12 @@ Table of Contents
    mRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5e
    VZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAia
    HR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4c
-   CI6IDE4ODMwMDAwMDAsICJ0eXBlIjogIklkZW50aXR5Q3JlZGVudGlhbCIsICJfc2RfY
-   WxnIjogInNoYS0yNTYifQ.NPgCDxWjOsXzf-vPed14b4TfP7P2PIkjVxA6DLoK-6KLUZ
-   bIWw9Sdj_VTQHZf9zUgvQV21jNAykmMUcsGDX53w~WyJRZ19PNjR6cUF4ZTQxMmExMDh
-   pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
-   gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
-   0cnkiOiAiVVMifV0~
+   CI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBsZ
+   S5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYifQ.4u
+   HRkXeZwjBX8-qKr7_BauLYLU2X2hyddff6BhR8Az_PUslZhY9xHUgqMcsCsgs4nIqZFP
+   wNZ0BZ98rgpsp1fQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB
+   7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXR
+   vd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~
 
 6.  Security Considerations
 
@@ -881,6 +887,10 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+   [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
+              Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
+              2015, <https://www.rfc-editor.org/info/rfc7515>.
+
    [RFC7519]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web Token
               (JWT)", RFC 7519, DOI 10.17487/RFC7519, May 2015,
               <https://www.rfc-editor.org/info/rfc7519>.
@@ -969,6 +979,10 @@ Appendix B.  Acknowledgements
    to this draft and to the initial set of implementations.
 
 Appendix C.  Document History
+
+   -01
+
+   *  Introduce rules for type identifiers (Collision-Resistant Name)
 
    -00
 
