@@ -533,9 +533,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.nmcq
-   3u-lFya5Lg8kGD0oTLEYkl2G81pkwuNL_AZ4Klosy54im4CIiYW2T1dwND6d-VTeEyXQ
-   _iUt_rvTZY7phA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.LrU3
+   xBo2gG73O9oDjPlTHEd3fUHdQp5ay9sZ6JnfH3Mhe0fB_uglimeu7Sj9Gjh_DO5uubPT
+   30M69RQaxyA2Hg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -772,15 +772,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.nmcq
-   3u-lFya5Lg8kGD0oTLEYkl2G81pkwuNL_AZ4Klosy54im4CIiYW2T1dwND6d-VTeEyXQ
-   _iUt_rvTZY7phA~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.LrU3
+   xBo2gG73O9oDjPlTHEd3fUHdQp5ay9sZ6JnfH3Mhe0fB_uglimeu7Sj9Gjh_DO5uubPT
+   30M69RQaxyA2Hg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   MTI4NDN9.Em23ynf5b_oSDjTa-sh6mYvcttRZ-k_SdOHTAQIobDfXGVhlxgFkvWhlC5A
-   nl80czYyHQBckaUzr9AAEIqUqhw
+   MTM3MTZ9.GTkugTVFzA5bi9PolWefUutvgmhX2XxuS9CCB7e2X0uuwZELO-PksJWeDSq
+   EZLeqV_4G-Vg4SYA1Dld4vVu2nw
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -800,8 +800,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.eEqVm2VOQ_dPoG6MiB20sV1HwxY14mPwETi2XDEVo73A
-   7Jx9KNC7N1-3aTwTzReuFOCrxOj2L__GD_z0kp2mBQ~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.IxUGzBKNb80XaOXjlo_7YgFq2gKuBUdJZpO47tlQLpYZ
+   _AjH2r7pc9U1914RCaeCEyXOUAuvISU6ObWhl3KeQQ~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~
@@ -1013,6 +1013,9 @@ Appendix C.  Document History
    -01
 
    *  Introduce rules for type identifiers (Collision-Resistant Name)
+
+   *  Added verification process to confirm the correspondence of the
+      public key with issuer.
 
    -00
 
