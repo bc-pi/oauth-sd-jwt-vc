@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-19T01:16:44.730138+00:00",
+  "timestamp": "2023-10-22T01:21:48.476664+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -3927,7 +3927,7 @@
       "labels": [],
       "body": "We need to give guidance in the spec on choosing `type` values for a credential format.\r\n\r\nWe need to think about collision resistance - either by a registry or something DNS-based like URIs or java package name notation.\r\n\r\nPersonal opinion: Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required for potentially large amounts of values, and we can think about extending this in the future with machine-readable information about credential format.",
       "createdAt": "2023-10-04T18:06:38Z",
-      "updatedAt": "2023-10-18T20:07:31Z",
+      "updatedAt": "2023-10-19T14:34:20Z",
       "closedAt": null,
       "comments": [
         {
@@ -3971,6 +3971,27 @@
           "body": "That kind of discoverability could be pointing to or just contained in a human readable spec or document that has that kind of information. ",
           "createdAt": "2023-10-18T20:07:30Z",
           "updatedAt": "2023-10-18T20:07:30Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "The PR has been merged, but let's use this issue to discuss whether we need discoverability.\r\n\r\n@bc-pi That's correct, URLs enable discoverability, but that doesn't mean that they are the only option.",
+          "createdAt": "2023-10-19T09:34:19Z",
+          "updatedAt": "2023-10-19T09:34:19Z"
+        },
+        {
+          "author": "peacekeeper",
+          "authorAssociation": "NONE",
+          "body": "> The PR has been merged\r\n\r\nI'm not familiar with IETF processes, but merging such breaking changes in less than 24 hours without any chance of community review feels a bit ... hmm ...",
+          "createdAt": "2023-10-19T12:19:21Z",
+          "updatedAt": "2023-10-19T12:19:21Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "The PR is a relatively small change, and as indicated by my comment above, it is probably not the last word in this regard. I think we need to draw the bigger picture on what we expect from \"credential types\" and then think about how that needs to be reflected in the draft.\r\n\r\nBut, more generally, the IETF process is not designed around anything that happens in this git repository at all; what counts is consensus on the mailing list (both immediate discussions for larger normative changes as well as the working group last call, which can introduce substantial changes as well). Draft versions are a tool to get feedback from the working group including on smaller changes that have not been discussed on the mailing list beforehand. \r\n\r\nThe new draft version that we plan to release in the next days will be announced both on the mailing list as well as during the in-person meeting in Prague shortly after. If we receive feedback indicating that there is no consensus for a certain choice we made, we will respect that and modify the next draft accordingly. In that sense, having the PR merged is just a means to get feedback on a small step towards a solution.",
+          "createdAt": "2023-10-19T14:34:20Z",
+          "updatedAt": "2023-10-19T14:34:20Z"
         }
       ]
     }
@@ -12481,7 +12502,7 @@
       "labels": [],
       "body": "This adds the examples previously provided for SD-JWT to this specification, with minor adaptions.\r\n\r\nSee rendered text here: https://drafts.oauth.net/oauth-sd-jwt-vc/danielfett/arf-examples/draft-ietf-oauth-sd-jwt-vc.html#name-examples-2\r\n\r\nFixes #144 ",
       "createdAt": "2023-09-29T08:42:55Z",
-      "updatedAt": "2023-10-18T13:06:19Z",
+      "updatedAt": "2023-10-19T14:36:02Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
@@ -12534,6 +12555,13 @@
           "body": "So this means that by now, compatibility of SD-JWT VC with VCDM has been completely abandoned, right? At this point, we're faced not only with different proof formats, but also completely different data models.",
           "createdAt": "2023-10-16T12:08:17Z",
           "updatedAt": "2023-10-16T12:08:17Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "Note: I changed this PR from \"ready\" to \"draft\" since we identified various problems in the examples, some of which were created quite a while ago. Further discussions and modifications are needed.",
+          "createdAt": "2023-10-19T14:36:02Z",
+          "updatedAt": "2023-10-19T14:36:02Z"
         }
       ],
       "reviews": [
@@ -12588,50 +12616,68 @@
       "id": "PR_kwDOJbVClc5dHcuj",
       "title": "Add proper typ header to examples",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/172",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danielfett",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2023-10-18T09:24:00Z",
-      "updatedAt": "2023-10-18T09:26:10Z",
+      "updatedAt": "2023-10-19T08:32:27Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
       "headRepository": "oauth-wg/oauth-sd-jwt-vc",
       "headRefName": "danielfett/fix-typ-header",
       "headRefOid": "b47a6ae069597a7d51f002e619357ad634b84d2c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2023-10-19T08:32:26Z",
+      "mergedAt": "2023-10-19T08:32:26Z",
+      "mergedBy": "danielfett",
+      "mergeCommit": {
+        "oid": "b63bfbef616bef1948ea3d5b114663f8a9ded201"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5kjWRU",
+          "commit": {
+            "abbreviatedOid": "b47a6ae"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-19T08:02:59Z",
+          "updatedAt": "2023-10-19T08:02:59Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 173,
       "id": "PR_kwDOJbVClc5dHi3N",
       "title": "Introduce rules for type identifiers",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/173",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "danielfett",
       "authorAssociation": "MEMBER",
       "assignees": [],
       "labels": [],
       "body": "- Type identifiers MUST be collision-resistant names as defined in RFC7515\r\n- Changed the example to a URI",
       "createdAt": "2023-10-18T09:38:02Z",
-      "updatedAt": "2023-10-18T18:51:00Z",
+      "updatedAt": "2023-10-19T08:31:54Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
       "headRepository": "oauth-wg/oauth-sd-jwt-vc",
       "headRefName": "danielfett/fix-171",
-      "headRefOid": "aad6523feb562ae8eba03565fb85cafd99c6540b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "1aa84df5da27a13166cd35eee9689564068b00e5",
+      "closedAt": "2023-10-19T08:31:54Z",
+      "mergedAt": "2023-10-19T08:31:54Z",
+      "mergedBy": "danielfett",
+      "mergeCommit": {
+        "oid": "ae2f842a0efc32e4e98c43e54cd55306c67a1b33"
+      },
       "comments": [],
       "reviews": [
         {
@@ -12686,6 +12732,19 @@
               "updatedAt": "2023-10-18T20:28:06Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5kjXEa",
+          "commit": {
+            "abbreviatedOid": "aad6523"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-19T08:04:47Z",
+          "updatedAt": "2023-10-19T08:04:47Z",
+          "comments": []
         }
       ]
     }
