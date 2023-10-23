@@ -535,9 +535,9 @@ Table of Contents
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ELK67
-   0EM8a5fZLjZukUh_wJrM5KBQWZS3GYfIuPIPPxwrmyHEKsAkKoz7ev_bBvOwNigMys-X
-   hMSj3mrcqIswg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.fnM0K
+   ZM44_Ozjwgn9k42GTdzGG6lStcvBIfhJ4HyqqF6O6OV9WWQCgHtP4lexa0PDMn4KHO7W
+   KPsrJvWZLVpug~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
    AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
    kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
    ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -552,12 +552,12 @@ Table of Contents
 3.4.  Verification and Processing
 
    The recipient (Holder or Verifier) of an SD-JWT VC MUST process and
-   verify an SD-JWT VC as described in Section 6 of
+   verify an SD-JWT VC as described in Section 8 of
    [I-D.ietf-oauth-selective-disclosure-jwt].
 
    If Key Binding is required (refer to the security considerations in
-   Section 9.6 of [I-D.ietf-oauth-selective-disclosure-jwt]), the
-   Verifier MUST verify the Key Binding JWT according to Section 6 of
+   Section 11.6 of [I-D.ietf-oauth-selective-disclosure-jwt]), the
+   Verifier MUST verify the Key Binding JWT according to Section 8 of
    [I-D.ietf-oauth-selective-disclosure-jwt].  To verify the Key Binding
    JWT, the cnf claim of the SD-JWT MUST be used.
 
@@ -730,7 +730,7 @@ Table of Contents
 5.1.  Key Binding JWT
 
    If the presentation of the SD-JWT VC includes a Key Binding JWT, the
-   Key Binding JWT MUST adhere to the rules defined in Section 5.10 of
+   Key Binding JWT MUST adhere to the rules defined in Section 5.3 of
    [I-D.ietf-oauth-selective-disclosure-jwt].
 
    The Key Binding JWT MAY include addtional claims which, when not
@@ -756,15 +756,15 @@ Table of Contents
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ELK67
-   0EM8a5fZLjZukUh_wJrM5KBQWZS3GYfIuPIPPxwrmyHEKsAkKoz7ev_bBvOwNigMys-X
-   hMSj3mrcqIswg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.fnM0K
+   ZM44_Ozjwgn9k42GTdzGG6lStcvBIfhJ4HyqqF6O6OV9WWQCgHtP4lexa0PDMn4KHO7W
+   KPsrJvWZLVpug~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
    N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
    4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
    AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
    mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgwN
-   zkxMzV9.BZR3cTn5lsnzu67RaHH2O_GMWolK5grByNr5eGwbTRT6AZT94FwHpXd6O90H
-   ddnuClL3Nplu2IQqt89GT2WoYQ
+   zk0NzR9.JcX16y7FwyawFCDGa76MJTzBtPGZgOjZ_voDJso62QRsX9q2clVlzdlwdRvn
+   JL52W1GBWeyFeswN8HMT70Efyw
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -784,8 +784,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9
    jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-   hbGciOiAic2hhLTI1NiJ9.weemhQF02ebDH2ERTh6oXDTJiNROxx5rxppKtVLXiMOmTR
-   0891UICHzH-tq3qef_5dMBBenUYNGhDzrdHRFFUA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+   hbGciOiAic2hhLTI1NiJ9.hDhz93leMwpRhro8qFRnNpgT1Qsr2K4DnbRA9YSPvSnvgj
+   oAM9gaKVTNGFWsMtyGyMaPTa8gn0bO3SxfA-02CA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
    pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
    gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
    0cnkiOiAiVVMifV0~
@@ -843,7 +843,7 @@ Table of Contents
 
 7.1.  Unlinkability
 
-   The Privacy Considerations in Section 10.5 of
+   The Privacy Considerations in Section 12.5 of
    [I-D.ietf-oauth-selective-disclosure-jwt] apply especially to the cnf
    claim.
 
