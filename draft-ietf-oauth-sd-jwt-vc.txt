@@ -5,8 +5,8 @@
 Web Authorization Protocol                                      O. Terbu
 Internet-Draft                                      Spruce Systems, Inc.
 Intended status: Standards Track                                 D. Fett
-Expires: 21 April 2024                                     Authlete Inc.
-                                                         19 October 2023
+Expires: 25 April 2024                                     Authlete Inc.
+                                                         23 October 2023
 
 
             SD-JWT-based Verifiable Credentials (SD-JWT VC)
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 April 2024.
+   This Internet-Draft will expire on 25 April 2024.
 
 Copyright Notice
 
@@ -320,10 +320,10 @@ Table of Contents
 
       -  REQUIRED when Cryptographic Key Binding is to be supported.
          Contains the confirmation method as defined in [RFC7800].  It
-         SHOULD contain a JWK as defined in Section 3.2 of [RFC7800].
-         For Cryptographic Key Binding, the Key Binding JWT in the
-         Combined Format for Presentation MUST be signed by the key
-         identified in this claim.
+         is RECOMMENDED that this contains a JWK as defined in
+         Section 3.2 of [RFC7800].  For Cryptographic Key Binding, the
+         Key Binding JWT in the Combined Format for Presentation MUST be
+         signed by the key identified in this claim.
 
    *  type
 
@@ -532,9 +532,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.7vi0
-   xtCRqG3NGPutpoqX3YTsjtQKdYbW4uTAh0kQUTeQcHReoYm2jWjAS-H7CVuPxQ-Xg1Gc
-   aledBDuUYYpMcw~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Vfuy
+   GJodz6MsZsd8kcm0SMk4KH36DWSPjBmxtRMv87PfVQvZ16ByE5OXvYT2KZgLif0mBOmR
+   0gnKiNgLFJJowg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -744,15 +744,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.7vi0
-   xtCRqG3NGPutpoqX3YTsjtQKdYbW4uTAh0kQUTeQcHReoYm2jWjAS-H7CVuPxQ-Xg1Gc
-   aledBDuUYYpMcw~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Vfuy
+   GJodz6MsZsd8kcm0SMk4KH36DWSPjBmxtRMv87PfVQvZ16ByE5OXvYT2KZgLif0mBOmR
+   0gnKiNgLFJJowg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
-   ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTc3
-   MDQzODB9.DGOLJBskrAALOzUC5IWM7kDgogD1kWoFTB19Jjw0gdz0Wr6eYwVNW5T_b63
-   Z-jOYnN3lUWQ74ubXgU3APSIWVg
+   ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
+   Njk2MDl9.kCrY9_19fD03jv9fWKmnhwEmgNpZJchMXq9ayop4O-Y9oxAX4UKdsXtt7vD
+   h5DBT1x1fMBjhetJa-4cXwigl3A
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -772,8 +772,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.mvjtS8-ub5MR6_P7Zqb-CM9s3eC2mL7QAn8Oy10JpDQt
-   7BjFi4UM-kMH8YsLS4z_RtlHQZ06ioA4k-WycaaSOQ~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.BmYMPwuuiotBT-tiaJlJ6Sm8-XFn-RPbxqArKlFgYYxc
+   b6ao3uacOR-rLHbez_p0gegURYzggat4uQjWrFjUng~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~
@@ -985,6 +985,8 @@ Appendix C.  Document History
    -01
 
    *  Introduce rules for type identifiers (Collision-Resistant Name)
+
+   *  Editorial changes
 
    -00
 
