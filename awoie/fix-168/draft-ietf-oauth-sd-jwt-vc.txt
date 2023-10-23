@@ -533,9 +533,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.LQg7
-   htIAgJJ_a39Y8dc80NIwE76rx1ztLjOZqSA1BdGyjf6eaDSaXEhlZ1W2z7gzuYPROLdD
-   xGvCPd_1kYTYFA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.I8Hp
+   __LIAorcJhRbIK2YZuOLBGIVEFzObO1VDrB4cov94nDwJmMS8cz_NljDm1RxlNzSB0LP
+   ODt-NmIKmnpW2w~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -772,15 +772,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.LQg7
-   htIAgJJ_a39Y8dc80NIwE76rx1ztLjOZqSA1BdGyjf6eaDSaXEhlZ1W2z7gzuYPROLdD
-   xGvCPd_1kYTYFA~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.I8Hp
+   __LIAorcJhRbIK2YZuOLBGIVEFzObO1VDrB4cov94nDwJmMS8cz_NljDm1RxlNzSB0LP
+   ODt-NmIKmnpW2w~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   NjIzNDR9.DuSjOZ9yQRCd2TeP-XzineLEu3o16HH8j2VJnr_5ssaiLCekEtCbASOwX37
-   Q8dqBNy9ZnOZtWJnrE-OiXilQqQ
+   NjIzNjR9.1FT0t8mjo-hDEq_5X0fORSHrNMryodWWiIHCRJi3mHD8ub8hT9V57_HHAxB
+   IJKjf4i4jMMI8YU_T85W2ud8wKA
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -800,8 +800,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.itlmnh0zc-5oxQc3sQFTVDoxzTRV55QuS3T69oift7CX
-   yspEKm3WxrYk29Q_hseRqEZDHP99lzoAUotIcgd1dA~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.rOA81RzkRghaf30hYH-1TlJ30UDipebA_2J6kNSZdlTb
+   3bLb7PKvfaIZo8k7qMY6obon-DE4m--uW1Vo4GzPrA~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~
@@ -936,6 +936,12 @@ Table of Contents
               OWASP, "Server Side Request Forgery Prevention Cheat
               Sheet", <https://cheatsheetseries.owasp.org/cheatsheets/
               Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html/>.
+
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/info/rfc5280>.
 
    [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
               DOI 10.17487/RFC7517, May 2015,
