@@ -5,8 +5,8 @@
 Web Authorization Protocol                                      O. Terbu
 Internet-Draft                                      Spruce Systems, Inc.
 Intended status: Standards Track                                 D. Fett
-Expires: 24 April 2024                                     Authlete Inc.
-                                                         22 October 2023
+Expires: 25 April 2024                                     Authlete Inc.
+                                                         23 October 2023
 
 
             SD-JWT-based Verifiable Credentials (SD-JWT VC)
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 April 2024.
+   This Internet-Draft will expire on 25 April 2024.
 
 Copyright Notice
 
@@ -533,9 +533,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.LkF7
-   e-ChD-xzxuEcZLid1FGYqkrDEO86nrYxGqsvPMBRGJ_3cynKK2KR0YR8GzivSketDS6R
-   tMW7JfIwJknNuA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.4HPk
+   5pyoBGKiTg64JnwqZbsM__2a2D8m1yO-OdvEdHm2ASStXAoCEhQgn6ifFITfe0xUewDV
+   pxcMhX7gqEfRXQ~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -559,9 +559,9 @@ Table of Contents
    [I-D.ietf-oauth-selective-disclosure-jwt].  To verify the Key Binding
    JWT, the cnf claim of the SD-JWT MUST be used.
 
-   Furthermore, the recipient of the SD-JWT VC MUST verify the public
-   key used to verify the Issuer-signed JWT corresponds to Issuer of the
-   Issuer-signed JWT.
+   Furthermore, the recipient of the SD-JWT VC MUST verify that the
+   public key used for verification of the Issuer-signed JWT belongs to
+   the Issuer of the Issuer-signed JWT.
 
    If there are no selectively disclosable claims, there is no need to
    process the _sd claim nor any Disclosures.
@@ -772,15 +772,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.LkF7
-   e-ChD-xzxuEcZLid1FGYqkrDEO86nrYxGqsvPMBRGJ_3cynKK2KR0YR8GzivSketDS6R
-   tMW7JfIwJknNuA~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.4HPk
+   5pyoBGKiTg64JnwqZbsM__2a2D8m1yO-OdvEdHm2ASStXAoCEhQgn6ifFITfe0xUewDV
+   pxcMhX7gqEfRXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   MTM5MDh9.QYc3h-C3vuTnmwkD_6VBA6lIfHRA9oTLHoWXI2QH1T_5JofsX6c6uJ3a6qa
-   -aACmK_bDWeTE70e9IIRqrMt03w
+   NjIzMzB9.puHJoh2Ymv-NVyAX7bfGeOpg45Xz0LrX8g_uHmXjbGZelNYiplrRRxyjVbG
+   zK7qMG1_lg65GPFBviK5Aay5aOw
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -800,8 +800,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.j57lBLG49z7n1XKPWSvt49Akb8nhR1wQxaFIRmvmoGxC
-   j-F2jukZpknGfoWjdkHFpDKosk7OVKclernpxAcnMg~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.ZFhBF-VR1xn5skXOFHL88IsVZVHeYZU3Z23Ar2I0iUlN
+   CgEpX8aH7uTIV7Ne3v8fWjxULiKtQNWrmpr7rM7W5g~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~
