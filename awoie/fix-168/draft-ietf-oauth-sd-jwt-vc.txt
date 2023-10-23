@@ -65,7 +65,7 @@ Table of Contents
        3.2.2.  JWT Claims Set
      3.3.  Example
      3.4.  Verification and Processing
-     3.5.  Public Key for Issuer-signed JWTs Verification
+     3.5.  Public Key Discovery for Issuer-signed JWTs Verification
    4.  JWT Issuer Metadata
      4.1.  JWT Issuer Metadata Request
      4.2.  JWT Issuer Metadata Response
@@ -534,9 +534,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.dN3I
-   zOJ-eUKfApOBqyBQbw86D0uOzWIVXdzuA1LBVQ0Muff3i51dd5zC-2IXGUDBS5x24gia
-   2XV4QOsiDOvptg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.pdRe
+   zqyjlwjlN5BTf5RGG0XcNowSbCmL3qBPEnD7jJZPL-fwkoLmtvJaKBZuSJNfO2I8w5Cl
+   Xpdlw5CywMmA-g~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -577,10 +577,10 @@ Table of Contents
    Additional validation rules MAY apply, but their use is out of the
    scope of this specification.
 
-3.5.  Public Key for Issuer-signed JWTs Verification
+3.5.  Public Key Discovery for Issuer-signed JWTs Verification
 
-   A recipient of the SD-JWT VC MUST apply the following rules to verify
-   the Issuer-signed JWT corresponds to the Issuer: - JWT Issuer
+   A recipient of an SD-JWT VC MUST apply the following rules to obtain
+   the public verification key for the Issuer-signed JWT: - JWT Issuer
    Metadata: If the iss value contains an HTTPS URI, the recipient MUST
    obtain the public key using JWT Issuer Metadata as defined in
    Section 4. - DID Document Resolution: If the iss value contains a
@@ -771,15 +771,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.dN3I
-   zOJ-eUKfApOBqyBQbw86D0uOzWIVXdzuA1LBVQ0Muff3i51dd5zC-2IXGUDBS5x24gia
-   2XV4QOsiDOvptg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.pdRe
+   zqyjlwjlN5BTf5RGG0XcNowSbCmL3qBPEnD7jJZPL-fwkoLmtvJaKBZuSJNfO2I8w5Cl
+   Xpdlw5CywMmA-g~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   NzMzMjB9.Un8UL7d10QPy-ff7Zq4GBxtwH_-JlkwYKT6LcC6D74zcvfz16bkFFnLIS1b
-   TeGrUX8Xo2YilTPYuIEZXCFLjUw
+   NzU0MjJ9.fwHyqQkxcMvEwXrgXAlaljKgAqXfM_cet4AbaHuOUQ1nqDSVHdt9_GxGf6Y
+   OUWaAYzXrtHpXkxKXvKSExvwQCw
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -799,8 +799,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.V-hlNf-Mzzc2Fg1xZjQBUl7licNY0RTsBws0jOPxl5Te
-   aaDEKr3MQdmBrGF2_PExxVgk06YIyVHZVb3E_TLRAg~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.CDGQfddb9T3IlGBi9NugnbWRAZ0Oz2k0e5HZg5C7de7s
+   fcsXecEe1BsE5cVmRhrewPxh4GzIH-grOAqZiKsG9w~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~

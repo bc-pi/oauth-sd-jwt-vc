@@ -1163,7 +1163,7 @@ rules to express Verifiable Credentials with JSON payloads with and without sele
                 <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-verification-and-processing" class="internal xref">Verification and Processing</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
-                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-public-key-for-issuer-signe" class="internal xref">Public Key for Issuer-signed JWTs Verification</a></p>
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-public-key-discovery-for-is" class="internal xref">Public Key Discovery for Issuer-signed JWTs Verification</a></p>
 </li>
             </ul>
 </li>
@@ -1782,9 +1782,9 @@ cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBs
 ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
 Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
 Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.dN3I
-zOJ-eUKfApOBqyBQbw86D0uOzWIVXdzuA1LBVQ0Muff3i51dd5zC-2IXGUDBS5x24gia
-2XV4QOsiDOvptg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.pdRe
+zqyjlwjlN5BTf5RGG0XcNowSbCmL3qBPEnD7jJZPL-fwkoLmtvJaKBZuSJNfO2I8w5Cl
+Xpdlw5CywMmA-g~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
 CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
 IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
 AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -1812,7 +1812,7 @@ according to Section 6 of <span>[<a href="#I-D.ietf-oauth-selective-disclosure-j
 the Key Binding JWT, the <code>cnf</code> claim of the SD-JWT MUST be used.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
 <p id="section-3.4-3">Furthermore, the recipient of the SD-JWT VC MUST verify that the public key used for
 verification of the Issuer-signed JWT belongs to the Issuer of the Issuer-signed JWT,
-as defined in <a href="#public-key-for-issuer-signed-jwts-verification" class="auto internal xref">Section 3.5</a>.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+as defined in <a href="#public-key-discovery-for-issuer-signed-jwts-verification" class="auto internal xref">Section 3.5</a>.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 <p id="section-3.4-4">If there are no selectively disclosable claims, there is no need to process the
 <code>_sd</code> claim nor any Disclosures.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
 <p id="section-3.4-5">If <code>status</code> is present in the verified payload of the SD-JWT, the status SHOULD
@@ -1823,13 +1823,13 @@ of a SD-JWT VC based on the status of the Verifiable Credential.<a href="#sectio
 specification.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="public-key-for-issuer-signed-jwts-verification">
+<div id="public-key-discovery-for-issuer-signed-jwts-verification">
 <section id="section-3.5">
-        <h3 id="name-public-key-for-issuer-signe">
-<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-public-key-for-issuer-signe" class="section-name selfRef">Public Key for Issuer-signed JWTs Verification</a>
+        <h3 id="name-public-key-discovery-for-is">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-public-key-discovery-for-is" class="section-name selfRef">Public Key Discovery for Issuer-signed JWTs Verification</a>
         </h3>
-<p id="section-3.5-1">A recipient of the SD-JWT VC MUST apply the following rules to verify the
-Issuer-signed JWT corresponds to the Issuer:
+<p id="section-3.5-1">A recipient of an SD-JWT VC MUST apply the following rules to obtain the public
+verification key for the Issuer-signed JWT:
 - JWT Issuer Metadata: If the <code>iss</code> value contains an HTTPS URI, the recipient MUST
 obtain the public key using JWT Issuer Metadata as defined in <a href="#jwt-issuer-metadata" class="auto internal xref">Section 4</a>.
 - DID Document Resolution: If the <code>iss</code> value contains a DID, the recipient MUST retrieve
@@ -2053,15 +2053,15 @@ cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBs
 ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
 Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
 Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.dN3I
-zOJ-eUKfApOBqyBQbw86D0uOzWIVXdzuA1LBVQ0Muff3i51dd5zC-2IXGUDBS5x24gia
-2XV4QOsiDOvptg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.pdRe
+zqyjlwjlN5BTf5RGG0XcNowSbCmL3qBPEnD7jJZPL-fwkoLmtvJaKBZuSJNfO2I8w5Cl
+Xpdlw5CywMmA-g~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
 nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
 24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
 iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
 ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-NzMzMjB9.Un8UL7d10QPy-ff7Zq4GBxtwH_-JlkwYKT6LcC6D74zcvfz16bkFFnLIS1b
-TeGrUX8Xo2YilTPYuIEZXCFLjUw
+NzU0MjJ9.fwHyqQkxcMvEwXrgXAlaljKgAqXfM_cet4AbaHuOUQ1nqDSVHdt9_GxGf6Y
+OUWaAYzXrtHpXkxKXvKSExvwQCw
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-3">In this presentation, the Holder provides only the Disclosure for the claim
@@ -2081,8 +2081,8 @@ laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
 5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
 0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
 vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-fYWxnIjogInNoYS0yNTYifQ.V-hlNf-Mzzc2Fg1xZjQBUl7licNY0RTsBws0jOPxl5Te
-aaDEKr3MQdmBrGF2_PExxVgk06YIyVHZVb3E_TLRAg~WyJRZ19PNjR6cUF4ZTQxMmExM
+fYWxnIjogInNoYS0yNTYifQ.CDGQfddb9T3IlGBi9NugnbWRAZ0Oz2k0e5HZg5C7de7s
+fcsXecEe1BsE5cVmRhrewPxh4GzIH-grOAqZiKsG9w~WyJRZ19PNjR6cUF4ZTQxMmExM
 Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
 iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
 W50cnkiOiAiVVMifV0~
@@ -2129,7 +2129,7 @@ valid JWT Issuer Metadata configuration document before processing it.<a href="#
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-ecosystem-specific-public-k" class="section-name selfRef">Ecosystem-specific Public Key Verification Methods</a>
         </h3>
 <p id="section-6.2-1">When defining ecosystem-specific rules for the verification of the public key,
-as outlined in <a href="#public-key-for-issuer-signed-jwts-verification" class="auto internal xref">Section 3.5</a>, it is critical
+as outlined in <a href="#public-key-discovery-for-issuer-signed-jwts-verification" class="auto internal xref">Section 3.5</a>, it is critical
 that those rules maintain the integrity of the relationship between the <code>iss</code> value
 within the Issuer-signed JWT and the public keys of the Issuer.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.2-2">It MUST be ensured that for any given <code>iss</code> value, an attacker cannot influence
