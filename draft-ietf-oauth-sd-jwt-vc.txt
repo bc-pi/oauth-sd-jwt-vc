@@ -532,9 +532,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Vfuy
-   GJodz6MsZsd8kcm0SMk4KH36DWSPjBmxtRMv87PfVQvZ16ByE5OXvYT2KZgLif0mBOmR
-   0gnKiNgLFJJowg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.p1Xv
+   mqgr_r1ndiWqTXV5ItihypZY9IF6A4qEbQ22blE3_B8cdTUhFObuEptZ0iFhHNCzfMSK
+   AYifYAJqGKepoQ~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -695,34 +695,11 @@ Table of Contents
 5.1.  Key Binding JWT
 
    If the presentation of the SD-JWT VC includes a Key Binding JWT, the
-   following claims are used within the Key Binding JWT:
+   Key Binding JWT MUST adhere to the rules defined in Section 5.10 of
+   [I-D.ietf-oauth-selective-disclosure-jwt].
 
-   *  nonce
-
-      -  REQUIRED.  String value used to associate a transaction between
-         a Verifier an a Holder, and to mitigate replay attacks.  The
-         value is passed through unmodified from the Verifier to the Key
-         Binding JWT.  Sufficient entropy MUST be present in the nonce
-         values used to prevent attackers from guessing values.
-
-   *  aud
-
-      -  REQUIRED.  The intended recipient of the Key Binding JWT which
-         is typically the Verifier.  See [RFC7519] for more information.
-
-   *  iat
-
-      -  REQUIRED.  The time of issuance of the Key Binding JWT.  See
-         [RFC7519] for more information.
-
-   *  exp
-
-      -  OPTIONAL.  The expiration time of the signature when the Key
-         Binding is no longer considered valid.  See [RFC7519] for more
-         information.
-
-   The Key Binding JWT MAY include addtional claims which when not
-   understood MUST be ignored.
+   The Key Binding JWT MAY include addtional claims which, when not
+   understood, MUST be ignored by the Verifier.
 
 5.2.  Examples
 
@@ -744,15 +721,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Vfuy
-   GJodz6MsZsd8kcm0SMk4KH36DWSPjBmxtRMv87PfVQvZ16ByE5OXvYT2KZgLif0mBOmR
-   0gnKiNgLFJJowg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.p1Xv
+   mqgr_r1ndiWqTXV5ItihypZY9IF6A4qEbQ22blE3_B8cdTUhFObuEptZ0iFhHNCzfMSK
+   AYifYAJqGKepoQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   Njk2MDl9.kCrY9_19fD03jv9fWKmnhwEmgNpZJchMXq9ayop4O-Y9oxAX4UKdsXtt7vD
-   h5DBT1x1fMBjhetJa-4cXwigl3A
+   NzIwOTZ9.xJ3PLZYKHNo-7BwlvcWOq1IJKPONwLLHJ2ep0AgAZ43yvvkddDvgF6ZYKt6
+   BMjgkM6Sb1lmU6ozLzX_6Efy1yQ
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -772,8 +749,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.BmYMPwuuiotBT-tiaJlJ6Sm8-XFn-RPbxqArKlFgYYxc
-   b6ao3uacOR-rLHbez_p0gegURYzggat4uQjWrFjUng~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.pXLaIwXoOjaH8ONK209qbnopWJvXshkmHAD4TsacPGIT
+   CCJNRk_dNP0ZNAdDLyfjHCjPZ1oudvW88XiYhFw6Kw~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~
@@ -985,6 +962,8 @@ Appendix C.  Document History
    -01
 
    *  Introduce rules for type identifiers (Collision-Resistant Name)
+
+   *  Removed duplicated and inconsistent requirements on KB-JWT
 
    *  Editorial changes
 
