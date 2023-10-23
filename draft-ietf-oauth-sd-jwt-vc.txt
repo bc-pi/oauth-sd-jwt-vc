@@ -65,6 +65,7 @@ Table of Contents
        3.2.2.  JWT Claims Set
      3.3.  Example
      3.4.  Verification and Processing
+     3.5.  Obtaining Public Key for Issuer-signed JWTs
    4.  JWT Issuer Metadata
      4.1.  JWT Issuer Metadata Request
      4.2.  JWT Issuer Metadata Response
@@ -74,6 +75,7 @@ Table of Contents
      5.2.  Examples
    6.  Security Considerations
      6.1.  Server-Side Request Forgery
+     6.2.  Ecosystem-specific Public Key Verification Methods
    7.  Privacy Considerations
      7.1.  Unlinkability
      7.2.  Verifiable Credential Type Identifier
@@ -533,9 +535,9 @@ Table of Contents
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.a2sau
-   F6t6WIirviylYU_6o7CtpQeUEy7F9mMGiKJ87q8mStOkRM7gnp2Y7CCHmOI5mtArN27o
-   bQD5oU41cIG4A~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ELK67
+   0EM8a5fZLjZukUh_wJrM5KBQWZS3GYfIuPIPPxwrmyHEKsAkKoz7ev_bBvOwNigMys-X
+   hMSj3mrcqIswg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
    AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
    kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
    ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -559,11 +561,8 @@ Table of Contents
    [I-D.ietf-oauth-selective-disclosure-jwt].  To verify the Key Binding
    JWT, the cnf claim of the SD-JWT MUST be used.
 
-   For the verification, the iss claim in the SD-JWT MAY be used to
-   retrieve the public key from the JWT Issuer Metadata configuration
-   (as defined in Section 4) of the SD-JWT VC issuer.  Alternative
-   methods MAY be used to obtain the public key to verify the signature
-   of the SD-JWT.
+   Furthermore, the recipient of the SD-JWT VC MUST obtain the public
+   verification key for the Issuer-signed JWT as defined in Section 3.5.
 
    If there are no selectively disclosable claims, there is no need to
    process the _sd claim nor any Disclosures.
@@ -577,6 +576,41 @@ Table of Contents
 
    Additional validation rules MAY apply, but their use is out of the
    scope of this specification.
+
+3.5.  Obtaining Public Key for Issuer-signed JWTs
+
+   A recipient of an SD-JWT VC MUST apply the following rules to obtain
+   the public verification key for the Issuer-signed JWT:
+
+   *  JWT Issuer Metadata: If the iss value contains an HTTPS URI, the
+      recipient MUST obtain the public key using JWT Issuer Metadata as
+      defined in Section 4.
+
+   *  DID Document Resolution: If the iss value contains a DID, the
+      recipient MUST retrieve the public key from the DID Document
+      resolved from the DID in the iss value.  In this case, if the kid
+      JWT header parameter is present, the kid MUST be a relative or
+      absolute DID URL of the DID in the iss value, identifying the
+      public key.
+
+   *  X.509 Certificates: The recipient MUST obtain the public key from
+      the leaf X.509 certificate defined by the x5c, x5c, or x5t JWT
+      header parameters of the Issuer-signed JWT and validate the X.509
+      certificate chain in the following cases:
+
+      -  If the iss value contains a DNS name encoded as a URI using the
+         DNS URI scheme [RFC4501].  In this case, the DNS name MUST
+         match a dNSName Subject Alternative Name (SAN) [RFC5280] entry
+         of the leaf certificate.
+
+      -  If the iss value contains a URN using the URN URI scheme
+         [RFC2141].  In this case, the URN MUST match a
+         unifiedResourceName SAN entry of the leaf certificate.
+
+   Separate specifications or ecosystem regulations MAY define rules
+   complementing the rules defined above, but such rules are out of
+   scope of this specification.  See Section 6.2 for security
+   considerations.
 
 4.  JWT Issuer Metadata
 
@@ -722,15 +756,15 @@ Table of Contents
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.a2sau
-   F6t6WIirviylYU_6o7CtpQeUEy7F9mMGiKJ87q8mStOkRM7gnp2Y7CCHmOI5mtArN27o
-   bQD5oU41cIG4A~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ELK67
+   0EM8a5fZLjZukUh_wJrM5KBQWZS3GYfIuPIPPxwrmyHEKsAkKoz7ev_bBvOwNigMys-X
+   hMSj3mrcqIswg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
    N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
    4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
    AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
    mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgwN
-   zg1MjB9.3LlhcC45HQSSCvsk59h5itfARYserBbZhvVuHIHQp1BGh4AR6ksnoRA87X3o
-   s5r8qmm4hBkmATL3aNT8rgB97Q
+   zkxMzV9.BZR3cTn5lsnzu67RaHH2O_GMWolK5grByNr5eGwbTRT6AZT94FwHpXd6O90H
+   ddnuClL3Nplu2IQqt89GT2WoYQ
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -750,8 +784,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9
    jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-   hbGciOiAic2hhLTI1NiJ9.SqmCgumI6HZMD3V-P1JYFTByI0RsauCoJ5I-74LdTq6-QG
-   eCHL4l7ur5IfloWh9Dpyuto0a9TzfPouPTugez1A~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+   hbGciOiAic2hhLTI1NiJ9.weemhQF02ebDH2ERTh6oXDTJiNROxx5rxppKtVLXiMOmTR
+   0891UICHzH-tq3qef_5dMBBenUYNGhDzrdHRFFUA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
    pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
    gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
    0cnkiOiAiVVMifV0~
@@ -786,6 +820,19 @@ Table of Contents
    document before processing it.
 
    Additional considerations can be found in [OWASP_SSRF].
+
+6.2.  Ecosystem-specific Public Key Verification Methods
+
+   When defining ecosystem-specific rules for the verification of the
+   public key, as outlined in Section 3.5, it is critical that those
+   rules maintain the integrity of the relationship between the iss
+   value within the Issuer-signed JWT and the public keys of the Issuer.
+
+   It MUST be ensured that for any given iss value, an attacker cannot
+   influence the type of verification process used.  Otherwise, an
+   attacker could attempt to make the Verifier use a verification
+   process not intended by the Issuer, allowing the attacker to
+   potentially manipulate the verification result to their advantage.
 
 7.  Privacy Considerations
 
@@ -886,6 +933,19 @@ Table of Contents
               Sheet", <https://cheatsheetseries.owasp.org/cheatsheets/
               Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html/>.
 
+   [RFC2141]  Moats, R., "URN Syntax", RFC 2141, DOI 10.17487/RFC2141,
+              May 1997, <https://www.rfc-editor.org/info/rfc2141>.
+
+   [RFC4501]  Josefsson, S., "Domain Name System Uniform Resource
+              Identifiers", RFC 4501, DOI 10.17487/RFC4501, May 2006,
+              <https://www.rfc-editor.org/info/rfc4501>.
+
+   [RFC5280]  Cooper, D., Santesson, S., Farrell, S., Boeyen, S.,
+              Housley, R., and W. Polk, "Internet X.509 Public Key
+              Infrastructure Certificate and Certificate Revocation List
+              (CRL) Profile", RFC 5280, DOI 10.17487/RFC5280, May 2008,
+              <https://www.rfc-editor.org/info/rfc5280>.
+
    [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
               DOI 10.17487/RFC7517, May 2015,
               <https://www.rfc-editor.org/info/rfc7517>.
@@ -968,6 +1028,8 @@ Appendix C.  Document History
    *  Removed duplicated and inconsistent requirements on KB-JWT
 
    *  Editorial changes
+
+   *  Added issuer public verification key discovery section.
 
    -00
 

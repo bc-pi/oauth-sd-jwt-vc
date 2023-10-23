@@ -1162,6 +1162,9 @@ rules to express Verifiable Credentials with JSON payloads with and without sele
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
                 <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-verification-and-processing" class="internal xref">Verification and Processing</a></p>
 </li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-obtaining-public-key-for-is" class="internal xref">Obtaining Public Key for Issuer-signed JWTs</a></p>
+</li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
@@ -1194,6 +1197,9 @@ rules to express Verifiable Credentials with JSON payloads with and without sele
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-server-side-request-forgery" class="internal xref">Server-Side Request Forgery</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-ecosystem-specific-public-k" class="internal xref">Ecosystem-specific Public Key Verification Methods</a></p>
 </li>
             </ul>
 </li>
@@ -1776,9 +1782,9 @@ cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
 LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
 bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
 QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.a2sau
-F6t6WIirviylYU_6o7CtpQeUEy7F9mMGiKJ87q8mStOkRM7gnp2Y7CCHmOI5mtArN27o
-bQD5oU41cIG4A~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ELK67
+0EM8a5fZLjZukUh_wJrM5KBQWZS3GYfIuPIPPxwrmyHEKsAkKoz7ev_bBvOwNigMys-X
+hMSj3mrcqIswg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
 AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
 kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
 ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -1804,10 +1810,8 @@ SD-JWT VC as described in Section 6 of
 <p id="section-3.4-2">If Key Binding is required (refer to the security considerations in Section 9.6 of <span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>), the Verifier MUST verify the Key Binding JWT
 according to Section 6 of <span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>. To verify
 the Key Binding JWT, the <code>cnf</code> claim of the SD-JWT MUST be used.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.4-3">For the verification, the <code>iss</code> claim in the SD-JWT MAY be used to retrieve the
-public key from the JWT Issuer Metadata configuration (as defined in
-<a href="#jwt-issuer-metadata" class="auto internal xref">Section 4</a>) of the SD-JWT VC issuer. Alternative methods MAY be used
-to obtain the public key to verify the signature of the SD-JWT.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">Furthermore, the recipient of the SD-JWT VC MUST obtain the public verification key
+for the Issuer-signed JWT as defined in <a href="#public-key-discovery-for-issuer-signed-jwts" class="auto internal xref">Section 3.5</a>.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 <p id="section-3.4-4">If there are no selectively disclosable claims, there is no need to process the
 <code>_sd</code> claim nor any Disclosures.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
 <p id="section-3.4-5">If <code>status</code> is present in the verified payload of the SD-JWT, the status SHOULD
@@ -1816,6 +1820,37 @@ of a SD-JWT VC based on the status of the Verifiable Credential.<a href="#sectio
 <p id="section-3.4-6">Any claims used that are not understood MUST be ignored.<a href="#section-3.4-6" class="pilcrow">¶</a></p>
 <p id="section-3.4-7">Additional validation rules MAY apply, but their use is out of the scope of this
 specification.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="public-key-discovery-for-issuer-signed-jwts">
+<section id="section-3.5">
+        <h3 id="name-obtaining-public-key-for-is">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-obtaining-public-key-for-is" class="section-name selfRef">Obtaining Public Key for Issuer-signed JWTs</a>
+        </h3>
+<p id="section-3.5-1">A recipient of an SD-JWT VC MUST apply the following rules to obtain the public
+verification key for the Issuer-signed JWT:<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.5-2.1">JWT Issuer Metadata: If the <code>iss</code> value contains an HTTPS URI, the recipient MUST
+obtain the public key using JWT Issuer Metadata as defined in <a href="#jwt-issuer-metadata" class="auto internal xref">Section 4</a>.<a href="#section-3.5-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.5-2.2">DID Document Resolution: If the <code>iss</code> value contains a DID, the recipient MUST retrieve
+the public key from the DID Document resolved from the DID in the <code>iss</code> value.
+In this case, if the <code>kid</code> JWT header parameter is present, the <code>kid</code> MUST be a relative or absolute
+DID URL of the DID in the <code>iss</code> value, identifying the public key.<a href="#section-3.5-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.5-2.3">
+            <p id="section-3.5-2.3.1">X.509 Certificates: The recipient MUST obtain the public key from the leaf X.509 certificate
+defined by the <code>x5c</code>, <code>x5c</code>, or <code>x5t</code> JWT header parameters of the Issuer-signed JWT and validate the X.509
+certificate chain in the following cases:<a href="#section-3.5-2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.5-2.3.2.1">If the <code>iss</code> value contains a DNS name encoded as a URI using the DNS URI scheme <span>[<a href="#RFC4501" class="cite xref">RFC4501</a>]</span>. In this case, the DNS name MUST match a <code>dNSName</code> Subject Alternative Name (SAN) <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> entry of the leaf certificate.<a href="#section-3.5-2.3.2.1" class="pilcrow">¶</a>
+</li>
+              <li class="normal" id="section-3.5-2.3.2.2">If the <code>iss</code> value contains a URN using the URN URI scheme <span>[<a href="#RFC2141" class="cite xref">RFC2141</a>]</span>. In this case, the URN MUST match a <code>unifiedResourceName</code> SAN entry of the leaf certificate.<a href="#section-3.5-2.3.2.2" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-3.5-3">Separate specifications or ecosystem regulations MAY define rules complementing the rules defined above, but such rules are out of scope of this specification. See <a href="#ecosystem-verification-rules" class="auto internal xref">Section 6.2</a> for security considerations.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1990,15 +2025,15 @@ cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
 LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
 bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
 QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.a2sau
-F6t6WIirviylYU_6o7CtpQeUEy7F9mMGiKJ87q8mStOkRM7gnp2Y7CCHmOI5mtArN27o
-bQD5oU41cIG4A~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ELK67
+0EM8a5fZLjZukUh_wJrM5KBQWZS3GYfIuPIPPxwrmyHEKsAkKoz7ev_bBvOwNigMys-X
+hMSj3mrcqIswg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
 N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
 4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
 AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
 mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgwN
-zg1MjB9.3LlhcC45HQSSCvsk59h5itfARYserBbZhvVuHIHQp1BGh4AR6ksnoRA87X3o
-s5r8qmm4hBkmATL3aNT8rgB97Q
+zkxMzV9.BZR3cTn5lsnzu67RaHH2O_GMWolK5grByNr5eGwbTRT6AZT94FwHpXd6O90H
+ddnuClL3Nplu2IQqt89GT2WoYQ
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-3">In this presentation, the Holder provides only the Disclosure for the claim
@@ -2018,8 +2053,8 @@ laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
 5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
 0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9
 jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-hbGciOiAic2hhLTI1NiJ9.SqmCgumI6HZMD3V-P1JYFTByI0RsauCoJ5I-74LdTq6-QG
-eCHL4l7ur5IfloWh9Dpyuto0a9TzfPouPTugez1A~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+hbGciOiAic2hhLTI1NiJ9.weemhQF02ebDH2ERTh6oXDTJiNROxx5rxppKtVLXiMOmTR
+0891UICHzH-tq3qef_5dMBBenUYNGhDzrdHRFFUA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
 pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
 gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
 0cnkiOiAiVVMifV0~
@@ -2058,6 +2093,21 @@ request is made in a time-bound and size-bound manner to prevent denial of
 service attacks. The Holder or Verifier MUST also ensure that the response is a
 valid JWT Issuer Metadata configuration document before processing it.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <p id="section-6.1-4">Additional considerations can be found in <span>[<a href="#OWASP_SSRF" class="cite xref">OWASP_SSRF</a>]</span>.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ecosystem-verification-rules">
+<section id="section-6.2">
+        <h3 id="name-ecosystem-specific-public-k">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-ecosystem-specific-public-k" class="section-name selfRef">Ecosystem-specific Public Key Verification Methods</a>
+        </h3>
+<p id="section-6.2-1">When defining ecosystem-specific rules for the verification of the public key,
+as outlined in <a href="#public-key-discovery-for-issuer-signed-jwts" class="auto internal xref">Section 3.5</a>, it is critical
+that those rules maintain the integrity of the relationship between the <code>iss</code> value
+within the Issuer-signed JWT and the public keys of the Issuer.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">It MUST be ensured that for any given <code>iss</code> value, an attacker cannot influence
+the type of verification process used. Otherwise, an attacker could attempt to make
+the Verifier use a verification process not intended by the Issuer, allowing the
+attacker to potentially manipulate the verification result to their advantage.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2167,6 +2217,18 @@ in the Issuer identifier.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <dt id="OWASP_SSRF">[OWASP_SSRF]</dt>
       <dd>
 <span class="refAuthor">OWASP</span>, <span class="refTitle">"Server Side Request Forgery Prevention Cheat Sheet"</span>, <span>&lt;<a href="https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html/">https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2141">[RFC2141]</dt>
+      <dd>
+<span class="refAuthor">Moats, R.</span>, <span class="refTitle">"URN Syntax"</span>, <span class="seriesInfo">RFC 2141</span>, <span class="seriesInfo">DOI 10.17487/RFC2141</span>, <time datetime="1997-05" class="refDate">May 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2141">https://www.rfc-editor.org/info/rfc2141</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4501">[RFC4501]</dt>
+      <dd>
+<span class="refAuthor">Josefsson, S.</span>, <span class="refTitle">"Domain Name System Uniform Resource Identifiers"</span>, <span class="seriesInfo">RFC 4501</span>, <span class="seriesInfo">DOI 10.17487/RFC4501</span>, <time datetime="2006-05" class="refDate">May 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc4501">https://www.rfc-editor.org/info/rfc4501</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5280">[RFC5280]</dt>
+      <dd>
+<span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5280">https://www.rfc-editor.org/info/rfc5280</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7517">[RFC7517]</dt>
     <dd>
@@ -2288,6 +2350,8 @@ for their contributions (some of which substantial) to this draft and to the ini
         <li class="normal" id="appendix-C-2.3">Removed duplicated and inconsistent requirements on KB-JWT<a href="#appendix-C-2.3" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="appendix-C-2.4">Editorial changes<a href="#appendix-C-2.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-2.5">Added issuer public verification key discovery section.<a href="#appendix-C-2.5" class="pilcrow">¶</a>
 </li>
       </ul>
 <p id="appendix-C-3">-00<a href="#appendix-C-3" class="pilcrow">¶</a></p>
