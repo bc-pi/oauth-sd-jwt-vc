@@ -1782,9 +1782,9 @@ cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
 LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
 bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
 QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.fnM0K
-ZM44_Ozjwgn9k42GTdzGG6lStcvBIfhJ4HyqqF6O6OV9WWQCgHtP4lexa0PDMn4KHO7W
-KPsrJvWZLVpug~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ct3zz
+9QkKikB27HpkfnTvOfFCUifGdnc8gxOBEj56bJHasyylV0IqtVe7svBDTYArY9IZzyln
+OD_wiBwo2Y5Jw~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
 AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
 kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
 ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -1833,7 +1833,7 @@ verification key for the Issuer-signed JWT:<a href="#section-3.5-1" class="pilcr
 <li class="normal" id="section-3.5-2.1">JWT Issuer Metadata: If the <code>iss</code> value contains an HTTPS URI, the recipient MUST
 obtain the public key using JWT Issuer Metadata as defined in <a href="#jwt-issuer-metadata" class="auto internal xref">Section 4</a>.<a href="#section-3.5-2.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.5-2.2">DID Document Resolution: If the <code>iss</code> value contains a DID, the recipient MUST retrieve
+          <li class="normal" id="section-3.5-2.2">DID Document Resolution: If the <code>iss</code> value contains a DID <span>[<a href="#W3C.DID" class="cite xref">W3C.DID</a>]</span>, the recipient MUST retrieve
 the public key from the DID Document resolved from the DID in the <code>iss</code> value.
 In this case, if the <code>kid</code> JWT header parameter is present, the <code>kid</code> MUST be a relative or absolute
 DID URL of the DID in the <code>iss</code> value, identifying the public key.<a href="#section-3.5-2.2" class="pilcrow">¶</a>
@@ -2025,15 +2025,15 @@ cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
 LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
 bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
 QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.fnM0K
-ZM44_Ozjwgn9k42GTdzGG6lStcvBIfhJ4HyqqF6O6OV9WWQCgHtP4lexa0PDMn4KHO7W
-KPsrJvWZLVpug~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ct3zz
+9QkKikB27HpkfnTvOfFCUifGdnc8gxOBEj56bJHasyylV0IqtVe7svBDTYArY9IZzyln
+OD_wiBwo2Y5Jw~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
 N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
 4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
 AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
 mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgwN
-zk0NzR9.JcX16y7FwyawFCDGa76MJTzBtPGZgOjZ_voDJso62QRsX9q2clVlzdlwdRvn
-JL52W1GBWeyFeswN8HMT70Efyw
+zk4MjV9.YupEth8SRZFJAe9JpEH8mlDAFcIA-eNP2qgJMnQT4uskFyTPVOHoAIgw5gom
+bGz2Dbd637KDYtWaQ7f6SVAPMw
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-3">In this presentation, the Holder provides only the Disclosure for the claim
@@ -2053,8 +2053,8 @@ laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
 5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
 0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9
 jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-hbGciOiAic2hhLTI1NiJ9.hDhz93leMwpRhro8qFRnNpgT1Qsr2K4DnbRA9YSPvSnvgj
-oAM9gaKVTNGFWsMtyGyMaPTa8gn0bO3SxfA-02CA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+hbGciOiAic2hhLTI1NiJ9.J8l4AmplDzYHpzPXaIhm0w63zefrR3ld1Zr8hkSjlZroGQ
+8cmdbyAabZiM2E08gDaO0czjt-AnziYeL4h9h1lQ~WyJRZ19PNjR6cUF4ZTQxMmExMDh
 pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
 gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
 0cnkiOiAiVVMifV0~
@@ -2231,8 +2231,12 @@ in the Issuer identifier.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
 <span class="refAuthor">Cooper, D.</span>, <span class="refAuthor">Santesson, S.</span>, <span class="refAuthor">Farrell, S.</span>, <span class="refAuthor">Boeyen, S.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">W. Polk</span>, <span class="refTitle">"Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile"</span>, <span class="seriesInfo">RFC 5280</span>, <span class="seriesInfo">DOI 10.17487/RFC5280</span>, <time datetime="2008-05" class="refDate">May 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5280">https://www.rfc-editor.org/info/rfc5280</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7517">[RFC7517]</dt>
-    <dd>
+      <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refTitle">"JSON Web Key (JWK)"</span>, <span class="seriesInfo">RFC 7517</span>, <span class="seriesInfo">DOI 10.17487/RFC7517</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7517">https://www.rfc-editor.org/info/rfc7517</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="W3C.DID">[W3C.DID]</dt>
+    <dd>
+<span class="refAuthor">Sporny, M.</span>, <span class="refAuthor">Longley, D.</span>, <span class="refAuthor">Sabadello, M.</span>, <span class="refAuthor">Reed, D.</span>, <span class="refAuthor">Steele, O.</span>, and <span class="refAuthor">C. Allen</span>, <span class="refTitle">"Decentralized Identifiers (DIDs) v1.0"</span>, <time datetime="2022-07-19" class="refDate">19 July 2022</time>, <span>&lt;<a href="https://www.w3.org/TR/did-core/">https://www.w3.org/TR/did-core/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
