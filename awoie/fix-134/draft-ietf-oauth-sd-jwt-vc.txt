@@ -5,8 +5,8 @@
 Web Authorization Protocol                                      O. Terbu
 Internet-Draft                                      Spruce Systems, Inc.
 Intended status: Standards Track                                 D. Fett
-Expires: 24 April 2024                                     Authlete Inc.
-                                                         22 October 2023
+Expires: 25 April 2024                                     Authlete Inc.
+                                                         23 October 2023
 
 
             SD-JWT-based Verifiable Credentials (SD-JWT VC)
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 April 2024.
+   This Internet-Draft will expire on 25 April 2024.
 
 Copyright Notice
 
@@ -320,7 +320,7 @@ Table of Contents
 
       -  REQUIRED when Cryptographic Key Binding is to be supported.
          Contains the confirmation method as defined in [RFC7800].  It
-         is RECOMMENDED that a JWK is contained as defined in
+         is RECOMMENDED that this contains a JWK as defined in
          Section 3.2 of [RFC7800].  For Cryptographic Key Binding, the
          Key Binding JWT in the Combined Format for Presentation MUST be
          signed by the key identified in this claim.
@@ -532,9 +532,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.ojCu
-   MDXvCz30FJ4RWIqsBba1wl00PhRCYWSQKY1yiIHFbjeZKJ8ZQ8Kh-jAgxWL7OL2mQJbu
-   hY5b1PYjtlsSJg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.UPRB
+   UVCOPOZcCL0gVLAftbEvLjZ1H0dQ_55Ic2RMyhquVnOjOrmQ9yVepWyjOVM1oA2-V2lm
+   qnPbcIfSirOQ1Q~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -744,15 +744,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.ojCu
-   MDXvCz30FJ4RWIqsBba1wl00PhRCYWSQKY1yiIHFbjeZKJ8ZQ8Kh-jAgxWL7OL2mQJbu
-   hY5b1PYjtlsSJg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.UPRB
+   UVCOPOZcCL0gVLAftbEvLjZ1H0dQ_55Ic2RMyhquVnOjOrmQ9yVepWyjOVM1oA2-V2lm
+   qnPbcIfSirOQ1Q~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   MTMzNTd9.J-0eEgq9U5eRMUY-VK1W2KiQPnUU0iSeAYLVtErXHVDFq6fWGFvj_3IBcEf
-   LZfap-s0qYI-p1jHUrNTvWyugew
+   NjIyNzV9.gQ5qojivUTUFln3MV7fbcSmSxqUgt9KaC4hZTABGQwzhGayXknHTGgNhmCC
+   Vj1V3o2PSblk5a3y9bUKfXprsAQ
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -772,8 +772,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.vGOTrZGJGH-_H8dc2c30XcZ_imJ8bJZq807i9Wex4Vak
-   sAkbqKa0UV7L0OLGKErCTrKlRoqtUwrw6yqolnPydw~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.3wm8aKxI8oiXEH1TJA6Rhm2EvRHpaGQqVk5XCIw1gDEl
+   28kHSBL3TbEW1DglbDs8B_iG7AxiHO5eNL-65lS5NQ~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~
