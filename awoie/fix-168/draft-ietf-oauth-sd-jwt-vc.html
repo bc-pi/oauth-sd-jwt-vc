@@ -1782,9 +1782,9 @@ cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBs
 ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
 Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
 Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.2vzE
--7_cj-9tTzrP-7b4IpuPoXklqWeJxq7mJkR-Q8hGSL9byz14OI6ShHMvW9I2ioBCYGjz
-MDm2WS-t9N98XA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.NAN-
+Uo9RCkb-3-kBIvOWs2i6hcgXmlag3EBiNM7jNdE3Mhtrb-T9KGOiVLYoBoPGHPLitmGh
+oJWCPji0RBQfow~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
 CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
 IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
 AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -1836,9 +1836,7 @@ obtain the public key using JWT Issuer Metadata as defined in <a href="#jwt-issu
 the public key from the DID Document resolved from the DID in the <code>iss</code> value.
 If the <code>kid</code> JWT header parameter is present, the <code>kid</code> MUST be a relative or absolute
 DID URL of the DID in the <code>iss</code> value, identifying the public key.
-- X.509 Certificates: The recipient MUST obtain the public key from the leaf X.509 certificate
-defined by the <code>x5c</code>, <code>x5c</code>, or <code>x5t</code> JWT header parameters of the Issuer-signed JWT and validate the X.509
-certificate chain in the following cases:
+- X.509 Certificates: If the <code>x5c</code>, <code>x5c</code>, or <code>x5t</code> JWT header parameters are present, the recipient MUST obtain the public key from the leaf X.509 certificate defined by of the Issuer-signed JWT and validate the X.509 certificate chain in the following cases:
     - If the <code>iss</code> value contains a DNS name encoded as a URI using the DNS URI scheme <span>[<a href="#RFC4501" class="cite xref">RFC4501</a>]</span>. The DNS name MUST match a <code>dNSName</code> Subject Alternative Name (SAN) <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> entry of the leaf certificate.
     - If the <code>iss</code> value contains a URN using the URN URI scheme <span>[<a href="#RFC2141" class="cite xref">RFC2141</a>]</span>. The URN MUST match a <code>unifiedResourceName</code> SAN entry of the leaf certificate.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
 <p id="section-3.5-2">Additional rules for verifying the public key belongs to the Issuer MAY be used but are
@@ -2054,15 +2052,15 @@ cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBs
 ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
 Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
 Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.2vzE
--7_cj-9tTzrP-7b4IpuPoXklqWeJxq7mJkR-Q8hGSL9byz14OI6ShHMvW9I2ioBCYGjz
-MDm2WS-t9N98XA~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.NAN-
+Uo9RCkb-3-kBIvOWs2i6hcgXmlag3EBiNM7jNdE3Mhtrb-T9KGOiVLYoBoPGHPLitmGh
+oJWCPji0RBQfow~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
 nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
 24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
 iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
 ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-NzAyMjJ9.4VIGsLQX6doo8bHT7LZvT9GD_ib_LFvdTaK-OSs9KruTUykBHNmkR_XPNfD
-sm4AiFBn0S63Xidc8rHQWrCuCsg
+NzA3Mzl9.ooLH2KyHY-H6gurcKA9l5h873RwN01U2g5hWIfI2MgyfOQu2UwZUGyu2-55
+gRWE9tzTEbq3uWaS5tWyLCtcSNg
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-3">In this presentation, the Holder provides only the Disclosure for the claim
@@ -2082,8 +2080,8 @@ laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
 5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
 0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
 vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-fYWxnIjogInNoYS0yNTYifQ.tt45oTZGkT5Rk48SQLQ9-YHtKgoLxDXIMBWWkRGlt7ir
-wp4efe0Iv7k-jZssnIIx4bJtwkGcOlqBxxCqv6blRw~WyJRZ19PNjR6cUF4ZTQxMmExM
+fYWxnIjogInNoYS0yNTYifQ.v-k46thkA0dQ5NgdzRGME_MxVhFk_R7exU9j6EcYhE4w
+kSIvx__UcwqUbvMt53yQFGgf9AiGm-CJYERzW71P0w~WyJRZ19PNjR6cUF4ZTQxMmExM
 Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
 iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
 W50cnkiOiAiVVMifV0~
