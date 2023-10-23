@@ -534,9 +534,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.26zu
-   TpyjDw-8iOD5QFCOyn9wj3Umjz4-WJxMCYdw6AbKrg0waZuAGOuHYpbHuRBe1Y4illz-
-   LqugGQxTcezi5Q~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.a3aZ
+   xY6A9MK1a5291tepnsnrHcIwNq6N9CpdBgivguUztNgwwzHc11JjyTo8bU9SGiorfwwq
+   nCM1a3ozYWS_Ug~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -577,10 +577,6 @@ Table of Contents
    scope of this specification.
 
 3.5.  Obtaining Public Key for Issuer-signed JWTs
-
-   A recipient of an SD-JWT VC MUST ensure that the public verification
-   of the Issuer-signed JWT belongs to the Issuer of the Issuer-signed
-   JWT.
 
    A recipient of an SD-JWT VC MUST apply the following rules to obtain
    the public verification key for the Issuer-signed JWT: - JWT Issuer
@@ -774,15 +770,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.26zu
-   TpyjDw-8iOD5QFCOyn9wj3Umjz4-WJxMCYdw6AbKrg0waZuAGOuHYpbHuRBe1Y4illz-
-   LqugGQxTcezi5Q~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.a3aZ
+   xY6A9MK1a5291tepnsnrHcIwNq6N9CpdBgivguUztNgwwzHc11JjyTo8bU9SGiorfwwq
+   nCM1a3ozYWS_Ug~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   NzYzNzN9.Bl1G-toCS_cWX64sEEwOyYbKWBF97YyxjFuK8PKiE8lcrUIu8O0ENdmhKbZ
-   viCkkLyvLsBQtcKiEH4y33oTUPQ
+   NzY1ODJ9.-w5Fs-vJvYBREk_LHvam4TfglBCdr81sQCc8gYt_USONer3-ldVXvEvaKFr
+   7hgPWRfpInhyM7R-DuKsk_bcXBg
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -802,8 +798,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.6n-mVD5WkqnnJNdVaCrE_zjP_WF0xNxAaKIJ1W47Kawv
-   yUGmPQLGHmQNjbwoW7XXfZk8oGgRM0Cr6XqcELaPnw~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.88oooOsTOkyIEufTYi8meRCzaNRRpYZ1OPJX-g0PUqOm
+   hF3C3WtkokXvw46uG59vwvB8f8HMXx8EH6cMHunwJQ~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~

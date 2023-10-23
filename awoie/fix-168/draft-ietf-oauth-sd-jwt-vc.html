@@ -1782,9 +1782,9 @@ cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBs
 ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
 Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
 Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.26zu
-TpyjDw-8iOD5QFCOyn9wj3Umjz4-WJxMCYdw6AbKrg0waZuAGOuHYpbHuRBe1Y4illz-
-LqugGQxTcezi5Q~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.a3aZ
+xY6A9MK1a5291tepnsnrHcIwNq6N9CpdBgivguUztNgwwzHc11JjyTo8bU9SGiorfwwq
+nCM1a3ozYWS_Ug~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
 CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
 IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
 AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -1827,9 +1827,7 @@ specification.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
         <h3 id="name-obtaining-public-key-for-is">
 <a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-obtaining-public-key-for-is" class="section-name selfRef">Obtaining Public Key for Issuer-signed JWTs</a>
         </h3>
-<p id="section-3.5-1">A recipient of an SD-JWT VC MUST ensure that the public verification of the Issuer-signed JWT
-belongs to the Issuer of the Issuer-signed JWT.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
-<p id="section-3.5-2">A recipient of an SD-JWT VC MUST apply the following rules to obtain the public
+<p id="section-3.5-1">A recipient of an SD-JWT VC MUST apply the following rules to obtain the public
 verification key for the Issuer-signed JWT:
 - JWT Issuer Metadata: If the <code>iss</code> value contains an HTTPS URI, the recipient MUST
 obtain the public key using JWT Issuer Metadata as defined in <a href="#jwt-issuer-metadata" class="auto internal xref">Section 4</a>.
@@ -1841,8 +1839,8 @@ DID URL of the DID in the <code>iss</code> value, identifying the public key.
 defined by the <code>x5c</code>, <code>x5c</code>, or <code>x5t</code> JWT header parameters of the Issuer-signed JWT and validate the X.509
 certificate chain in the following cases:
     - If the <code>iss</code> value contains a DNS name encoded as a URI using the DNS URI scheme <span>[<a href="#RFC4501" class="cite xref">RFC4501</a>]</span>. In this case, the DNS name MUST match a <code>dNSName</code> Subject Alternative Name (SAN) <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> entry of the leaf certificate.
-    - If the <code>iss</code> value contains a URN using the URN URI scheme <span>[<a href="#RFC2141" class="cite xref">RFC2141</a>]</span>. In this case, the URN MUST match a <code>unifiedResourceName</code> SAN entry of the leaf certificate.<a href="#section-3.5-2" class="pilcrow">¶</a></p>
-<p id="section-3.5-3">Separate specifications or ecosystem regulations MAY define rules complementing the rules defined above, but such rules are out of scope of this specification. See <a href="#ecosystem-verification-rules" class="auto internal xref">Section 6.2</a> for security considerations.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
+    - If the <code>iss</code> value contains a URN using the URN URI scheme <span>[<a href="#RFC2141" class="cite xref">RFC2141</a>]</span>. In this case, the URN MUST match a <code>unifiedResourceName</code> SAN entry of the leaf certificate.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.5-2">Separate specifications or ecosystem regulations MAY define rules complementing the rules defined above, but such rules are out of scope of this specification. See <a href="#ecosystem-verification-rules" class="auto internal xref">Section 6.2</a> for security considerations.<a href="#section-3.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2054,15 +2052,15 @@ cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBs
 ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
 Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
 Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.26zu
-TpyjDw-8iOD5QFCOyn9wj3Umjz4-WJxMCYdw6AbKrg0waZuAGOuHYpbHuRBe1Y4illz-
-LqugGQxTcezi5Q~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.a3aZ
+xY6A9MK1a5291tepnsnrHcIwNq6N9CpdBgivguUztNgwwzHc11JjyTo8bU9SGiorfwwq
+nCM1a3ozYWS_Ug~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
 nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
 24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
 iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
 ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-NzYzNzN9.Bl1G-toCS_cWX64sEEwOyYbKWBF97YyxjFuK8PKiE8lcrUIu8O0ENdmhKbZ
-viCkkLyvLsBQtcKiEH4y33oTUPQ
+NzY1ODJ9.-w5Fs-vJvYBREk_LHvam4TfglBCdr81sQCc8gYt_USONer3-ldVXvEvaKFr
+7hgPWRfpInhyM7R-DuKsk_bcXBg
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-3">In this presentation, the Holder provides only the Disclosure for the claim
@@ -2082,8 +2080,8 @@ laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
 5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
 0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
 vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-fYWxnIjogInNoYS0yNTYifQ.6n-mVD5WkqnnJNdVaCrE_zjP_WF0xNxAaKIJ1W47Kawv
-yUGmPQLGHmQNjbwoW7XXfZk8oGgRM0Cr6XqcELaPnw~WyJRZ19PNjR6cUF4ZTQxMmExM
+fYWxnIjogInNoYS0yNTYifQ.88oooOsTOkyIEufTYi8meRCzaNRRpYZ1OPJX-g0PUqOm
+hF3C3WtkokXvw46uG59vwvB8f8HMXx8EH6cMHunwJQ~WyJRZ19PNjR6cUF4ZTQxMmExM
 Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
 iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
 W50cnkiOiAiVVMifV0~
