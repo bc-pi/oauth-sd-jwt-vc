@@ -534,9 +534,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Pij5
-   0JMW0g_U7TXO1j3Qep17mLa98pjqrfsQzyRL3YUSpBMdI3a1b5D9CXDFF_6uK2zD4nvI
-   L5-UHot7PGHxyA~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.MGeo
+   bq3EmwLKw8Yzkazt5F_mUV5kpmOzM_6hjF-lxJo7Q1BZ1Tov0kGAJh9FX8BXTyXO7PiU
+   dIuJKIVeRqJYiw~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -595,8 +595,9 @@ Table of Contents
    a DNS name encoded as a URI using the DNS URI scheme [RFC4501].  In
    this case, the DNS name MUST match a dNSName Subject Alternative Name
    (SAN) [RFC5280] entry of the leaf certificate.  - If the iss value
-   contains a URN using the URN URI scheme [RFC2141].  The URN MUST
-   match a unifiedResourceName SAN entry of the leaf certificate.
+   contains a URN using the URN URI scheme [RFC2141].  In this case, the
+   URN MUST match a unifiedResourceName SAN entry of the leaf
+   certificate.
 
    Additional rules for verifying the public key belongs to the Issuer
    MAY be used but are out of scope of this specification.
@@ -768,15 +769,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.Pij5
-   0JMW0g_U7TXO1j3Qep17mLa98pjqrfsQzyRL3YUSpBMdI3a1b5D9CXDFF_6uK2zD4nvI
-   L5-UHot7PGHxyA~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.MGeo
+   bq3EmwLKw8Yzkazt5F_mUV5kpmOzM_6hjF-lxJo7Q1BZ1Tov0kGAJh9FX8BXTyXO7PiU
+   dIuJKIVeRqJYiw~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   NzI0NzF9.EP-2gA8HY-Fof9sZKy9xzkqYZ2upwq6Cr2L6l1SNZf3pKQaBvx2UctJcFGE
-   3vj5oO-QthyqxvjGCBqnwX6ygNQ
+   NzI1NDB9.4yJrSyPXQ_YMRAgLCkUcsCEOGvvuJUeWUexUoKDUBNqETDkSwxPn-akt4ZO
+   GqANtNMl8zv_sbOymozNVZhOebA
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -796,8 +797,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.Iwca45P0Ym58e1em0-mwRxRWYuzF2F0n455Gd3Nyo_Ev
-   G_7andCnij9AcWwa7-0EvV_FjRYhQTXzcXCR8L7gAw~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.Vty_pNFvie1wdMPWLt0Ss_vwayTodFQa3lhbwKXhqEoC
+   yaPnL2CeYdWUJY95IhKKlUuRu2MEQoFuEi9Mp2KF9w~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~
