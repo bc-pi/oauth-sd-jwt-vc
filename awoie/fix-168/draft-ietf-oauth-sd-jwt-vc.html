@@ -1210,10 +1210,10 @@ rules to express Verifiable Credentials with JSON payloads with and without sele
                 <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-unlinkability" class="internal xref">Unlinkability</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
-                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-type-identifier" class="internal xref">Type Identifier</a></p>
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-verifiable-credential-type-i" class="internal xref">Verifiable Credential Type Identifier</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.3">
-                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-issuer-phone-home" class="internal xref">Issuer Phone Home</a></p>
+                <p id="section-toc.1-1.7.2.3.1"><a href="#section-7.3" class="auto internal xref">7.3</a>.  <a href="#name-issuer-phone-home" class="internal xref">Issuer Phone-Home</a></p>
 </li>
             </ul>
 </li>
@@ -1457,28 +1457,28 @@ SD-JWT VCs.<a href="#section-3.2.2-1" class="pilcrow">¶</a></p>
             </h5>
 <div id="type-claim">
 <section id="section-3.2.2.1.1">
-              <h6 id="name-type-claim">
-<a href="#section-3.2.2.1.1" class="section-number selfRef">3.2.2.1.1. </a><a href="#name-type-claim" class="section-name selfRef"><code>type</code> claim</a>
+              <h6 id="name-verifiable-credential-type-">
+<a href="#section-3.2.2.1.1" class="section-number selfRef">3.2.2.1.1. </a><a href="#name-verifiable-credential-type-" class="section-name selfRef">Verifiable Credential Type - <code>vct</code> Claim</a>
               </h6>
-<p id="section-3.2.2.1.1-1">This specification defines the JWT claim <code>type</code>. The <code>type</code> value MUST be a
+<p id="section-3.2.2.1.1-1">This specification defines the JWT claim <code>vct</code> (for verifiable credential type). The <code>vct</code> value MUST be a
 case-sensitive <code>StringOrURI</code> (see <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>) value serving as an identifier
-for the type of the SD-JWT VC. The <code>type</code> value MUST be a Collision-Resistant
+for the type of the SD-JWT VC. The <code>vct</code> value MUST be a Collision-Resistant
 Name as defined in Section 2 of <span>[<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-3.2.2.1.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.2.2.1.1-2">A type is associated with rules defining which claims may or must appear in the
 Unsecured Payload of the SD-JWT VC and whether they may, must, or must not be
-selectively disclosable. This specification does not define any <code>type</code> values; instead
+selectively disclosable. This specification does not define any <code>vct</code> values; instead
 it is expected that ecosystems using SD-JWT VCs define such values including
 the semantics of the respective claims and associated rules (e.g., policies for issuing and
 validating credentials beyond what is defined in this specification).<a href="#section-3.2.2.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.2.2.1.1-3">The following is a non-normative example of how <code>type</code> is used to express
+<p id="section-3.2.2.1.1-3">The following is a non-normative example of how <code>vct</code> is used to express
 a type:<a href="#section-3.2.2.1.1-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3.2.2.1.1-4">
 <pre>{
-  "type": "https://credentials.example.com/identity_credential"
+  "vct": "https://credentials.example.com/identity_credential"
 }
 </pre><a href="#section-3.2.2.1.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-3.2.2.1.1-5">For example, a type <code>https://credentials.example.com/identity_credential</code> can be associated with rules that define that at least the registered JWT claims <code>given_name</code>, <code>family_name</code>, <code>birthdate</code>, and <code>address</code> must appear in the Unsecured Payload. Additionally, the registered JWT claims <code>email</code> and <code>phone_number</code>, and the private claims <code>is_over_18</code>, <code>is_over_21</code>, and <code>is_over_65</code> may be used. The type might also indicate that any of the aforementioned claims can be selectively disclosable.<a href="#section-3.2.2.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.2.2.1.1-5">For example, a value of <code>https://credentials.example.com/identity_credential</code> can be associated with rules that define that at least the registered JWT claims <code>given_name</code>, <code>family_name</code>, <code>birthdate</code>, and <code>address</code> must appear in the Unsecured Payload. Additionally, the registered JWT claims <code>email</code> and <code>phone_number</code>, and the private claims <code>is_over_18</code>, <code>is_over_21</code>, and <code>is_over_65</code> may be used. The type might also indicate that any of the aforementioned claims can be selectively disclosable.<a href="#section-3.2.2.1.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1530,12 +1530,12 @@ information.<a href="#section-3.2.2.2-3.4.2.1" class="pilcrow">¶</a>
               <li class="normal" id="section-3.2.2.2-3.5">
                 <p id="section-3.2.2.2-3.5.1"><code>cnf</code><a href="#section-3.2.2.2-3.5.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.2.2.2-3.5.2.1">REQUIRED when Cryptographic Key Binding is to be supported. Contains the confirmation method as defined in <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span>. It SHOULD contain a JWK as defined in Section 3.2 of <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span>.  For Cryptographic Key Binding, the Key Binding JWT in the Combined Format for Presentation MUST be signed by the key identified in this claim.<a href="#section-3.2.2.2-3.5.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-3.2.2.2-3.5.2.1">REQUIRED when Cryptographic Key Binding is to be supported. Contains the confirmation method as defined in <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span>. It is RECOMMENDED that this contains a JWK as defined in Section 3.2 of <span>[<a href="#RFC7800" class="cite xref">RFC7800</a>]</span>. For Cryptographic Key Binding, the Key Binding JWT in the Combined Format for Presentation MUST be signed by the key identified in this claim.<a href="#section-3.2.2.2-3.5.2.1" class="pilcrow">¶</a>
 </li>
                 </ul>
 </li>
               <li class="normal" id="section-3.2.2.2-3.6">
-                <p id="section-3.2.2.2-3.6.1"><code>type</code><a href="#section-3.2.2.2-3.6.1" class="pilcrow">¶</a></p>
+                <p id="section-3.2.2.2-3.6.1"><code>vct</code><a href="#section-3.2.2.2-3.6.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.2.2.2-3.6.2.1">REQUIRED. The type of the Verifiable Credential, e.g.,
 <code>https://credentials.example.com/identity_credential</code>, as defined in <a href="#type-claim" class="auto internal xref">Section 3.2.2.1.1</a>.<a href="#section-3.2.2.2-3.6.2.1" class="pilcrow">¶</a>
@@ -1600,7 +1600,7 @@ MUST NOT have any Disclosures.<a href="#section-3.2.2.4-1" class="pilcrow">¶</a
 SD-JWT VC.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="section-3.3-2">
 <pre>{
-  "type": "https://credentials.example.com/identity_credential",
+  "dct": "https://credentials.example.com/identity_credential",
   "given_name": "John",
   "family_name": "Doe",
   "email": "johndoe@example.com",
@@ -1637,7 +1637,7 @@ only claims about the Subject that are selectively disclosable:<a href="#section
   "iss": "https://example.com/issuer",
   "iat": 1683000000,
   "exp": 1883000000,
-  "type": "https://credentials.example.com/identity_credential",
+  "dct": "https://credentials.example.com/identity_credential",
   "_sd_alg": "sha-256",
   "cnf": {
     "jwk": {
@@ -1778,23 +1778,23 @@ IiwgIlRHZjRvTGJnd2Q1SlFhSHlLVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAi
 amRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5
 eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAi
 aHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4
-cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBs
-ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
-Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
-Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.IT55
-Mq0rCMO1zU6yo3bLQfWYln3gIRgA6KIdV7-0_9_3ropaKGXhBwZbDqPXj2xOfh0-1OVl
-C9O8CQZOqUNu4w~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
-CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
-IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
-AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
-bWJlciIsICIrMS0yMDItNTU1LTAxMDEiXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BI
-iwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY
-2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiO
-iAiVVMifV0~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxO
-TQwLTAxLTAxIl0~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImlzX292ZXJfMTgiL
-CB0cnVlXQ~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImlzX292ZXJfMjEiLCB0cn
-VlXQ~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImlzX292ZXJfNjUiLCB0cnVlXQ~
+cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
+LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
+bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
+QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.sBf5r
+Ebpihd3bIFFogXpltdOwJYqvZ4E__BtUnMSIIK34abapS7BfeelI9qFUrHjTVJFC47-1
+zzK93u82vPnfQ~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
+kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
+ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
+WJlciIsICIrMS0yMDItNTU1LTAxMDEiXQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIi
+wgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2
+FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOi
+AiVVMifV0~WyJBSngtMDk1VlBycFR0TjRRTU9xUk9BIiwgImJpcnRoZGF0ZSIsICIxOT
+QwLTAxLTAxIl0~WyJQYzMzSk0yTGNoY1VfbEhnZ3ZfdWZRIiwgImlzX292ZXJfMTgiLC
+B0cnVlXQ~WyJHMDJOU3JRZmpGWFE3SW8wOXN5YWpBIiwgImlzX292ZXJfMjEiLCB0cnV
+lXQ~WyJsa2x4RjVqTVlsR1RQVW92TU5JdkNBIiwgImlzX292ZXJfNjUiLCB0cnVlXQ~
 </pre><a href="#section-3.3-26" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1995,48 +1995,11 @@ of SD-JWT VCs.<a href="#section-5-1" class="pilcrow">¶</a></p>
         <h3 id="name-key-binding-jwt">
 <a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-key-binding-jwt" class="section-name selfRef">Key Binding JWT</a>
         </h3>
-<p id="section-5.1-1">If the presentation of the SD-JWT VC includes a Key Binding JWT, the
-following claims are used within the Key Binding JWT:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.1-2.1">
-            <p id="section-5.1-2.1.1"><code>nonce</code><a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.1-2.1.2.1">REQUIRED. String value used to associate a transaction between a Verifier
-an a Holder, and to mitigate replay attacks. The value is passed
-through unmodified from the Verifier to the Key Binding JWT. Sufficient
-entropy MUST be present in the <code>nonce</code> values used to prevent attackers from
-guessing values.<a href="#section-5.1-2.1.2.1" class="pilcrow">¶</a>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-5.1-2.2">
-            <p id="section-5.1-2.2.1"><code>aud</code><a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.1-2.2.2.1">REQUIRED. The intended recipient of the Key Binding JWT which is
-typically the Verifier. See <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> for more information.<a href="#section-5.1-2.2.2.1" class="pilcrow">¶</a>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-5.1-2.3">
-            <p id="section-5.1-2.3.1"><code>iat</code><a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.1-2.3.2.1">REQUIRED. The time of issuance of the Key Binding JWT. See
-<span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span> for more information.<a href="#section-5.1-2.3.2.1" class="pilcrow">¶</a>
-</li>
-            </ul>
-</li>
-          <li class="normal" id="section-5.1-2.4">
-            <p id="section-5.1-2.4.1"><code>exp</code><a href="#section-5.1-2.4.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.1-2.4.2.1">OPTIONAL. The expiration time of the signature when
-the Key Binding is no longer considered valid. See <span>[<a href="#RFC7519" class="cite xref">RFC7519</a>]</span>
-for more information.<a href="#section-5.1-2.4.2.1" class="pilcrow">¶</a>
-</li>
-            </ul>
-</li>
-        </ul>
-<p id="section-5.1-3">The Key Binding JWT MAY include addtional claims which when not understood
-MUST be ignored.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-1">If the presentation of the SD-JWT VC includes a Key Binding JWT, the Key Binding
+JWT MUST adhere to the rules defined in Section 5.10 of
+<span>[<a href="#I-D.ietf-oauth-selective-disclosure-jwt" class="cite xref">I-D.ietf-oauth-selective-disclosure-jwt</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">The Key Binding JWT MAY include addtional claims which, when not understood, MUST
+be ignored by the Verifier.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="examples">
@@ -2058,19 +2021,19 @@ IiwgIlRHZjRvTGJnd2Q1SlFhSHlLVlFaVTlVZEdFMHc1cnREc3JaemZVYW9tTG8iLCAi
 amRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5
 eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAi
 aHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4
-cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8vY3JlZGVudGlhbHMuZXhhbXBs
-ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
-Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
-Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.IT55
-Mq0rCMO1zU6yo3bLQfWYln3gIRgA6KIdV7-0_9_3ropaKGXhBwZbDqPXj2xOfh0-1OVl
-C9O8CQZOqUNu4w~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
-nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
-24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
-iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
-ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-Nzg0NTR9.JfGV_PPBAe8nOXOliWHF-PVeniUK8g8jvbO7_PwM_r3QsROZgIRqye9IB0H
-hcYVT9VBobe_VNyTVUtxkX_WFeA
+cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
+LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
+bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
+QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.sBf5r
+Ebpihd3bIFFogXpltdOwJYqvZ4E__BtUnMSIIK34abapS7BfeelI9qFUrHjTVJFC47-1
+zzK93u82vPnfQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
+4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
+AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
+mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgwN
+zg4NzB9.s_GvexyTmPC944XHE7MD82Pe4n9WLJPXH7MbMa5wP_x40n4b94bKmqTfGCYy
+e6BVoOyZUelqRqmWdZek0spGHw
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-5.2-3">In this presentation, the Holder provides only the Disclosure for the claim
@@ -2088,13 +2051,13 @@ iUm9jMkpHbEFVQTJCQTRvN2NJIiwgIlRHZjRvTGJnd2Q1SlFhSHlLVlFaVTlVZEdFMHc
 1cnREc3JaemZVYW9tTG8iLCAiamRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUN
 laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
 5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
-0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
-vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-fYWxnIjogInNoYS0yNTYifQ.tesq-5LirrnFSVTz8Qb0CpvKFaT_dCm4MBF7zmTiljDy
-eyOafmhrWUqQpbS3i3RZo09MMBb69jAezWmMIK8jWg~WyJRZ19PNjR6cUF4ZTQxMmExM
-Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
-iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
-W50cnkiOiAiVVMifV0~
+0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9
+jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
+hbGciOiAic2hhLTI1NiJ9.LEk12LTpAjeSlEm6Min-Sa41E6B5IG1MeZHS-LSW12ecq0
+we7rtacc14_lkp3dR5Y9pLyCuzHgg6bmTpTRfEPA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
+gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
+0cnkiOiAiVVMifV0~
 </pre><a href="#section-5.2-5" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2167,26 +2130,26 @@ account when using SD-JWT VCs.<a href="#section-7-1" class="pilcrow">¶</a></p>
 apply especially to the <code>cnf</code> claim.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="type-identifier">
+<div id="verifiable-credential-type-identifier">
 <section id="section-7.2">
-        <h3 id="name-type-identifier">
-<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-type-identifier" class="section-name selfRef">Type Identifier</a>
+        <h3 id="name-verifiable-credential-type-i">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-verifiable-credential-type-i" class="section-name selfRef">Verifiable Credential Type Identifier</a>
         </h3>
 <p id="section-7.2-1">Issuers and Holders have to be aware that while this specification supports selective
-disclosure of claims of a given SD-JWT VC, the <code>type</code> claim is not selectively disclosable.
+disclosure of claims of a given SD-JWT VC, the <code>vct</code> claim is not selectively disclosable.
 In certain situations this could lead to unwanted leakage of additional context information.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
-<p id="section-7.2-2">In general, Issuers are advised to choose <code>type</code> values following data minimization principles.
+<p id="section-7.2-2">In general, Issuers are advised to choose <code>vct</code> values following data minimization principles.
 For example, government Issuers issuing an SD-JWT VC to their citizens to enable them to prove their age,
-might consider using a <code>type</code> value that does not allow third-parties to infer additional personal information
+might consider using a <code>vct</code> value that does not allow third-parties to infer additional personal information
 about the Holder, e.g., country of residency or citizenship.<a href="#section-7.2-2" class="pilcrow">¶</a></p>
 <p id="section-7.2-3">Additionally, Holders have to be informed that, besides the actual requested claims, the
-<code>type</code> information is shared with the Verifier.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
+<code>vct</code> information is shared with the Verifier.<a href="#section-7.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="issuer-phone-home">
 <section id="section-7.3">
         <h3 id="name-issuer-phone-home">
-<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-issuer-phone-home" class="section-name selfRef">Issuer Phone Home</a>
+<a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-issuer-phone-home" class="section-name selfRef">Issuer Phone-Home</a>
         </h3>
 <p id="section-7.3-1">A malicious Issuer can choose the Issuer identifier of the SD-JWT VC to enable tracking
 the usage behavior of the Holder if the Issuer identifier is Holder-specific and if the
@@ -2285,11 +2248,11 @@ in the Issuer identifier.<a href="#section-7.3-4" class="pilcrow">¶</a></p>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-A.1-1.1">
-            <p id="appendix-A.1-1.1.1">Claim Name: "type"<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-A.1-1.1.1">Claim Name: "vct"<a href="#appendix-A.1-1.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-A.1-1.1.2.1">Claim Description: Credential Type<a href="#appendix-A.1-1.1.2.1" class="pilcrow">¶</a>
+<li class="normal" id="appendix-A.1-1.1.2.1">Claim Description: Verifiable credential type identifier<a href="#appendix-A.1-1.1.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="normal" id="appendix-A.1-1.1.2.2">Change Controller: IESG<a href="#appendix-A.1-1.1.2.2" class="pilcrow">¶</a>
+              <li class="normal" id="appendix-A.1-1.1.2.2">Change Controller: IETF<a href="#appendix-A.1-1.1.2.2" class="pilcrow">¶</a>
 </li>
               <li class="normal" id="appendix-A.1-1.1.2.3">Specification Document(s): <a href="#type-claim" class="auto internal xref">Section 3.2.2.1.1</a> of this document<a href="#appendix-A.1-1.1.2.3" class="pilcrow">¶</a>
 </li>
@@ -2382,7 +2345,13 @@ for their contributions (some of which substantial) to this draft and to the ini
 <ul class="normal">
 <li class="normal" id="appendix-C-2.1">Introduce rules for type identifiers (Collision-Resistant Name)<a href="#appendix-C-2.1" class="pilcrow">¶</a>
 </li>
-        <li class="normal" id="appendix-C-2.2">Added issuer public verification key discovery section.<a href="#appendix-C-2.2" class="pilcrow">¶</a>
+        <li class="normal" id="appendix-C-2.2">Rename <code>type</code> to <code>vct</code><a href="#appendix-C-2.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-2.3">Removed duplicated and inconsistent requirements on KB-JWT<a href="#appendix-C-2.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-2.4">Editorial changes<a href="#appendix-C-2.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="appendix-C-2.5">Added issuer public verification key discovery section.<a href="#appendix-C-2.5" class="pilcrow">¶</a>
 </li>
       </ul>
 <p id="appendix-C-3">-00<a href="#appendix-C-3" class="pilcrow">¶</a></p>
