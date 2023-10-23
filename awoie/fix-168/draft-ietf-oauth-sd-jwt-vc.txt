@@ -534,9 +534,9 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.6gRM
-   iEJb4OyRFZIWmLNdOOS8x8dpepj7B4TcoENOBqeGEIYk213jsQt9_dxbk490AHBYvhwV
-   lWQtG4S57Yj_8g~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.gArV
+   FA0YhMcCuGSfR7tN3G1tS41gv-ybu8Cq-iP3B_MWvuvg2aXsgFZi9gXx9pu-RAxVP503
+   AyuBTEkOZSmm5w~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiL
    CAiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwg
    IkRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2V
    AZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251
@@ -581,7 +581,7 @@ Table of Contents
 
    A recipient of the SD-JWT VC MUST apply the following rules to verify
    the Issuer-signed JWT corresponds to the Issuer: - JWT Issuer
-   Metadata: If the iss value contains a HTTPS URI, the recipient MUST
+   Metadata: If the iss value contains an HTTPS URI, the recipient MUST
    obtain the public key using JWT Issuer Metadata as defined in
    Section 4. - DID Document Resolution: If the iss value contains a
    DID, the recipient MUST retrieve the public key from the DID Document
@@ -768,15 +768,15 @@ Table of Contents
    ZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2RfYWxnIjogInNoYS0yNTYiLCAi
    Y25mIjogeyJqd2siOiB7Imt0eSI6ICJFQyIsICJjcnYiOiAiUC0yNTYiLCAieCI6ICJU
    Q0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwgInkiOiAi
-   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.6gRM
-   iEJb4OyRFZIWmLNdOOS8x8dpepj7B4TcoENOBqeGEIYk213jsQt9_dxbk490AHBYvhwV
-   lWQtG4S57Yj_8g~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
+   WnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSJ9fX0.gArV
+   FA0YhMcCuGSfR7tN3G1tS41gv-ybu8Cq-iP3B_MWvuvg2aXsgFZi9gXx9pu-RAxVP503
+   AyuBTEkOZSmm5w~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7I
    nN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd
    24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciO
    iAiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwg
    ImF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgw
-   NjY1Mjl9.rFb5RWPAXJNeYB2QM7o5S6iH9xZk9PVTklJi3ZCG8ANK28EgbWevFUKRgpC
-   mdIg8UpO7yIOh2KqS3YbIfCLJ0A
+   NzAxMzN9.EIv1EBWraHrU4a9fR0W5up-PuJEEhiylllEIkHumgdWD4QK_WqjROcupJ5k
+   E1MOOxAtMpU4U-qMigNG6mzVUhg
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -796,8 +796,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ0eXBlIjogImh0dHBzOi8
    vY3JlZGVudGlhbHMuZXhhbXBsZS5jb20vaWRlbnRpdHlfY3JlZGVudGlhbCIsICJfc2R
-   fYWxnIjogInNoYS0yNTYifQ.qWMdHzydMtVFtZvJNNzONS9_7gXVWokdQJRTk6khIPkS
-   ushVhRd4hjAuXb2Fn9vWNL1ha2ltsKy3dWI1oxNbvA~WyJRZ19PNjR6cUF4ZTQxMmExM
+   fYWxnIjogInNoYS0yNTYifQ.K78ThQRWCqDQW2qrxD2JNNMQhSTuWdy74wXvVBU2WhDd
+   legODoHkVkpHu25OQkAWFW6vm3DQYYFwadVGWYV_-Q~WyJRZ19PNjR6cUF4ZTQxMmExM
    Dhpcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0I
    iwgImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvd
    W50cnkiOiAiVVMifV0~
