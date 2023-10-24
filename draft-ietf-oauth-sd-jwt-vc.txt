@@ -5,8 +5,8 @@
 Web Authorization Protocol                                      O. Terbu
 Internet-Draft                                      Spruce Systems, Inc.
 Intended status: Standards Track                                 D. Fett
-Expires: 25 April 2024                                     Authlete Inc.
-                                                         23 October 2023
+Expires: 26 April 2024                                     Authlete Inc.
+                                                         24 October 2023
 
 
             SD-JWT-based Verifiable Credentials (SD-JWT VC)
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 April 2024.
+   This Internet-Draft will expire on 26 April 2024.
 
 Copyright Notice
 
@@ -367,7 +367,7 @@ Table of Contents
    an SD-JWT VC.
 
    {
-     "dct": "https://credentials.example.com/identity_credential",
+     "vct": "https://credentials.example.com/identity_credential",
      "given_name": "John",
      "family_name": "Doe",
      "email": "johndoe@example.com",
@@ -404,7 +404,7 @@ Table of Contents
      "iss": "https://example.com/issuer",
      "iat": 1683000000,
      "exp": 1883000000,
-     "dct": "https://credentials.example.com/identity_credential",
+     "vct": "https://credentials.example.com/identity_credential",
      "_sd_alg": "sha-256",
      "cnf": {
        "jwk": {
@@ -531,13 +531,13 @@ Table of Contents
    amRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5
    eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAi
    aHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4
-   cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
+   cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ct3zz
-   9QkKikB27HpkfnTvOfFCUifGdnc8gxOBEj56bJHasyylV0IqtVe7svBDTYArY9IZzyln
-   OD_wiBwo2Y5Jw~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.3dCB0
+   8XUVkTWqg4fCHBGRdKVEI3u6mgMcFlMAPniKNX44CBDQczHjZnpKv5h3pbtOAPAkZAzZ
+   pXwp91DsjDpXg~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
    AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
    kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
    ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -752,19 +752,19 @@ Table of Contents
    amRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUNlaVVRd1k5UXF4SSIsICJqc3U5
    eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF5UXdMVUs0Il0sICJpc3MiOiAi
    aHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF0IjogMTY4MzAwMDAwMCwgImV4
-   cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
+   cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.ct3zz
-   9QkKikB27HpkfnTvOfFCUifGdnc8gxOBEj56bJHasyylV0IqtVe7svBDTYArY9IZzyln
-   OD_wiBwo2Y5Jw~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.3dCB0
+   8XUVkTWqg4fCHBGRdKVEI3u6mgMcFlMAPniKNX44CBDQczHjZnpKv5h3pbtOAPAkZAzZ
+   pXwp91DsjDpXg~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
    N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
    4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
    AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
-   mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgwN
-   zk4MjV9.YupEth8SRZFJAe9JpEH8mlDAFcIA-eNP2qgJMnQT4uskFyTPVOHoAIgw5gom
-   bGz2Dbd637KDYtWaQ7f6SVAPMw
+   mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTgxN
+   zYzOTJ9.MXGViB-_-KZX6HAqmAsjm7ciGqFZ2DznKgRE7FbD3GJZr2sIBXDplhQPncXT
+   2SjLoz1hNLvdD6g_tznf_N24VQ
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -782,10 +782,10 @@ Table of Contents
    1cnREc3JaemZVYW9tTG8iLCAiamRyVEU4WWNiWTRFaWZ1Z2loaUFlX0JQZWt4SlFaSUN
    laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
-   0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJkY3QiOiAiaHR0cHM6Ly9
+   0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9
    jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-   hbGciOiAic2hhLTI1NiJ9.J8l4AmplDzYHpzPXaIhm0w63zefrR3ld1Zr8hkSjlZroGQ
-   8cmdbyAabZiM2E08gDaO0czjt-AnziYeL4h9h1lQ~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+   hbGciOiAic2hhLTI1NiJ9.D4mqfTXJn5q_8zO1jRwPKvxofsNJKdNMlvBZl8U6EHXZdK
+   61_b37VUaKppSK_DQJyKEP8R7JFroXessydFImOA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
    pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
    gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
    0cnkiOiAiVVMifV0~
