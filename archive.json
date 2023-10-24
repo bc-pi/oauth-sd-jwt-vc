@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-22T01:21:48.476664+00:00",
+  "timestamp": "2023-10-24T01:16:39.467063+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -2603,20 +2603,20 @@
       "id": "I_kwDOJbVClc5nA1Nx",
       "title": "Why is JWT issuer metadata part of this spec?",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/112",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "andresuribe87",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
         "awoie"
       ],
       "labels": [
-        "NEEDS PR",
+        "HAS PR",
         "wg-01"
       ],
       "body": "Mechanisms to go from `iss` -> cryptographic public key that can be used for signature verification seem to be out of scope for this document. Why is it included? ",
       "createdAt": "2023-05-26T21:37:48Z",
-      "updatedAt": "2023-10-04T11:35:31Z",
-      "closedAt": null,
+      "updatedAt": "2023-10-23T21:45:03Z",
+      "closedAt": "2023-10-23T21:45:02Z",
       "comments": [
         {
           "author": "alenhorvat",
@@ -2659,6 +2659,20 @@
           "body": "related to #168 ",
           "createdAt": "2023-10-04T11:35:31Z",
           "updatedAt": "2023-10-04T11:35:31Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We introduced a PR #175 that explains the role of the JWT Issuer Metadata that fills the gap of key discovery if the issuer is a HTTPS URI. Note, DIDs are also mentioned as another option explicitly. ",
+          "createdAt": "2023-10-23T15:26:31Z",
+          "updatedAt": "2023-10-23T15:26:31Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this issue since PR #175 got merged.",
+          "createdAt": "2023-10-23T21:45:02Z",
+          "updatedAt": "2023-10-23T21:45:02Z"
         }
       ]
     },
@@ -3229,7 +3243,7 @@
       "id": "I_kwDOJbVClc5o1JEl",
       "title": "Align claims for Type and Status with JWT claims",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/130",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "danielfett",
       "authorAssociation": "MEMBER",
       "assignees": [
@@ -3240,8 +3254,8 @@
       ],
       "body": "I think we should use short JWT-style names for the type and status list claims in order to show that these claims are at the core of the JWT (just like `exp`, `iss`, etc.). I therefore propose that we use `scm` (for \"scheme\", since the short form of \"type\" is already taken) and `stu` (for status list URI).",
       "createdAt": "2023-06-15T12:50:33Z",
-      "updatedAt": "2023-10-18T10:05:47Z",
-      "closedAt": null,
+      "updatedAt": "2023-10-23T16:40:27Z",
+      "closedAt": "2023-10-23T16:40:26Z",
       "comments": [
         {
           "author": "paulbastian",
@@ -3368,6 +3382,20 @@
           "body": "I plan to do a PR for this, moving to `dct`, but will wait for PRs #173 and #172  to be merged first.",
           "createdAt": "2023-10-18T10:05:46Z",
           "updatedAt": "2023-10-18T10:05:46Z"
+        },
+        {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "we call the credentials verifiable credentials not digital credentials, so the claim should be 'vct' in my opinion.",
+          "createdAt": "2023-10-22T16:12:10Z",
+          "updatedAt": "2023-10-22T16:12:10Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "This has been fixed by using `vct` in the PR linked above.",
+          "createdAt": "2023-10-23T16:40:27Z",
+          "updatedAt": "2023-10-23T16:40:27Z"
         }
       ]
     },
@@ -3376,7 +3404,7 @@
       "id": "I_kwDOJbVClc5pU6bw",
       "title": "cnf and key rotation",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/134",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "alenhorvat",
       "authorAssociation": "NONE",
       "assignees": [
@@ -3387,8 +3415,8 @@
       ],
       "body": "Hi.\r\n\r\nDIDs, allow key rotation. Use case: legal entities/organisations/companies\r\n\r\nhttps://www.rfc-editor.org/rfc/rfc7800\r\n\r\nsays:\r\n\r\n>  By including a \"cnf\" (confirmation) claim in a JWT, the issuer of the\r\n>    JWT declares that the presenter possesses a particular key and that\r\n>    the recipient can cryptographically confirm that the presenter has\r\n>    possession of that key.  The value of the \"cnf\" claim is a JSON\r\n>    object and the members of that object identify the proof-of-\r\n>    possession key.\r\n\r\nkid can be a DID, which is legal according to the rfc7800 (The content of the \"kid\" value is application specific.)\r\n\r\n> issuer of the JWT declares that the presenter possesses a particular key\r\n\r\nCan the holder (legal entity) present the credential with a different key from the one defined in the cnf? E.g., legal entity is rotating keys every year.",
       "createdAt": "2023-06-21T08:41:28Z",
-      "updatedAt": "2023-10-04T11:26:16Z",
-      "closedAt": null,
+      "updatedAt": "2023-10-23T13:59:41Z",
+      "closedAt": "2023-10-23T13:59:41Z",
       "comments": [
         {
           "author": "awoie",
@@ -3424,6 +3452,13 @@
           "body": "Relates #168 that will explain different means of issuer key discovery and DIDs will become one informative option. We will also changed SHOULD to RECOMMEND to address this issue.",
           "createdAt": "2023-10-04T11:26:02Z",
           "updatedAt": "2023-10-04T11:26:02Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "- PR created to make JWT Issuer Metadata one option -> #175 \r\n- PR created to change SHOULD to RECOMMENDED for JWK in `cnf` -> #176 ",
+          "createdAt": "2023-10-22T22:24:53Z",
+          "updatedAt": "2023-10-22T22:24:53Z"
         }
       ]
     },
@@ -3564,19 +3599,20 @@
       "id": "I_kwDOJbVClc5p9bYZ",
       "title": "Clarification on metadata endpoint",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/143",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "c2bo",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
         "awoie"
       ],
       "labels": [
+        "HAS PR",
         "wg-01"
       ],
       "body": "There was an on-going discussion in #101 on the new metadata endpoint, but the discussion should have it's own issue (separated from the naming issue).\r\n\r\nImho, we should add a section that adds more clarity on the intended use of the endpoint introduced in this spec during verification (e.g., by making the resolution of the key using this endpoint mandatory during verification if the JWS header indicates web-based key resolution).\r\nPerhaps adding a small part to the \"Verification and Processing\" section makes sense?\r\n\r\nPrior discussion was here: https://github.com/vcstuff/draft-terbu-sd-jwt-vc/issues/101#issuecomment-1595828680",
       "createdAt": "2023-06-27T20:35:00Z",
-      "updatedAt": "2023-10-04T11:26:27Z",
-      "closedAt": null,
+      "updatedAt": "2023-10-23T16:39:09Z",
+      "closedAt": "2023-10-23T16:39:09Z",
       "comments": [
         {
           "author": "awoie",
@@ -3584,6 +3620,20 @@
           "body": "Relates to #168 ",
           "createdAt": "2023-10-04T11:23:25Z",
           "updatedAt": "2023-10-04T11:23:25Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed by #175 ",
+          "createdAt": "2023-10-23T15:24:38Z",
+          "updatedAt": "2023-10-23T15:24:38Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this issue since we merged PR #175 ",
+          "createdAt": "2023-10-23T16:39:09Z",
+          "updatedAt": "2023-10-23T16:39:09Z"
         }
       ]
     },
@@ -3874,7 +3924,7 @@
       "id": "I_kwDOJbVClc5vxSSZ",
       "title": "KeyBinding JWT header",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/159",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulbastian",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
@@ -3883,8 +3933,8 @@
       ],
       "body": "SD-JWT defines the KB-JWT header, SD-JWT-VC only refers to the claims. Is it necessary to reference to the SD-JWT spec for this?",
       "createdAt": "2023-08-31T09:57:45Z",
-      "updatedAt": "2023-10-04T11:22:14Z",
-      "closedAt": null,
+      "updatedAt": "2023-10-23T14:41:41Z",
+      "closedAt": "2023-10-23T14:41:41Z",
       "comments": [
         {
           "author": "danielfett",
@@ -3892,6 +3942,13 @@
           "body": "We do refer to the Key Binding JWT: https://vcstuff.github.io/draft-terbu-sd-jwt-vc/draft-ietf-oauth-sd-jwt-vc.html#name-key-binding-jwt\r\n\r\nIs there anything else missing?",
           "createdAt": "2023-09-08T12:40:32Z",
           "updatedAt": "2023-09-08T12:40:32Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this issue since #177 got merged.",
+          "createdAt": "2023-10-23T14:41:41Z",
+          "updatedAt": "2023-10-23T14:41:41Z"
         }
       ]
     },
@@ -3900,20 +3957,29 @@
       "id": "I_kwDOJbVClc5xo5Hp",
       "title": "Add informative section on key discovery",
       "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/168",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "awoie",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
         "awoie"
       ],
       "labels": [
+        "HAS PR",
         "wg-01"
       ],
       "body": "Show possible options like JWT Issuer Metadata, `kid` being a DID URL etc.",
       "createdAt": "2023-09-21T09:36:58Z",
-      "updatedAt": "2023-10-04T11:22:14Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2023-10-23T16:38:24Z",
+      "closedAt": "2023-10-23T16:38:23Z",
+      "comments": [
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We introduced a new section that talks about different key discovery methods during the verification process in PR #175 ",
+          "createdAt": "2023-10-23T15:27:30Z",
+          "updatedAt": "2023-10-23T15:27:30Z"
+        }
+      ]
     },
     {
       "number": 171,
@@ -3923,11 +3989,13 @@
       "state": "OPEN",
       "author": "danielfett",
       "authorAssociation": "MEMBER",
-      "assignees": [],
+      "assignees": [
+        "danielfett"
+      ],
       "labels": [],
       "body": "We need to give guidance in the spec on choosing `type` values for a credential format.\r\n\r\nWe need to think about collision resistance - either by a registry or something DNS-based like URIs or java package name notation.\r\n\r\nPersonal opinion: Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required for potentially large amounts of values, and we can think about extending this in the future with machine-readable information about credential format.",
       "createdAt": "2023-10-04T18:06:38Z",
-      "updatedAt": "2023-10-19T14:34:20Z",
+      "updatedAt": "2023-10-22T17:58:34Z",
       "closedAt": null,
       "comments": [
         {
@@ -12744,6 +12812,899 @@
           "body": "",
           "createdAt": "2023-10-19T08:04:47Z",
           "updatedAt": "2023-10-19T08:04:47Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 174,
+      "id": "PR_kwDOJbVClc5dd26J",
+      "title": "Rename 'type' to 'vct'",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/174",
+      "state": "MERGED",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR renames the claim `type` to `dct`, as per the discussion in #130 ",
+      "createdAt": "2023-10-22T15:19:13Z",
+      "updatedAt": "2023-10-23T16:28:14Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "82a9401e65b8f115d15d0e8435940976a3b96655",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "danielfett/fix-130",
+      "headRefOid": "43561b93587e8446e3c3d7433673e5eec6f4dbb5",
+      "closedAt": "2023-10-23T16:28:14Z",
+      "mergedAt": "2023-10-23T16:28:14Z",
+      "mergedBy": "awoie",
+      "mergeCommit": {
+        "oid": "c7049b708feddff122186b58b85dab57503da631"
+      },
+      "comments": [
+        {
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I oppose against this change. I suggest to use 'vct' instead.",
+          "createdAt": "2023-10-22T16:14:35Z",
+          "updatedAt": "2023-10-22T16:14:35Z"
+        },
+        {
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "body": "I'm good with `vct`.\r\n\r\nFor the record, I think it's important to move away from `type`, because https://www.w3.org/TR/vc-data-model/ uses the claim name, but with a different syntax.  Keeping the naming conflict will inevitably lead to grief.",
+          "createdAt": "2023-10-22T16:43:23Z",
+          "updatedAt": "2023-10-22T16:43:23Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Naming is hard. Regarding dct: isn't it obvious for an internet standard that we refer to digital credentials? ",
+          "createdAt": "2023-10-22T18:25:58Z",
+          "updatedAt": "2023-10-22T18:25:58Z"
+        },
+        {
+          "author": "Sakurann",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Neither dct nor vct are intuitive for me, so I am pretty unsure. \n\nBut between dct and vct, I would prefer dct. A term Verifiable credentials got enough feedback that it has strong too strong of an association to W3C VC-DATA-MODEL. And Digital credentials seems to be a term that is acceptable to generalize.",
+          "createdAt": "2023-10-22T22:24:37Z",
+          "updatedAt": "2023-10-22T22:24:37Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Neither dct nor vct are intuitive for me, so I am pretty unsure.\r\n> \r\n> But between dct and vct, I would prefer dct. A term Verifiable credentials got enough feedback that it has strong too strong of an association to W3C VC-DATA-MODEL. And Digital credentials seems to be a term that is acceptable to generalize.\r\n\r\nWhy is \"Verifiable Credential Type\" (vct) not intuitive to you? This would match the current definition of `type`. Isn't this what this claim is about? That is why I'm actually in favor of `vct` over `dct`, `dty`.",
+          "createdAt": "2023-10-22T22:30:15Z",
+          "updatedAt": "2023-10-22T22:30:15Z"
+        },
+        {
+          "author": "Sakurann",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "I meant that abbreviations are not intuitive to me.\n\nAnd \"type\" is a pretty JSON-LD specific construct AFAIK so I was hoping we could have a deeper discussion on whether it should be called \"claimset\" or something. If we are to move away from \"type\" claim name.\n\non dct and vct, as I explained, I prefer something that is not associated to W3C VCDM and digital credentials seems to be pretty well understood.\n\n\n",
+          "createdAt": "2023-10-22T22:38:16Z",
+          "updatedAt": "2023-10-22T22:38:16Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "If the color of the bikeshed is still open for debate, how about just `ct` for credential type? ",
+          "createdAt": "2023-10-23T01:10:10Z",
+          "updatedAt": "2023-10-23T01:10:10Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> If the color of the bikeshed is still open for debate, how about just `ct` for credential type?\r\n\r\nI like 3-letter-names more than 2-letter-names for some reason. Also, `vct` is more accurate since the spec is about SD-JWT VCs => Verifiable Credentials. I'd be still in favor of `vct` for that reason.",
+          "createdAt": "2023-10-23T08:57:02Z",
+          "updatedAt": "2023-10-23T08:57:02Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "`vct` is fine for me. Updated the PR accordingly.",
+          "createdAt": "2023-10-23T14:44:43Z",
+          "updatedAt": "2023-10-23T14:44:43Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "`vct` is fine for me too. `ct` was just an off-hand idea ",
+          "createdAt": "2023-10-23T14:55:09Z",
+          "updatedAt": "2023-10-23T14:55:09Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merging this PR since a lot of approvals. We will have a larger conversation on what is inferred by the `vct` value in a separate issue.",
+          "createdAt": "2023-10-23T16:28:09Z",
+          "updatedAt": "2023-10-23T16:28:09Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5k0ZDU",
+          "commit": {
+            "abbreviatedOid": "fe58f05"
+          },
+          "author": "selfissued",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "This is an improvement.",
+          "createdAt": "2023-10-22T15:55:09Z",
+          "updatedAt": "2023-10-22T15:55:09Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k0ZH9",
+          "commit": {
+            "abbreviatedOid": "fe58f05"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-22T15:57:53Z",
+          "updatedAt": "2023-10-22T15:57:53Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k0ZIG",
+          "commit": {
+            "abbreviatedOid": "fe58f05"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "We had a good discussion on that already and discussed several options. `vct` would be my favorite option.",
+          "createdAt": "2023-10-22T15:57:57Z",
+          "updatedAt": "2023-10-22T22:34:30Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k0Zwc",
+          "commit": {
+            "abbreviatedOid": "fe58f05"
+          },
+          "author": "tlodderstedt",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I suggest to use 'vct'.",
+          "createdAt": "2023-10-22T16:18:16Z",
+          "updatedAt": "2023-10-22T16:18:16Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k0cil",
+          "commit": {
+            "abbreviatedOid": "fe58f05"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I'm actually also in favor of `vct`.",
+          "createdAt": "2023-10-22T17:50:41Z",
+          "updatedAt": "2023-10-22T17:50:41Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5lWd",
+          "commit": {
+            "abbreviatedOid": "43561b9"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM. We should address @Sakurann concern in a separate issue.",
+          "createdAt": "2023-10-23T15:03:47Z",
+          "updatedAt": "2023-10-23T15:03:47Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 175,
+      "id": "PR_kwDOJbVClc5deRN2",
+      "title": "Add normative text to verification and processing section to verify public key",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/175",
+      "state": "MERGED",
+      "author": "awoie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR does the following:\r\n- make verification that the public key of the Issuer-signed JWT belongs to the Issuer mandatory\r\n- introduce methods to perform this verification based on JWT Issuer Metadata, X.509 Certificates and DIDs\r\n\r\nPotentially fixes #168, #143. Partially #134 \r\n\r\nOut-of-scope:\r\n- Renaming and moving JWT Issuer Metadata Section",
+      "createdAt": "2023-10-22T22:15:39Z",
+      "updatedAt": "2023-10-23T16:38:23Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "c7049b708feddff122186b58b85dab57503da631",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "awoie/fix-168",
+      "headRefOid": "7efd8b0af2c190280618fe0c6ecfa9612933e40c",
+      "closedAt": "2023-10-23T16:38:22Z",
+      "mergedAt": "2023-10-23T16:38:22Z",
+      "mergedBy": "awoie",
+      "mergeCommit": {
+        "oid": "d4ab777c20dbab20857bb61e7c082d18b8240f90"
+      },
+      "comments": [
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed all suggestions, please review again @danielfett ",
+          "createdAt": "2023-10-23T15:02:36Z",
+          "updatedAt": "2023-10-23T15:02:36Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Addressed all suggestions, please review again @danielfett\r\n\r\nI had to rename the section. I think now it is more precise.",
+          "createdAt": "2023-10-23T15:52:46Z",
+          "updatedAt": "2023-10-23T15:52:46Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5k2pPO",
+          "commit": {
+            "abbreviatedOid": "e83cc52"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T09:02:22Z",
+          "updatedAt": "2023-10-23T09:02:23Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nFurthermore, the recipient of the SD-JWT VC MUST verify that the public key used for\r\nverification of the Issuer-signed JWT belongs to the Issuer of the Issuer-signed JWT.\r\n```",
+              "createdAt": "2023-10-23T09:02:23Z",
+              "updatedAt": "2023-10-23T09:02:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k2tO9",
+          "commit": {
+            "abbreviatedOid": "e83cc52"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T09:11:03Z",
+          "updatedAt": "2023-10-23T09:11:03Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "```suggestion\r\nout of scope of this specification.\r\n```",
+              "createdAt": "2023-10-23T09:11:03Z",
+              "updatedAt": "2023-10-23T09:11:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k2uFy",
+          "commit": {
+            "abbreviatedOid": "e83cc52"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T09:12:56Z",
+          "updatedAt": "2023-10-23T09:12:56Z",
+          "comments": [
+            {
+              "originalPosition": 29,
+              "body": "```suggestion\r\n    - a DNS name that matches a `dNSName` Subject Alternative Name (SAN) [@RFC5280] entry of\r\n```",
+              "createdAt": "2023-10-23T09:12:56Z",
+              "updatedAt": "2023-10-23T09:12:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k2uVW",
+          "commit": {
+            "abbreviatedOid": "e83cc52"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T09:13:26Z",
+          "updatedAt": "2023-10-23T09:13:27Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\nthe leaf certificate, or\r\n    - a URN that matches a `unifiedResourceName` SAN entry of the leaf certificate.\r\n```",
+              "createdAt": "2023-10-23T09:13:26Z",
+              "updatedAt": "2023-10-23T09:13:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k22v4",
+          "commit": {
+            "abbreviatedOid": "e83cc52"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T09:31:03Z",
+          "updatedAt": "2023-10-23T09:31:04Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "Please add a reference to {#verifying-public-key-for-issuer-signed-jwts}",
+              "createdAt": "2023-10-23T09:31:04Z",
+              "updatedAt": "2023-10-23T09:31:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k30oS",
+          "commit": {
+            "abbreviatedOid": "e83cc52"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T11:59:33Z",
+          "updatedAt": "2023-10-23T11:59:33Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "will add that reference",
+              "createdAt": "2023-10-23T11:59:33Z",
+              "updatedAt": "2023-10-23T11:59:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k49jR",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:00:43Z",
+          "updatedAt": "2023-10-23T14:00:43Z",
+          "comments": [
+            {
+              "originalPosition": 23,
+              "body": "```suggestion\r\n- JWT Issuer Metadata: If the `iss` value contains an HTTPS URI, the recipient MUST\r\nobtain the public key using JWT Issuer Metadata as defined in (#jwt-issuer-metadata).\r\n```",
+              "createdAt": "2023-10-23T14:00:43Z",
+              "updatedAt": "2023-10-23T14:00:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5DOn",
+          "commit": {
+            "abbreviatedOid": "0037484"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "found a typo",
+          "createdAt": "2023-10-23T14:09:28Z",
+          "updatedAt": "2023-10-23T14:10:08Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\n    - If the `iss` value contains a DNS name encoded as a URI using the DNS URI scheme [@RFC4501]. The DNS name MUST match a `dNSName` Subject Alternative Name (SAN) [@RFC5280] entry of the leaf certificate.\r\n```",
+              "createdAt": "2023-10-23T14:09:28Z",
+              "updatedAt": "2023-10-23T14:09:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k4-wp",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:02:49Z",
+          "updatedAt": "2023-10-23T14:14:15Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\n    - If the `iss` value contains a DNS name encoded as a URI using the DNS URI scheme [@RFC4501]. In this case, the DNS name MUST match a `dNSName` Subject Alternative Name (SAN) [@RFC5280] entry of the leaf certificate.\r\n```",
+              "createdAt": "2023-10-23T14:02:49Z",
+              "updatedAt": "2023-10-23T14:14:15Z"
+            },
+            {
+              "originalPosition": 32,
+              "body": "```suggestion\r\n    - If the `iss` value contains a URN using the URN URI scheme [@RFC2141]. In this case, the URN MUST match a `unifiedResourceName` SAN entry of the leaf certificate.\r\n```",
+              "createdAt": "2023-10-23T14:03:27Z",
+              "updatedAt": "2023-10-23T14:14:15Z"
+            },
+            {
+              "originalPosition": 21,
+              "body": "```suggestion\r\nA recipient of the SD-JWT VC MUST use the first applying strategy of the following list to verify the\r\nIssuer-signed JWT corresponds to the Issuer:\r\n```",
+              "createdAt": "2023-10-23T14:05:23Z",
+              "updatedAt": "2023-10-23T14:14:15Z"
+            },
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\nSeparate specifications or ecosystem regulations MAY define rules substituting or complementing the rules defined above, but such rules are\r\nout of scope of this specification. See (#ecosystem-verification-rules) for security considerations.\r\n```",
+              "createdAt": "2023-10-23T14:09:20Z",
+              "updatedAt": "2023-10-23T14:14:15Z"
+            },
+            {
+              "originalPosition": 44,
+              "body": "```suggestion\r\n## Ecosystem-specific Public Key Verification Methods {#ecosystem-verification-rules}\r\n```",
+              "createdAt": "2023-10-23T14:09:44Z",
+              "updatedAt": "2023-10-23T14:14:15Z"
+            },
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\r\nIt MUST be ensured that for any given `iss` value, an attacker cannot influence what\r\nkind of verification process is used. Otherwise, an attacker could attempt to\r\nhave the verifier use a verification process that was not intended by the Issuer\r\nand where the attacker may have the opportunity to influcence the verification result\r\nto his advantage.\r\n```",
+              "createdAt": "2023-10-23T14:14:06Z",
+              "updatedAt": "2023-10-23T14:14:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5H_s",
+          "commit": {
+            "abbreviatedOid": "79bc8b8"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "we will have to improve rule for x509 certs",
+          "createdAt": "2023-10-23T14:17:55Z",
+          "updatedAt": "2023-10-23T14:18:46Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "```suggestion\r\n- X.509 Certificates: If the `x5c`, `x5c`, or `x5t` JWT header parameters are present, the recipient MUST obtain the public key from the leaf X.509 certificate defined by of the Issuer-signed JWT and validate the X.509 certificate chain in the following cases:\r\n```",
+              "createdAt": "2023-10-23T14:17:55Z",
+              "updatedAt": "2023-10-23T14:18:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5LY5",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:23:59Z",
+          "updatedAt": "2023-10-23T14:24:00Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "Why is first applying needed. the options are mutually exclusive, aren't they?",
+              "createdAt": "2023-10-23T14:23:59Z",
+              "updatedAt": "2023-10-23T14:24:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5MjR",
+          "commit": {
+            "abbreviatedOid": "0e10d7f"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:25:37Z",
+          "updatedAt": "2023-10-23T14:25:38Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "Correct, I retract my proposal :-)",
+              "createdAt": "2023-10-23T14:25:37Z",
+              "updatedAt": "2023-10-23T14:25:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5Yp-",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:44:33Z",
+          "updatedAt": "2023-10-23T14:44:33Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "I would disagree with this. I don't think that ecosystems should introduce breaking changes. They MAY add rules on top of what was defined. Additionally, it is always a verifier decision whether or not a public key verification method is acceptable. This is a policy decision. Therefore I would keep the language. Does this make sense?",
+              "createdAt": "2023-10-23T14:44:33Z",
+              "updatedAt": "2023-10-23T14:44:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5ZD_",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:45:18Z",
+          "updatedAt": "2023-10-23T14:45:18Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "The current text does not mean that verifiers have to blindly accept SD-JWT VCs with specific verification methods if it is against their policy.",
+              "createdAt": "2023-10-23T14:45:18Z",
+              "updatedAt": "2023-10-23T14:45:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5ajq",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:47:48Z",
+          "updatedAt": "2023-10-23T14:47:49Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "Adjusted language accordingly.",
+              "createdAt": "2023-10-23T14:47:48Z",
+              "updatedAt": "2023-10-23T14:47:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5a4P",
+          "commit": {
+            "abbreviatedOid": "d1d5d35"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:48:18Z",
+          "updatedAt": "2023-10-23T14:48:18Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "I'm fine with removing the \"substituting or\" part. I don't think we should keep the \"MAY be used\" part in the original text as it opens to door quite a bit too wide.",
+              "createdAt": "2023-10-23T14:48:18Z",
+              "updatedAt": "2023-10-23T14:48:18Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5fsF",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:54:11Z",
+          "updatedAt": "2023-10-23T14:54:11Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "Accepted",
+              "createdAt": "2023-10-23T14:54:11Z",
+              "updatedAt": "2023-10-23T14:54:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5gJO",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:55:01Z",
+          "updatedAt": "2023-10-23T14:55:01Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "Sounds good. I'll adjust the text.",
+              "createdAt": "2023-10-23T14:55:01Z",
+              "updatedAt": "2023-10-23T14:55:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5h-3",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T14:58:04Z",
+          "updatedAt": "2023-10-23T14:58:04Z",
+          "comments": [
+            {
+              "originalPosition": 35,
+              "body": "I updated the PR",
+              "createdAt": "2023-10-23T14:58:04Z",
+              "updatedAt": "2023-10-23T14:58:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5jor",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T15:00:34Z",
+          "updatedAt": "2023-10-23T15:00:35Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "How about...\r\n\r\n```\r\nIt MUST be ensured that for any given `iss` value, an attacker cannot influence the type of verification process used. Otherwise, an attacker could attempt to make the Verifier use a verification process not intended by the Issuer, allowing the attacker to potentially manipulate the verification result to their advantage.\r\n```",
+              "createdAt": "2023-10-23T15:00:35Z",
+              "updatedAt": "2023-10-23T15:00:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k5kTP",
+          "commit": {
+            "abbreviatedOid": "a246437"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T15:01:48Z",
+          "updatedAt": "2023-10-23T15:01:49Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "I used my suggested language in the updated PR.",
+              "createdAt": "2023-10-23T15:01:49Z",
+              "updatedAt": "2023-10-23T15:01:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k6QNf",
+          "commit": {
+            "abbreviatedOid": "e4f2acb"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-23T16:24:02Z",
+          "updatedAt": "2023-10-23T16:25:30Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\r\nFurthermore, the recipient of the SD-JWT VC MUST obtain the public verification key\r\nfor the Issuer-signed JWT as defined in (#public-key-discovery-for-issuer-signed-jwts).\r\n```",
+              "createdAt": "2023-10-23T16:24:03Z",
+              "updatedAt": "2023-10-23T16:25:30Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "```suggestion\r\nA recipient of an SD-JWT VC MUST apply the following rules to obtain the public\r\nverification key for the Issuer-signed JWT:\r\n\r\n```",
+              "createdAt": "2023-10-23T16:24:21Z",
+              "updatedAt": "2023-10-23T16:25:30Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 176,
+      "id": "PR_kwDOJbVClc5deRtV",
+      "title": "Editorial normative verb change for JWK in cnf",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/176",
+      "state": "MERGED",
+      "author": "awoie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR changes SHOULD to RECOMMENDED for JWK in `cnf`. Potentially fixes #134 ",
+      "createdAt": "2023-10-22T22:23:52Z",
+      "updatedAt": "2023-10-23T13:59:40Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "b63bfbef616bef1948ea3d5b114663f8a9ded201",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "awoie/fix-134",
+      "headRefOid": "80f4e0363e7602676c61c99a91b528a2afa49f3b",
+      "closedAt": "2023-10-23T13:59:40Z",
+      "mergedAt": "2023-10-23T13:59:40Z",
+      "mergedBy": "danielfett",
+      "mergeCommit": {
+        "oid": "82000350457a32245a9f4fd2e409a09a7471c43d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5k22P1",
+          "commit": {
+            "abbreviatedOid": "d4f06f9"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-23T09:30:15Z",
+          "updatedAt": "2023-10-23T09:30:16Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n    * REQUIRED when Cryptographic Key Binding is to be supported. Contains the confirmation method as defined in [@!RFC7800]. It is RECOMMENDED that this contains a JWK as defined in Section 3.2 of [@!RFC7800]. For Cryptographic Key Binding, the Key Binding JWT in the Combined Format for Presentation MUST be signed by the key identified in this claim.\r\n```",
+              "createdAt": "2023-10-23T09:30:16Z",
+              "updatedAt": "2023-10-23T09:30:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5k48v0",
+          "commit": {
+            "abbreviatedOid": "80f4e03"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-23T13:59:17Z",
+          "updatedAt": "2023-10-23T13:59:17Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 177,
+      "id": "PR_kwDOJbVClc5diZ2A",
+      "title": " Fix Issue #159 by removing duplicated requirements from SD-JWT ",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/177",
+      "state": "MERGED",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "This fixes Issue #159.\r\n\r\nNote that this removed the \"exp\" claim which I think we don't need to mention explicitly.",
+      "createdAt": "2023-10-23T14:24:04Z",
+      "updatedAt": "2023-10-23T14:41:04Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "82000350457a32245a9f4fd2e409a09a7471c43d",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "danielfett/fix-159",
+      "headRefOid": "21409828f4505cef2e0c9353f6ade3baf082852d",
+      "closedAt": "2023-10-23T14:41:04Z",
+      "mergedAt": "2023-10-23T14:41:04Z",
+      "mergedBy": "awoie",
+      "mergeCommit": {
+        "oid": "82a9401e65b8f115d15d0e8435940976a3b96655"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5k5WIT",
+          "commit": {
+            "abbreviatedOid": "2140982"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2023-10-23T14:40:16Z",
+          "updatedAt": "2023-10-23T14:40:16Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 178,
+      "id": "PR_kwDOJbVClc5djSws",
+      "title": "Fix SD-JWT section references",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/178",
+      "state": "MERGED",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-23T16:32:35Z",
+      "updatedAt": "2023-10-23T16:44:10Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "c7049b708feddff122186b58b85dab57503da631",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "danielfett/kb-jwt-section-number",
+      "headRefOid": "49906c0349f0c723316d268b77504a5814e9ae29",
+      "closedAt": "2023-10-23T16:44:10Z",
+      "mergedAt": "2023-10-23T16:44:10Z",
+      "mergedBy": "awoie",
+      "mergeCommit": {
+        "oid": "06416299ec911ee158af6d2e861bc9d6584e459f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5k6ZnT",
+          "commit": {
+            "abbreviatedOid": "49906c0"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2023-10-23T16:43:57Z",
+          "updatedAt": "2023-10-23T16:43:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 179,
+      "id": "PR_kwDOJbVClc5djVaQ",
+      "title": "Add DID reference",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/179",
+      "state": "MERGED",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-23T16:39:37Z",
+      "updatedAt": "2023-10-23T16:49:49Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "d4ab777c20dbab20857bb61e7c082d18b8240f90",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "danielfett/add-reference-did",
+      "headRefOid": "8e8d11ce68deae8ead14506e6edb3cde6f63b586",
+      "closedAt": "2023-10-23T16:49:49Z",
+      "mergedAt": "2023-10-23T16:49:49Z",
+      "mergedBy": "awoie",
+      "mergeCommit": {
+        "oid": "a94ee54fb2eacbaa6ce61d66c9387eb99a7d74c2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5k6cUq",
+          "commit": {
+            "abbreviatedOid": "8e8d11c"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "lgtm",
+          "createdAt": "2023-10-23T16:49:15Z",
+          "updatedAt": "2023-10-23T16:49:15Z",
           "comments": []
         }
       ]
