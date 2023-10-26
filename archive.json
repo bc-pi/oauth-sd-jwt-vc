@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-24T01:16:39.467063+00:00",
+  "timestamp": "2023-10-26T01:15:16.020203+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -82,6 +82,11 @@
       "name": "wg-01",
       "description": "wg-01 draft (target is October 23th, IETF 118 cutoff)",
       "color": "0e8a16"
+    },
+    {
+      "name": "wg-02",
+      "description": "wg-02",
+      "color": "3B153E"
     }
   ],
   "issues": [
@@ -2116,15 +2121,15 @@
       "author": "peppelinux",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [
-        "danielfett"
+        "awoie"
       ],
       "labels": [
-        "HAS PR",
-        "discuss"
+        "discuss",
+        "wg-02"
       ],
       "body": "Every entity in the OAuth/OpenID is potentially a JWT issuer, then I found the name of this endpoint misleading.\r\n\r\nConsidering that this brand new specification defines a profile for SD JWT verifiable credentials, I'd propose to change the pathname to\r\n\r\n.well-known/vc-jwt-issuer\r\n ",
       "createdAt": "2023-05-25T22:30:38Z",
-      "updatedAt": "2023-10-04T11:37:49Z",
+      "updatedAt": "2023-10-24T20:13:55Z",
       "closedAt": null,
       "comments": [
         {
@@ -2301,6 +2306,13 @@
           "body": "Hey @TakahikoKawasaki, I'm sure that you meant `openid-federation`\r\n\r\nThe answer Is yes, even if we have used a snake case like `openid_credential_issuer` here\r\n\r\nhttps://italia.github.io/eidas-it-wallet-docs/en/pid-issuing.html\r\n\r\nIt's still an initial draft without an official release, several editorials and implementation compromises needs to be resolved but the most of the work Is there, feelfree to open issue for discussion here\r\n\r\nhttps://github.com/italia/eidas-it-wallet-docs",
           "createdAt": "2023-06-28T17:54:18Z",
           "updatedAt": "2023-06-28T17:54:18Z"
+        },
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "To make progress with this. \r\n\r\nAre folks comfortable with renaming \"JWT Issuer Metadata\"? And if so, would folks be fine with \"SD-JWT VC Issuer Metadata\" or \"VC Issuer Metadata\"? I like \"VC Issuer Metadata\" better because it is more future looking.\r\n\r\nWhat do folks think? cc @danielfett @Sakurann @tlodderstedt @TakahikoKawasaki @c2bo\r\n\r\nAfter we agreed on a new name I'd ask @peppelinux to update PR #118 .",
+          "createdAt": "2023-10-24T19:30:42Z",
+          "updatedAt": "2023-10-24T19:30:42Z"
         }
       ]
     },
@@ -2718,10 +2730,12 @@
       "author": "andresuribe87",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "discuss"
+      ],
       "body": "I found it hard to understand the relationship between VC's and the spec. Specifically, it's not clear to me how to go from VC (as in `application/vc+ld+json`) to `SD-JWT VC`, nor the other way. ",
       "createdAt": "2023-05-26T21:41:46Z",
-      "updatedAt": "2023-07-18T16:57:50Z",
+      "updatedAt": "2023-10-24T19:22:25Z",
       "closedAt": null,
       "comments": [
         {
@@ -2774,11 +2788,11 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "NEEDS PR"
+        "discuss"
       ],
       "body": "If SD-JWT holder binding is focusing on key (device/wallet) binding in terms of cloning/replay protection, we will need some mechanism to define how we want to communicate how the holder was authenticated if certain claims are presented to verifiers. To verifiers it will be also interesting to understand the confidence (ISO 23220-5) / assurance levels (eIDAS) especially if credentials and wallets support multiple levels. This information could be conveyed by another claim, or it could be just some annotations in form of new members of the specific `cnf` method.\r\n\r\nFor example:\r\n\r\n```\r\n\"cnf\": {\r\n  \"jwk\": {\r\n     ... JWK members ...,\r\n     \"trust_framework\": \"some-ecosystem\",\r\n     \"profile\": \"some-configuration-type\"\r\n  }\r\n}\r\n```\r\n\r\nVS something like the following ...\r\n\r\n```\r\n\"cnf\": {\r\n  \"jwk\": {\r\n     ... JWK members ...\r\n  }\r\n},\r\n\"holder_authentication\": {\r\n  \"trust_framework\": \"some-ecosystem\",\r\n  \"profile\": \"some-configuration-type\"\r\n}\r\n\r\n```\r\n\r\nIMO, it makes no sense to provide the authenticator assertion directly to the verifier. ",
       "createdAt": "2023-06-07T17:37:11Z",
-      "updatedAt": "2023-10-04T11:33:49Z",
+      "updatedAt": "2023-10-24T20:06:16Z",
       "closedAt": null,
       "comments": [
         {
@@ -3053,13 +3067,16 @@
       "state": "OPEN",
       "author": "alenhorvat",
       "authorAssociation": "NONE",
-      "assignees": [],
+      "assignees": [
+        "awoie"
+      ],
       "labels": [
-        "NEEDS PR"
+        "NEEDS PR",
+        "wg-02"
       ],
       "body": "Data model in this document resembles to the ID Token data model as defined in OIDC (with the addition of cnf).\r\n\r\nOn the other hand, the data model is trying to follow the W3C VC data model.\r\nWhat is the benefit of this data model over the W3C VC data model (except that the claim names are different and iss can be a URI, and not an object and that JSON-LD is not supported by the data model, which basically excludes some significant use cases such as Europass that are leveraging JSON-LD for internationalization, for example)?",
       "createdAt": "2023-06-13T19:39:17Z",
-      "updatedAt": "2023-10-04T11:33:37Z",
+      "updatedAt": "2023-10-24T20:13:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -3648,12 +3665,10 @@
       "assignees": [
         "danielfett"
       ],
-      "labels": [
-        "wg-01"
-      ],
+      "labels": [],
       "body": "moving @tlodderstedt's and my work on adding examples how to represent PID/EAA/mDLs as SD-JWT VC to this repo from the sd-jwt repo.\r\nEAA: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/211\r\nmDL: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/issues/144 and https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/233\r\nPID as a reference point: https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/304- ",
       "createdAt": "2023-06-28T17:54:26Z",
-      "updatedAt": "2023-10-04T11:22:13Z",
+      "updatedAt": "2023-10-24T19:08:07Z",
       "closedAt": null,
       "comments": []
     },
@@ -3665,13 +3680,15 @@
       "state": "OPEN",
       "author": "Sakurann",
       "authorAssociation": "CONTRIBUTOR",
-      "assignees": [],
+      "assignees": [
+        "awoie"
+      ],
       "labels": [
         "discuss"
       ],
       "body": "like biometrics-based binding\r\n\r\nTorsten started with this example in [this PR in sd-jwt repo](https://github.com/oauth-wg/oauth-selective-disclosure-jwt/pull/210/files) but i do not think it's viable anymore: \r\n\r\n```\r\n    \"binding\":\r\n      [\r\n        {\r\n          \"type\": \"CryptographicBinding2022\",\r\n          \"cnf\":\r\n            {\r\n              \"jwk\":\r\n                {\r\n                  \"kty\": \"RSA\",\r\n                  \"n\": \"0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbf\r\n                    AAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMst\r\n                    n64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_F\r\n                    DW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n9\r\n                    1CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHa\r\n                    Q-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw\",\r\n                  \"e\": \"AQAB\",\r\n                },\r\n            },\r\n        },\r\n        { \"type\": \"BiometricBinding2022\", \"template\": \"...\" },\r\n      ]\r\n```",
       "createdAt": "2023-06-28T19:25:10Z",
-      "updatedAt": "2023-10-18T08:56:13Z",
+      "updatedAt": "2023-10-24T20:07:17Z",
       "closedAt": null,
       "comments": [
         {
@@ -3992,10 +4009,12 @@
       "assignees": [
         "danielfett"
       ],
-      "labels": [],
+      "labels": [
+        "wg-02"
+      ],
       "body": "We need to give guidance in the spec on choosing `type` values for a credential format.\r\n\r\nWe need to think about collision resistance - either by a registry or something DNS-based like URIs or java package name notation.\r\n\r\nPersonal opinion: Use URLs, like XML namespaces. It automatically avoids collisions, there is no registry required for potentially large amounts of values, and we can think about extending this in the future with machine-readable information about credential format.",
       "createdAt": "2023-10-04T18:06:38Z",
-      "updatedAt": "2023-10-22T17:58:34Z",
+      "updatedAt": "2023-10-24T20:13:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -4060,6 +4079,30 @@
           "body": "The PR is a relatively small change, and as indicated by my comment above, it is probably not the last word in this regard. I think we need to draw the bigger picture on what we expect from \"credential types\" and then think about how that needs to be reflected in the draft.\r\n\r\nBut, more generally, the IETF process is not designed around anything that happens in this git repository at all; what counts is consensus on the mailing list (both immediate discussions for larger normative changes as well as the working group last call, which can introduce substantial changes as well). Draft versions are a tool to get feedback from the working group including on smaller changes that have not been discussed on the mailing list beforehand. \r\n\r\nThe new draft version that we plan to release in the next days will be announced both on the mailing list as well as during the in-person meeting in Prague shortly after. If we receive feedback indicating that there is no consensus for a certain choice we made, we will respect that and modify the next draft accordingly. In that sense, having the PR merged is just a means to get feedback on a small step towards a solution.",
           "createdAt": "2023-10-19T14:34:20Z",
           "updatedAt": "2023-10-19T14:34:20Z"
+        }
+      ]
+    },
+    {
+      "number": 181,
+      "id": "I_kwDOJbVClc5004U7",
+      "title": "Define the concept of a credential type",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/181",
+      "state": "OPEN",
+      "author": "danielfett",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "We should define more clearly **what a credential type (identified by the `vct` claim) actually means**.\r\n\r\nThe current description is a bit handwavy and that may be a sign that we have not yet defined the concept well.\r\n\r\nI think that there is a set of metadata usually associated with each SD-JWT VC type, for example\r\n- Display information for the whole credential\r\n- A schema for the JSON structure (may or may not be defined in JSON schema)\r\n- Information about the claims, including\r\n\t- Display information\r\n\t- Type information\r\n\t- Status information (self-attested vs. verified etc.)\r\n- Maybe: What kind of binding is supported/usually used for this credential type\r\n- Maybe: What issuers are allowed to issue this credential type\r\n\r\nSuch metadata would help **Wallets** (e.g., for displaying the credential to the user) and **Verifiers** (e.g., for determining the status of claims). It would also help **developers of Verifiers**, as they would get structured information about the credential they can expect.\r\n\r\nThe need for such metadata has been discussed in Issue #171 and similar approaches have shown up in [HAIP](https://vcstuff.github.io/oid4vc-haip-sd-jwt-vc/draft-oid4vc-haip-sd-jwt-vc.html#section-7.2.2).\r\n\r\nThe metadata may or may not be embedded into the credential itself, or provided externally. Assuming we allow for registered `vct` values (e.g., `UniversityCredential`), this metadata could go into the registry. It could also be distributed manually. \r\n\r\nBut it can also be made discoverable, e.g., by providing it at a .well-known URI derived from the URL in `vct`.\r\n\r\n----\r\n\r\nHere is a completely made-up example of what this metadata could look like:\r\n\r\n```json\r\n{\r\n    \"vct\": \"https://credentials.example.com/example1\",\r\n    \"display\": [\r\n        {\r\n            \"en-US\": {\r\n                \"name\": \"University Credential\",\r\n                \"logo\": {\r\n                    \"url\": \"https://exampleuniversity.com/public/logo.png\",\r\n                    \"alt_text\": \"a square logo of a university\"\r\n                },\r\n                \"background_color\": \"#12107c\",\r\n                \"text_color\": \"#FFFFFF\"\r\n            }\r\n        }\r\n    ],\r\n    \"claims\": // mapping from JSON pointer to information about this claim\r\n    {\r\n        \"/name\": {\r\n            \"display\": {\r\n                \"de-DE\": {\r\n                    \"label\": \"Vor- und Nachname\",\r\n                    \"description\": \"Der Name des Studenten\"\r\n                },\r\n                \"en-US\": {\r\n                    \"label\": \"Name\",\r\n                    \"description\": \"The name of the student\"\r\n                }\r\n            },\r\n            \"status\": \"verified\"\r\n        },\r\n        \"/degree\": {\r\n            \"display\": {\r\n                \"de-DE\": {\r\n                    \"label\": \"Abschluss\",\r\n                    \"description\": \"Der Abschluss des Studenten\"\r\n                },\r\n                \"en-US\": {\r\n                    \"label\": \"Degree\",\r\n                    \"description\": \"Degree earned by the student\"\r\n                }\r\n            },\r\n            \"status\": \"verified\"\r\n        },\r\n        // ...\r\n        \"/address\": {\r\n            \"display\": {\r\n                \"de-DE\": {\r\n                    \"label\": \"Adresse\",\r\n                    \"description\": \"Adresse zum Zeitpunkt des Abschlusses\"\r\n                },\r\n                \"en-US\": {\r\n                    \"label\": \"Address\",\r\n                    \"description\": \"Address at the time of graduation\"\r\n                }\r\n            },\r\n            \"status\": \"self-attested\"\r\n        },\r\n        \"/address/street_address\": {\r\n            \"display\": {\r\n                \"de-DE\": {\r\n                    \"label\": \"Stra\u00dfe\"\r\n                },\r\n                \"en-US\": {\r\n                    \"label\": \"Street Address\"\r\n                }\r\n            },\r\n            \"status\": \"self-attested\"\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n---\r\n\r\nImportant:\r\n- This mechanism will not be format-agnostic, but defined only for SD-JWT VC for now.\r\n- There are overlaps with mechanisms defined in HAIP, for example, and part of this issue here is to figure out what data should go where and to avoid duplications by getting the concept right. I think that the `claims` element defined for the credential issuer metadata in [HAIP](https://vcstuff.github.io/oid4vc-haip-sd-jwt-vc/draft-oid4vc-haip-sd-jwt-vc.html#section-7.2.2) could be replaced by just a `vct` identifier (the metadata could be discovered from there, or retrieved from the registry).",
+      "createdAt": "2023-10-24T20:24:39Z",
+      "updatedAt": "2023-10-24T23:44:18Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "peppelinux",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Interesting point, I have the following approach to satisfy the requirement of having the credential metadata along with a credential:\r\n\r\nusing openid federation a trust chain is needed to attests the cryptographic keys of the issuer to verify the credential. Within the trust chain the openid_credential_issuer metadata is provided.\r\n\r\nin the openid_credential_issuer metadata there are the display information for all the credential types. Then, using this approach, the credential doesn't need any metadata. Fed trust chain can be made available in a static form, within the credential jws/MSO headers\r\n\r\nLet's see other points:\r\n\r\n- I would not use `status`, because its value seems more close to the concept of issuance type. I would say `iss_type` set(`self-issued`, `authority-issued`). Also the name `status` may semantically collide with all about status lists\r\n\r\n> Maybe: What issuers are allowed to issue this credential type\r\n\r\nIt would be up to the trust model and the credential metadata or trust marks or attestations. We cannot allow an italian PID provider to issue a Polish PID, then the domestic italian credential identifier must be linked with one or more italian credential issuers. This information must be made available according to the infrastructure of trust, where the issued credentials are not involved yet. During a discovery phase the user/holder knows which are the credential issuers, which credential types they offers to users. Generally this is made available in the openid_credential_metadata and must be granted by an accreditation body. That's why I mentioned trusted lists or federation trust marks or X.509 custom extentions (for strong stomachs) or federation metadata policy.\r\n\r\nWithout openid federation I would have to find a solution and the credential metadata sounds resonable but I use federation and this requirement is already satisfied. Another point of interest is that the credential metadata should be issued by credential issuer and bound to the credential.\r\n\r\nI would change this sentence we have in the current text: `A type is associated with rules defining which claims may or must appear in the Unsecured Payload of the SD-JWT VC and whether they may, must, or must not be selectively disclosable.` because the metadata should be issued by credential issuers and be tamper proof, otherwise a bogus implementation would use a valid credential with a fake presentation of the claims that may swaps some value and change the interpretation of the data to a verifier. Let's imagine that Giuseppe Marco would be swapped to Marco Giuseppe and pass through a supervised verifier as Marco, while the credential is still valid and verified\r\n  ",
+          "createdAt": "2023-10-24T23:41:30Z",
+          "updatedAt": "2023-10-24T23:44:18Z"
         }
       ]
     }
@@ -12567,10 +12610,12 @@
       "author": "danielfett",
       "authorAssociation": "MEMBER",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "DO NOT MERGE"
+      ],
       "body": "This adds the examples previously provided for SD-JWT to this specification, with minor adaptions.\r\n\r\nSee rendered text here: https://drafts.oauth.net/oauth-sd-jwt-vc/danielfett/arf-examples/draft-ietf-oauth-sd-jwt-vc.html#name-examples-2\r\n\r\nFixes #144 ",
       "createdAt": "2023-09-29T08:42:55Z",
-      "updatedAt": "2023-10-19T14:36:02Z",
+      "updatedAt": "2023-10-24T20:12:36Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "a8193ae7bb17b4b8679561eb4b64cfb8d78a7dbc",
@@ -13705,6 +13750,56 @@
           "body": "lgtm",
           "createdAt": "2023-10-23T16:49:15Z",
           "updatedAt": "2023-10-23T16:49:15Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 180,
+      "id": "PR_kwDOJbVClc5drQu1",
+      "title": "Fixed examples to use vct claim",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/180",
+      "state": "MERGED",
+      "author": "awoie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fixed examples to use vct claim",
+      "createdAt": "2023-10-24T19:20:12Z",
+      "updatedAt": "2023-10-24T19:39:26Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "a94ee54fb2eacbaa6ce61d66c9387eb99a7d74c2",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "awoie/fix-editorial",
+      "headRefOid": "e7abe645b7519395e6a3be03f093e7767fc8bbc8",
+      "closedAt": "2023-10-24T19:39:26Z",
+      "mergedAt": "2023-10-24T19:39:26Z",
+      "mergedBy": "awoie",
+      "mergeCommit": {
+        "oid": "308ba013b885b7a98f5af0d3d1e936670a071d96"
+      },
+      "comments": [
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "Thanks for the PR, I must have missed this change.",
+          "createdAt": "2023-10-24T19:22:51Z",
+          "updatedAt": "2023-10-24T19:22:51Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5lEp-D",
+          "commit": {
+            "abbreviatedOid": "e7abe64"
+          },
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-24T19:22:32Z",
+          "updatedAt": "2023-10-24T19:22:32Z",
           "comments": []
         }
       ]
