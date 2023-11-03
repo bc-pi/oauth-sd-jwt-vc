@@ -499,9 +499,9 @@ Table of Contents
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.5Bi_N
-   XS40hz1DH-r4Zli1bAj97hYWcdLEhES5PvClmUwCux7GZ7SzMtB4XOp0xMNrV8_9tpRs
-   nHKjh8-t2dG0w~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.VIsAI
+   -wj8LkrSHXuPuL9XxeXPsRk_MwsGnzfnY5W4rE_sFOFaB4-mixk0NXDl9S4DxK15pXrF
+   fyUlOZNkCcvbQ~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
    AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
    kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
    ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -717,15 +717,15 @@ Table of Contents
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.5Bi_N
-   XS40hz1DH-r4Zli1bAj97hYWcdLEhES5PvClmUwCux7GZ7SzMtB4XOp0xMNrV8_9tpRs
-   nHKjh8-t2dG0w~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.VIsAI
+   -wj8LkrSHXuPuL9XxeXPsRk_MwsGnzfnY5W4rE_sFOFaB4-mixk0NXDl9S4DxK15pXrF
+   fyUlOZNkCcvbQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
    N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
    4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
    AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
    mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTkwM
-   DcwODd9.fXls14zvvMNJF7hPFtLJ3uWTGB5lp1MnhNZ1KVNMatSvBU2Hac_F5rIpOh7J
-   Ib1J3OUnRQodzOOncS2gesuwbA
+   DcxOTB9.DUWlCxUEEHJwinq5O4cuLAvqv8ZQvATn44XHdW4UDANrCvp5flXyGHnYaVTv
+   TQgYvvbtnbPPxRdLdb_E6AJofQ
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -745,8 +745,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9
    jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-   hbGciOiAic2hhLTI1NiJ9.GO8rCTWZLcyioCMjFWWM2f_HSXzrHNDA6yUIoQclonbWqh
-   nddBLRaGOYdsaJocoO9O05Rk4lfYzHLeT3ZYkfEg~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+   hbGciOiAic2hhLTI1NiJ9.M3PNTdRkKPyWApAGhkYLaMIDf_DjLBYa_s-B6UdXandz55
+   pamo5XkH9kJLJeKcNESpACpk0ii5XCDiyxb20cQg~WyJRZ19PNjR6cUF4ZTQxMmExMDh
    pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
    gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
    0cnkiOiAiVVMifV0~
@@ -969,6 +969,8 @@ Appendix B.  Acknowledgements
    to this draft and to the initial set of implementations.
 
 Appendix C.  Document History
+
+   -02 * Finetuned rules for obtaining public verification key
 
    -01
 
