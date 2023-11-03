@@ -325,7 +325,7 @@ the public key from the DID Document resolved from the DID in the `iss` value.
 In this case, if the `kid` JWT header parameter is present, the `kid` MUST be a relative or absolute
 DID URL of the DID in the `iss` value, identifying the public key.
 3. X.509 Certificates: The recipient MUST obtain the public key from the leaf X.509 certificate
-if the `x5c`, `x5c`, or `x5t` JWT header parameters are present in the Issuer-signed JWT. In this case, the recipient MUST validate the X.509 certificate chain as follows:
+corresponding to the `x5c`, `x5c`, `x5t`, or `x5t#S256` JWT header parameters of the Issuer-signed JWT if one of them is present. In this case, the recipient MUST validate the X.509 certificate chain as follows:
     - If the `iss` value contains a DNS name encoded as a URI using the DNS URI scheme [@RFC4501], the DNS name MUST match a `dNSName` Subject Alternative Name (SAN) [@RFC5280] entry of the leaf certificate.
     - In all other cases, the `iss` value MUST match a `unifiedResourceIdentifier` SAN entry of the leaf certificate.
 
