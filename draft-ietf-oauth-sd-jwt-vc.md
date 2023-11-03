@@ -671,6 +671,9 @@ for their contributions (some of which substantial) to this draft and to the ini
 
 # Document History
 
+-02
+* Finetuned rules for obtaining public verification key
+
 -01
 
 * Introduce rules for type identifiers (Collision-Resistant Name)
