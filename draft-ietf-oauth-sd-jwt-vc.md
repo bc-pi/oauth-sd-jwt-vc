@@ -316,21 +316,22 @@ specification.
 ## Obtaining Public Key for Issuer-signed JWTs {#public-key-discovery-for-issuer-signed-jwts}
 
 A recipient of an SD-JWT VC MUST apply the following rules to obtain the public
-verification key for the Issuer-signed JWT:
+verification key for the Issuer-signed JWT in the following order:
 
-- JWT Issuer Metadata: If the `iss` value contains an HTTPS URI, the recipient MUST
+1. JWT Issuer Metadata: If the `iss` value contains an HTTPS URI, the recipient MUST
 obtain the public key using JWT Issuer Metadata as defined in (#jwt-issuer-metadata).
-- DID Document Resolution: If the `iss` value contains a DID [@W3C.DID], the recipient MUST retrieve
+2. DID Document Resolution: If the `iss` value contains a DID [@W3C.DID], the recipient MUST retrieve
 the public key from the DID Document resolved from the DID in the `iss` value.
 In this case, if the `kid` JWT header parameter is present, the `kid` MUST be a relative or absolute
 DID URL of the DID in the `iss` value, identifying the public key.
-- X.509 Certificates: The recipient MUST obtain the public key from the leaf X.509 certificate
-defined by the `x5c`, `x5c`, or `x5t` JWT header parameters of the Issuer-signed JWT and validate the X.509
-certificate chain in the following cases:
-    - If the `iss` value contains a DNS name encoded as a URI using the DNS URI scheme [@RFC4501]. In this case, the DNS name MUST match a `dNSName` Subject Alternative Name (SAN) [@RFC5280] entry of the leaf certificate.
-    - If the `iss` value contains a URN using the URN URI scheme [@RFC2141]. In this case, the URN MUST match a `unifiedResourceName` SAN entry of the leaf certificate.
+3. X.509 Certificates: The recipient MUST obtain the public key from the leaf X.509 certificate
+if the `x5c`, `x5c`, or `x5t` JWT header parameters are present in the Issuer-signed JWT. In this case, the recipient MUST validate the X.509 certificate chain as follows:
+    - If the `iss` value contains a DNS name encoded as a URI using the DNS URI scheme [@RFC4501], the DNS name MUST match a `dNSName` Subject Alternative Name (SAN) [@RFC5280] entry of the leaf certificate.
+    - In all other cases, the `iss` value MUST match a `unifiedResourceIdentifier` SAN entry of the leaf certificate.
 
 Separate specifications or ecosystem regulations MAY define rules complementing the rules defined above, but such rules are out of scope of this specification. See (#ecosystem-verification-rules) for security considerations.
+
+If the public verification key for the Issuer-signed JWT could not be obtained, the recipient MUST NOT use the public key to verify the Issuer-signed JWT.
 
 # JWT Issuer Metadata {#jwt-issuer-metadata}
 
