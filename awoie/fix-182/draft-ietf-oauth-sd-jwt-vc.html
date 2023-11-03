@@ -1792,9 +1792,9 @@ cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
 LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
 bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
 QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.VIsAI
--wj8LkrSHXuPuL9XxeXPsRk_MwsGnzfnY5W4rE_sFOFaB4-mixk0NXDl9S4DxK15pXrF
-fyUlOZNkCcvbQ~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.8lHPs
+PWRIAt-02GEePwNTNP-SmcHWiEIZmKgH0NGaq00viCHE3gNmH4OfHAgnS2rpWhrCnB-v
+LZSZz1myERe0A~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
 AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
 kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
 ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -1851,7 +1851,7 @@ DID URL of the DID in the <code>iss</code> value, identifying the public key.<a 
 </li>
           <li id="section-3.5-2.3">
             <p id="section-3.5-2.3.1">X.509 Certificates: The recipient MUST obtain the public key from the leaf X.509 certificate
-if the <code>x5c</code>, <code>x5c</code>, or <code>x5t</code> JWT header parameters are present in the Issuer-signed JWT. In this case, the recipient MUST validate the X.509 certificate chain as follows:<a href="#section-3.5-2.3.1" class="pilcrow">¶</a></p>
+corresponding to the <code>x5c</code>, <code>x5c</code>, <code>x5t</code>, or <code>x5t#S256</code> JWT header parameters of the Issuer-signed JWT if one of them is present. In this case, the recipient MUST validate the X.509 certificate chain as follows:<a href="#section-3.5-2.3.1" class="pilcrow">¶</a></p>
 <ul class="compact">
 <li class="compact" id="section-3.5-2.3.2.1">If the <code>iss</code> value contains a DNS name encoded as a URI using the DNS URI scheme <span>[<a href="#RFC4501" class="cite xref">RFC4501</a>]</span>, the DNS name MUST match a <code>dNSName</code> Subject Alternative Name (SAN) <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> entry of the leaf certificate.<a href="#section-3.5-2.3.2.1" class="pilcrow">¶</a>
 </li>
@@ -2040,15 +2040,15 @@ cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
 LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
 bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
 QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.VIsAI
--wj8LkrSHXuPuL9XxeXPsRk_MwsGnzfnY5W4rE_sFOFaB4-mixk0NXDl9S4DxK15pXrF
-fyUlOZNkCcvbQ~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.8lHPs
+PWRIAt-02GEePwNTNP-SmcHWiEIZmKgH0NGaq00viCHE3gNmH4OfHAgnS2rpWhrCnB-v
+LZSZz1myERe0A~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
 N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
 4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
 AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
 mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTkwM
-DcxOTB9.DUWlCxUEEHJwinq5O4cuLAvqv8ZQvATn44XHdW4UDANrCvp5flXyGHnYaVTv
-TQgYvvbtnbPPxRdLdb_E6AJofQ
+Dc0NzV9.YbGfWVvFD5KXqITXcpO4objMlb36_IZjeXTsOlyO6EaHENCuMLj3GktsIA8f
+G0xjzKLaDOOFWbyyEUaFLSS0MA
 
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
@@ -2069,8 +2069,8 @@ laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
 5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
 0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9
 jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-hbGciOiAic2hhLTI1NiJ9.M3PNTdRkKPyWApAGhkYLaMIDf_DjLBYa_s-B6UdXandz55
-pamo5XkH9kJLJeKcNESpACpk0ii5XCDiyxb20cQg~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+hbGciOiAic2hhLTI1NiJ9.XuP5vI63scXWd8_L0jcOeHEkpbezNHUVt71d7n1iH73Hzg
+2Zd7bqpKPbpmjN5c5gjxY6Mq9E_xQFg086KVy2UA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
 pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
 gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
 0cnkiOiAiVVMifV0~
