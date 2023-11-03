@@ -1792,9 +1792,9 @@ cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
 LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
 bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
 QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.8lHPs
-PWRIAt-02GEePwNTNP-SmcHWiEIZmKgH0NGaq00viCHE3gNmH4OfHAgnS2rpWhrCnB-v
-LZSZz1myERe0A~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.jE9Bc
+qQ5gxW-iTUGZU_Azy6E8x9OfAgWxurhLOseM6YbzxMSuSE6K1q2lY84wWDd4sSjYbv3W
+VdaIV5EqhKHuw~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
 AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
 kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
 ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -1839,27 +1839,27 @@ specification.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
 <a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-obtaining-public-key-for-is" class="section-name selfRef">Obtaining Public Key for Issuer-signed JWTs</a>
         </h3>
 <p id="section-3.5-1">A recipient of an SD-JWT VC MUST apply the following rules to obtain the public
-verification key for the Issuer-signed JWT in the following order:<a href="#section-3.5-1" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="compact type-1" id="section-3.5-2">
-<li id="section-3.5-2.1">JWT Issuer Metadata: If the <code>iss</code> value contains an HTTPS URI, the recipient MUST
+verification key for the Issuer-signed JWT:<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<ul class="compact">
+<li class="compact" id="section-3.5-2.1">JWT Issuer Metadata: If the <code>iss</code> value contains an HTTPS URI, the recipient MUST
 obtain the public key using JWT Issuer Metadata as defined in <a href="#jwt-issuer-metadata" class="auto internal xref">Section 4</a>.<a href="#section-3.5-2.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-3.5-2.2">DID Document Resolution: If the <code>iss</code> value contains a DID <span>[<a href="#W3C.DID" class="cite xref">W3C.DID</a>]</span>, the recipient MUST retrieve
-the public key from the DID Document resolved from the DID in the <code>iss</code> value.
-In this case, if the <code>kid</code> JWT header parameter is present, the <code>kid</code> MUST be a relative or absolute
-DID URL of the DID in the <code>iss</code> value, identifying the public key.<a href="#section-3.5-2.2" class="pilcrow">¶</a>
-</li>
-          <li id="section-3.5-2.3">
-            <p id="section-3.5-2.3.1">X.509 Certificates: The recipient MUST obtain the public key from the leaf X.509 certificate
-corresponding to the <code>x5c</code>, <code>x5c</code>, <code>x5t</code>, or <code>x5t#S256</code> JWT header parameters of the Issuer-signed JWT if one of them is present. In this case, the recipient MUST validate the X.509 certificate chain as follows:<a href="#section-3.5-2.3.1" class="pilcrow">¶</a></p>
+          <li class="compact" id="section-3.5-2.2">
+            <p id="section-3.5-2.2.1">X.509 Certificates: The recipient MUST obtain the public key from the leaf X.509 certificate
+corresponding to the <code>x5c</code>, <code>x5c</code>, <code>x5t</code>, or <code>x5t#S256</code> JWT header parameters of the Issuer-signed JWT if one of them is present. In this case, the recipient MUST validate the X.509 certificate chain as follows:<a href="#section-3.5-2.2.1" class="pilcrow">¶</a></p>
 <ul class="compact">
-<li class="compact" id="section-3.5-2.3.2.1">If the <code>iss</code> value contains a DNS name encoded as a URI using the DNS URI scheme <span>[<a href="#RFC4501" class="cite xref">RFC4501</a>]</span>, the DNS name MUST match a <code>dNSName</code> Subject Alternative Name (SAN) <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> entry of the leaf certificate.<a href="#section-3.5-2.3.2.1" class="pilcrow">¶</a>
+<li class="compact" id="section-3.5-2.2.2.1">If the <code>iss</code> value contains a DNS name encoded as a URI using the DNS URI scheme <span>[<a href="#RFC4501" class="cite xref">RFC4501</a>]</span>, the DNS name MUST match a <code>dNSName</code> Subject Alternative Name (SAN) <span>[<a href="#RFC5280" class="cite xref">RFC5280</a>]</span> entry of the leaf certificate.<a href="#section-3.5-2.2.2.1" class="pilcrow">¶</a>
 </li>
-              <li class="compact" id="section-3.5-2.3.2.2">In all other cases, the <code>iss</code> value MUST match a <code>unifiedResourceIdentifier</code> SAN entry of the leaf certificate.<a href="#section-3.5-2.3.2.2" class="pilcrow">¶</a>
+              <li class="compact" id="section-3.5-2.2.2.2">In all other cases, the <code>iss</code> value MUST match a <code>unifiedResourceIdentifier</code> SAN entry of the leaf certificate.<a href="#section-3.5-2.2.2.2" class="pilcrow">¶</a>
 </li>
             </ul>
 </li>
-        </ol>
+          <li class="compact" id="section-3.5-2.3">DID Document Resolution: If the <code>iss</code> value contains a DID <span>[<a href="#W3C.DID" class="cite xref">W3C.DID</a>]</span>, the recipient MUST retrieve
+the public key from the DID Document resolved from the DID in the <code>iss</code> value.
+In this case, if the <code>kid</code> JWT header parameter is present, the <code>kid</code> MUST be a relative or absolute
+DID URL of the DID in the <code>iss</code> value, identifying the public key.<a href="#section-3.5-2.3" class="pilcrow">¶</a>
+</li>
+        </ul>
 <p id="section-3.5-3">Separate specifications or ecosystem regulations MAY define rules complementing the rules defined above, but such rules are out of scope of this specification. See <a href="#ecosystem-verification-rules" class="auto internal xref">Section 6.2</a> for security considerations.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
 <p id="section-3.5-4">If the public verification key for the Issuer-signed JWT could not be obtained, the recipient MUST NOT use the public key to verify the Issuer-signed JWT.<a href="#section-3.5-4" class="pilcrow">¶</a></p>
 </section>
@@ -2040,15 +2040,15 @@ cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9jcmVkZW50aWFscy5leGFtcGxl
 LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
 bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
 QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.8lHPs
-PWRIAt-02GEePwNTNP-SmcHWiEIZmKgH0NGaq00viCHE3gNmH4OfHAgnS2rpWhrCnB-v
-LZSZz1myERe0A~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.jE9Bc
+qQ5gxW-iTUGZU_Azy6E8x9OfAgWxurhLOseM6YbzxMSuSE6K1q2lY84wWDd4sSjYbv3W
+VdaIV5EqhKHuw~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
 N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
 4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
 AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
 mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTkwM
-Dc0NzV9.YbGfWVvFD5KXqITXcpO4objMlb36_IZjeXTsOlyO6EaHENCuMLj3GktsIA8f
-G0xjzKLaDOOFWbyyEUaFLSS0MA
+Dc2OTF9.gswcdOVgabGm-vR4zL3amA9iJvlmCqvlb-1BOMlkzHecevTFxKYQ9NDa0UgK
+RLnzWQAr4ohGzDvfrX2FElFGqQ
 
 </pre><a href="#section-5.2-2" class="pilcrow">¶</a>
 </div>
@@ -2069,8 +2069,8 @@ laVVRd1k5UXF4SSIsICJqc3U5eVZ1bHdRUWxoRmxNXzNKbHpNYVNGemdsaFFHMERwZmF
 5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
 0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9
 jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-hbGciOiAic2hhLTI1NiJ9.XuP5vI63scXWd8_L0jcOeHEkpbezNHUVt71d7n1iH73Hzg
-2Zd7bqpKPbpmjN5c5gjxY6Mq9E_xQFg086KVy2UA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+hbGciOiAic2hhLTI1NiJ9.SSbfidL5IqlC6IviSaeiptJARfDsXjAR38TJqSpwCHb7NJ
+HwKJ6QhJ6Ty6Jj8ms7Eh2YrtJcRA1IWsaiQSl_NQ~WyJRZ19PNjR6cUF4ZTQxMmExMDh
 pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
 gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
 0cnkiOiAiVVMifV0~

@@ -499,9 +499,9 @@ Table of Contents
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.8lHPs
-   PWRIAt-02GEePwNTNP-SmcHWiEIZmKgH0NGaq00viCHE3gNmH4OfHAgnS2rpWhrCnB-v
-   LZSZz1myERe0A~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.jE9Bc
+   qQ5gxW-iTUGZU_Azy6E8x9OfAgWxurhLOseM6YbzxMSuSE6K1q2lY84wWDd4sSjYbv3W
+   VdaIV5EqhKHuw~WyIyR0xDNDJzS1F2ZUNmR2ZyeU5STjl3IiwgImdpdmVuX25hbWUiLC
    AiSm9obiJd~WyJlbHVWNU9nM2dTTklJOEVZbnN4QV9BIiwgImZhbWlseV9uYW1lIiwgI
    kRvZSJd~WyI2SWo3dE0tYTVpVlBHYm9TNXRtdlZBIiwgImVtYWlsIiwgImpvaG5kb2VA
    ZXhhbXBsZS5jb20iXQ~WyJlSThaV205UW5LUHBOUGVOZW5IZGhRIiwgInBob25lX251b
@@ -544,29 +544,28 @@ Table of Contents
 3.5.  Obtaining Public Key for Issuer-signed JWTs
 
    A recipient of an SD-JWT VC MUST apply the following rules to obtain
-   the public verification key for the Issuer-signed JWT in the
-   following order:
+   the public verification key for the Issuer-signed JWT:
 
-   1.  JWT Issuer Metadata: If the iss value contains an HTTPS URI, the
-       recipient MUST obtain the public key using JWT Issuer Metadata as
-       defined in Section 4.
-   2.  DID Document Resolution: If the iss value contains a DID
-       [W3C.DID], the recipient MUST retrieve the public key from the
-       DID Document resolved from the DID in the iss value.  In this
-       case, if the kid JWT header parameter is present, the kid MUST be
-       a relative or absolute DID URL of the DID in the iss value,
-       identifying the public key.
-   3.  X.509 Certificates: The recipient MUST obtain the public key from
-       the leaf X.509 certificate corresponding to the x5c, x5c, x5t, or
-       x5t#S256 JWT header parameters of the Issuer-signed JWT if one of
-       them is present.  In this case, the recipient MUST validate the
-       X.509 certificate chain as follows:
-       *  If the iss value contains a DNS name encoded as a URI using
-          the DNS URI scheme [RFC4501], the DNS name MUST match a
-          dNSName Subject Alternative Name (SAN) [RFC5280] entry of the
-          leaf certificate.
-       *  In all other cases, the iss value MUST match a
-          unifiedResourceIdentifier SAN entry of the leaf certificate.
+   *  JWT Issuer Metadata: If the iss value contains an HTTPS URI, the
+      recipient MUST obtain the public key using JWT Issuer Metadata as
+      defined in Section 4.
+   *  X.509 Certificates: The recipient MUST obtain the public key from
+      the leaf X.509 certificate corresponding to the x5c, x5c, x5t, or
+      x5t#S256 JWT header parameters of the Issuer-signed JWT if one of
+      them is present.  In this case, the recipient MUST validate the
+      X.509 certificate chain as follows:
+      -  If the iss value contains a DNS name encoded as a URI using the
+         DNS URI scheme [RFC4501], the DNS name MUST match a dNSName
+         Subject Alternative Name (SAN) [RFC5280] entry of the leaf
+         certificate.
+      -  In all other cases, the iss value MUST match a
+         unifiedResourceIdentifier SAN entry of the leaf certificate.
+   *  DID Document Resolution: If the iss value contains a DID
+      [W3C.DID], the recipient MUST retrieve the public key from the DID
+      Document resolved from the DID in the iss value.  In this case, if
+      the kid JWT header parameter is present, the kid MUST be a
+      relative or absolute DID URL of the DID in the iss value,
+      identifying the public key.
 
    Separate specifications or ecosystem regulations MAY define rules
    complementing the rules defined above, but such rules are out of
@@ -717,15 +716,15 @@ Table of Contents
    LmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9hbGciOiAic2hhLTI1NiIsICJj
    bmYiOiB7Imp3ayI6IHsia3R5IjogIkVDIiwgImNydiI6ICJQLTI1NiIsICJ4IjogIlRD
    QUVSMTladnUzT0hGNGo0VzR2ZlNWb0hJUDFJTGlsRGxzN3ZDZUdlbWMiLCAieSI6ICJa
-   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.8lHPs
-   PWRIAt-02GEePwNTNP-SmcHWiEIZmKgH0NGaq00viCHE3gNmH4OfHAgnS2rpWhrCnB-v
-   LZSZz1myERe0A~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
+   eGppV1diWk1RR0hWV0tWUTRoYlNJaXJzVmZ1ZWNDRTZ0NGpUOUYySFpRIn19fQ.jE9Bc
+   qQ5gxW-iTUGZU_Azy6E8x9OfAgWxurhLOseM6YbzxMSuSE6K1q2lY84wWDd4sSjYbv3W
+   VdaIV5EqhKHuw~WyJRZ19PNjR6cUF4ZTQxMmExMDhpcm9BIiwgImFkZHJlc3MiLCB7In
    N0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0IiwgImxvY2FsaXR5IjogIkFueXRvd2
    4iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW50cnkiOiAiVVMifV0~eyJhbGciOi
    AiRVMyNTYiLCAidHlwIjogImtiK2p3dCJ9.eyJub25jZSI6ICIxMjM0NTY3ODkwIiwgI
    mF1ZCI6ICJodHRwczovL2V4YW1wbGUuY29tL3ZlcmlmaWVyIiwgImlhdCI6IDE2OTkwM
-   Dc0NzV9.YbGfWVvFD5KXqITXcpO4objMlb36_IZjeXTsOlyO6EaHENCuMLj3GktsIA8f
-   G0xjzKLaDOOFWbyyEUaFLSS0MA
+   Dc2OTF9.gswcdOVgabGm-vR4zL3amA9iJvlmCqvlb-1BOMlkzHecevTFxKYQ9NDa0UgK
+   RLnzWQAr4ohGzDvfrX2FElFGqQ
 
    In this presentation, the Holder provides only the Disclosure for the
    claim address.  Other claims are not disclosed to the Verifier.
@@ -745,8 +744,8 @@ Table of Contents
    5UXdMVUs0Il0sICJpc3MiOiAiaHR0cHM6Ly9leGFtcGxlLmNvbS9pc3N1ZXIiLCAiaWF
    0IjogMTY4MzAwMDAwMCwgImV4cCI6IDE4ODMwMDAwMDAsICJ2Y3QiOiAiaHR0cHM6Ly9
    jcmVkZW50aWFscy5leGFtcGxlLmNvbS9pZGVudGl0eV9jcmVkZW50aWFsIiwgIl9zZF9
-   hbGciOiAic2hhLTI1NiJ9.XuP5vI63scXWd8_L0jcOeHEkpbezNHUVt71d7n1iH73Hzg
-   2Zd7bqpKPbpmjN5c5gjxY6Mq9E_xQFg086KVy2UA~WyJRZ19PNjR6cUF4ZTQxMmExMDh
+   hbGciOiAic2hhLTI1NiJ9.SSbfidL5IqlC6IviSaeiptJARfDsXjAR38TJqSpwCHb7NJ
+   HwKJ6QhJ6Ty6Jj8ms7Eh2YrtJcRA1IWsaiQSl_NQ~WyJRZ19PNjR6cUF4ZTQxMmExMDh
    pcm9BIiwgImFkZHJlc3MiLCB7InN0cmVldF9hZGRyZXNzIjogIjEyMyBNYWluIFN0Iiw
    gImxvY2FsaXR5IjogIkFueXRvd24iLCAicmVnaW9uIjogIkFueXN0YXRlIiwgImNvdW5
    0cnkiOiAiVVMifV0~
