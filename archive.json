@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-29T01:20:55.547935+00:00",
+  "timestamp": "2023-11-05T01:22:33.804800+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -4110,6 +4110,34 @@
           "body": "I like the idea to define schema and display information in the context of the credential definition (in contrast to issuance protocol) as I believe this information should be consistent across issuers and needs to be available for verifier developers. I also believe some information could be useful at the level of individual credentials for visual customization in the wallet.",
           "createdAt": "2023-10-26T20:04:38Z",
           "updatedAt": "2023-10-26T20:04:38Z"
+        }
+      ]
+    },
+    {
+      "number": 182,
+      "id": "I_kwDOJbVClc51tSav",
+      "title": "Replace `unifiedResourceName` with `uniformResourceIdentifier`",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/182",
+      "state": "OPEN",
+      "author": "awoie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "awoie"
+      ],
+      "labels": [
+        "wg-02"
+      ],
+      "body": "The rules to obtain the verification key from X.509 should be changed to use the `uniformResourceIdentifier` from the SAN extension instead of the `unifiedResourceName` (which does not exist).\r\n\r\nFurthermore, since `uniformResourceIdentifier` can potentially start with a https scheme, the JWT Issuer Metadata rule should only be enforced if no x5* JWT header was set.",
+      "createdAt": "2023-11-02T18:11:26Z",
+      "updatedAt": "2023-11-04T17:09:48Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We also need to add `x5t#S256` JWT header.",
+          "createdAt": "2023-11-03T10:32:07Z",
+          "updatedAt": "2023-11-03T10:32:07Z"
         }
       ]
     }
@@ -13808,6 +13836,53 @@
           "createdAt": "2023-10-24T19:22:32Z",
           "updatedAt": "2023-10-24T19:22:32Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 183,
+      "id": "PR_kwDOJbVClc5ehRQk",
+      "title": "Fixed obtaining verification key rules",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/pull/183",
+      "state": "OPEN",
+      "author": "awoie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR introduces the following changes:\r\n- Fixes #182 \r\n- Fixed `uniformResourceIdentifier` SAN Extension rule\r\n- Added `x5t#S256` JWT header paramter\r\n- Fine-tuned X.509 cert rule\r\n",
+      "createdAt": "2023-11-03T10:28:03Z",
+      "updatedAt": "2023-11-04T17:17:52Z",
+      "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "baseRefName": "main",
+      "baseRefOid": "308ba013b885b7a98f5af0d3d1e936670a071d96",
+      "headRepository": "oauth-wg/oauth-sd-jwt-vc",
+      "headRefName": "awoie/fix-182",
+      "headRefOid": "1afa51ec3b9cb9aad9acaa09c88a3520ee89c7bf",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJbVClc5mHUE9",
+          "commit": {
+            "abbreviatedOid": "83f9bcb"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T17:19:20Z",
+          "updatedAt": "2023-11-03T17:19:21Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": " AFAIK there's no unifiedResourceIdentifier in RFC5280 - it's uniformResourceIdentifier \r\n\r\n```suggestion\r\n    - In all other cases, the `iss` value MUST match a `uniformResourceIdentifier` SAN entry of the leaf certificate.\r\n```",
+              "createdAt": "2023-11-03T17:19:21Z",
+              "updatedAt": "2023-11-03T17:19:21Z"
+            }
+          ]
         }
       ]
     }
