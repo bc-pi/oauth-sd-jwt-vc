@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-05T01:22:33.804800+00:00",
+  "timestamp": "2023-11-07T01:19:03.992715+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -2735,7 +2735,7 @@
       ],
       "body": "I found it hard to understand the relationship between VC's and the spec. Specifically, it's not clear to me how to go from VC (as in `application/vc+ld+json`) to `SD-JWT VC`, nor the other way. ",
       "createdAt": "2023-05-26T21:41:46Z",
-      "updatedAt": "2023-10-24T19:22:25Z",
+      "updatedAt": "2023-11-05T04:52:52Z",
       "closedAt": null,
       "comments": [
         {
@@ -2744,6 +2744,13 @@
           "body": "The specification does not use the W3C VCDM. A note was added to the spec. We might add a transformation algorithm from SD-JWT VC to W3C VCDM in the future if needed. This also depends on the implementation of the Miami resolution.\r\n\r\nI'll rename the issue to make it clear that this is about a transformation algorithm and we will revisit in the future.",
           "createdAt": "2023-07-18T16:57:34Z",
           "updatedAt": "2023-07-18T16:57:34Z"
+        },
+        {
+          "author": "Sakurann",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Transforming syntax between w3c vcdm payload and sd-jwt vc payload is probably not too complicated. it is more about mapping between the claims (i.e. issuer -> iss; issuanceData -> iat, etc.) and handling when representation of a claim is different (i.e. when issuer is an object in vcdm but is a string in sd-jwt vc, etc.)\r\n\r\nthe bigger problem is semantics. sd-jwt vc -> vcdm might work by using default context thanks to the @vocab value there that will tell json-ld parser to treat all undefined terms as #issuerDefined. not sure how much vcdm -> sd-jwt vc is possible because sd-jwt vc does not have `@context` value by definition. so in any case, semantics ie meaning of varying claims will probably need to be agreed out of band.",
+          "createdAt": "2023-11-05T04:52:52Z",
+          "updatedAt": "2023-11-05T04:52:52Z"
         }
       ]
     },
@@ -10862,7 +10869,7 @@
           "commit": {
             "abbreviatedOid": "8066e23"
           },
-          "author": "cghost420",
+          "author": "bob420-svg",
           "authorAssociation": "NONE",
           "state": "APPROVED",
           "body": "",
