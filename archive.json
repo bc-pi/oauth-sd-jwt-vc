@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-07T01:19:03.992715+00:00",
+  "timestamp": "2023-11-09T01:18:48.367768+00:00",
   "repo": "oauth-wg/oauth-sd-jwt-vc",
   "labels": [
     {
@@ -2129,7 +2129,7 @@
       ],
       "body": "Every entity in the OAuth/OpenID is potentially a JWT issuer, then I found the name of this endpoint misleading.\r\n\r\nConsidering that this brand new specification defines a profile for SD JWT verifiable credentials, I'd propose to change the pathname to\r\n\r\n.well-known/vc-jwt-issuer\r\n ",
       "createdAt": "2023-05-25T22:30:38Z",
-      "updatedAt": "2023-10-24T20:13:55Z",
+      "updatedAt": "2023-11-08T20:35:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -2313,6 +2313,13 @@
           "body": "To make progress with this. \r\n\r\nAre folks comfortable with renaming \"JWT Issuer Metadata\"? And if so, would folks be fine with \"SD-JWT VC Issuer Metadata\" or \"VC Issuer Metadata\"? I like \"VC Issuer Metadata\" better because it is more future looking.\r\n\r\nWhat do folks think? cc @danielfett @Sakurann @tlodderstedt @TakahikoKawasaki @c2bo\r\n\r\nAfter we agreed on a new name I'd ask @peppelinux to update PR #118 .",
           "createdAt": "2023-10-24T19:30:42Z",
           "updatedAt": "2023-10-24T19:30:42Z"
+        },
+        {
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Agree that \"jwt-issuer\" is too general and am in favor of a renaming.  ",
+          "createdAt": "2023-11-08T20:35:41Z",
+          "updatedAt": "2023-11-08T20:35:41Z"
         }
       ]
     },
@@ -4101,7 +4108,7 @@
       "labels": [],
       "body": "We should define more clearly **what a credential type (identified by the `vct` claim) actually means**.\r\n\r\nThe current description is a bit handwavy and that may be a sign that we have not yet defined the concept well.\r\n\r\nI think that there is a set of metadata usually associated with each SD-JWT VC type, for example\r\n- Display information for the whole credential\r\n- A schema for the JSON structure (may or may not be defined in JSON schema)\r\n- Information about the claims, including\r\n\t- Display information\r\n\t- Type information\r\n\t- Status information (self-attested vs. verified etc.)\r\n- Maybe: What kind of binding is supported/usually used for this credential type\r\n- Maybe: What issuers are allowed to issue this credential type\r\n\r\nSuch metadata would help **Wallets** (e.g., for displaying the credential to the user) and **Verifiers** (e.g., for determining the status of claims). It would also help **developers of Verifiers**, as they would get structured information about the credential they can expect.\r\n\r\nThe need for such metadata has been discussed in Issue #171 and similar approaches have shown up in [HAIP](https://vcstuff.github.io/oid4vc-haip-sd-jwt-vc/draft-oid4vc-haip-sd-jwt-vc.html#section-7.2.2).\r\n\r\nThe metadata may or may not be embedded into the credential itself, or provided externally. Assuming we allow for registered `vct` values (e.g., `UniversityCredential`), this metadata could go into the registry. It could also be distributed manually. \r\n\r\nBut it can also be made discoverable, e.g., by providing it at a .well-known URI derived from the URL in `vct`.\r\n\r\n----\r\n\r\nHere is a completely made-up example of what this metadata could look like:\r\n\r\n```json\r\n{\r\n    \"vct\": \"https://credentials.example.com/example1\",\r\n    \"display\": [\r\n        {\r\n            \"en-US\": {\r\n                \"name\": \"University Credential\",\r\n                \"logo\": {\r\n                    \"url\": \"https://exampleuniversity.com/public/logo.png\",\r\n                    \"alt_text\": \"a square logo of a university\"\r\n                },\r\n                \"background_color\": \"#12107c\",\r\n                \"text_color\": \"#FFFFFF\"\r\n            }\r\n        }\r\n    ],\r\n    \"claims\": // mapping from JSON pointer to information about this claim\r\n    {\r\n        \"/name\": {\r\n            \"display\": {\r\n                \"de-DE\": {\r\n                    \"label\": \"Vor- und Nachname\",\r\n                    \"description\": \"Der Name des Studenten\"\r\n                },\r\n                \"en-US\": {\r\n                    \"label\": \"Name\",\r\n                    \"description\": \"The name of the student\"\r\n                }\r\n            },\r\n            \"status\": \"verified\"\r\n        },\r\n        \"/degree\": {\r\n            \"display\": {\r\n                \"de-DE\": {\r\n                    \"label\": \"Abschluss\",\r\n                    \"description\": \"Der Abschluss des Studenten\"\r\n                },\r\n                \"en-US\": {\r\n                    \"label\": \"Degree\",\r\n                    \"description\": \"Degree earned by the student\"\r\n                }\r\n            },\r\n            \"status\": \"verified\"\r\n        },\r\n        // ...\r\n        \"/address\": {\r\n            \"display\": {\r\n                \"de-DE\": {\r\n                    \"label\": \"Adresse\",\r\n                    \"description\": \"Adresse zum Zeitpunkt des Abschlusses\"\r\n                },\r\n                \"en-US\": {\r\n                    \"label\": \"Address\",\r\n                    \"description\": \"Address at the time of graduation\"\r\n                }\r\n            },\r\n            \"status\": \"self-attested\"\r\n        },\r\n        \"/address/street_address\": {\r\n            \"display\": {\r\n                \"de-DE\": {\r\n                    \"label\": \"Stra\u00dfe\"\r\n                },\r\n                \"en-US\": {\r\n                    \"label\": \"Street Address\"\r\n                }\r\n            },\r\n            \"status\": \"self-attested\"\r\n        }\r\n    }\r\n}\r\n```\r\n\r\n---\r\n\r\nImportant:\r\n- This mechanism will not be format-agnostic, but defined only for SD-JWT VC for now.\r\n- There are overlaps with mechanisms defined in HAIP, for example, and part of this issue here is to figure out what data should go where and to avoid duplications by getting the concept right. I think that the `claims` element defined for the credential issuer metadata in [HAIP](https://vcstuff.github.io/oid4vc-haip-sd-jwt-vc/draft-oid4vc-haip-sd-jwt-vc.html#section-7.2.2) could be replaced by just a `vct` identifier (the metadata could be discovered from there, or retrieved from the registry).",
       "createdAt": "2023-10-24T20:24:39Z",
-      "updatedAt": "2023-10-26T20:04:38Z",
+      "updatedAt": "2023-11-08T14:07:41Z",
       "closedAt": null,
       "comments": [
         {
@@ -4117,6 +4124,13 @@
           "body": "I like the idea to define schema and display information in the context of the credential definition (in contrast to issuance protocol) as I believe this information should be consistent across issuers and needs to be available for verifier developers. I also believe some information could be useful at the level of individual credentials for visual customization in the wallet.",
           "createdAt": "2023-10-26T20:04:38Z",
           "updatedAt": "2023-10-26T20:04:38Z"
+        },
+        {
+          "author": "paulbastian",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "we may add:\r\n- type of binding of the vc ,e.g. key-binding, claim-based-binding, none\r\n- vct could be either URL linking to the resource directly or an identifier that links to e.g. an (ISO) specification to get the credential metdata\r\n- IANA registry is probably not a good option\r\n- versioning of the metadata\r\n- protection against change e.g. put a hash of metadata in the vc\r\n\r\nIt might be worth to consider reducing the credential format specific Issuer metadata defined in OpenID4VCI and define that in a credential format specific credential metadata resource:\r\n\r\n```\r\n{\r\n    \"credential_issuer\": \"https://credential-issuer.example.com\",\r\n    \"authorization_servers\": [ \"https://server.example.com\" ],\r\n    \"credential_endpoint\": \"https://credential-issuer.example.com\",\r\n    \"batch_credential_endpoint\": \"https://credential-issuer.example.com/batch_credential\",\r\n    \"deferred_credential_endpoint\": \"https://credential-issuer.example.com/deferred_credential\",\r\n    \"display\": [\r\n        {\r\n            \"name\": \"Example University\",\r\n            \"locale\": \"en-US\"\r\n        },\r\n        {\r\n            \"name\": \"Example Universit\u00e9\",\r\n            \"locale\": \"fr-FR\"\r\n        }\r\n    ],\r\n    \"credentials_supported\": {\r\n        \"UniversityDegreeCredential-jwt-vc\": { //issuer-specific\r\n            \"format\": \"jwt_vc_json\",\r\n            ...\r\n        },\r\n       \"UniversityDegreeCredential-sd-jwt-vc\": { //issuer-specific\r\n            \"format\": \"sd-jwt+vc\",\r\n            \"vct\": \"https://link-to-a-resolvable-crednetial-metadata.com/UniversityDegreeCredentialSelectiveDisclosable\"\r\n        },\r\n        \"mDL\": { //issuer-specific\r\n            \"format\": \"mso_mdoc\",\r\n            \"uri\": \"org.iso.18013.5.1.mDL\"\r\n        }\r\n   }\r\n}\r\n```\r\n\r\nHowever, there will remain issuer-specific things e.g. cryptographic support that should stay in the Issuer Metadata. These would need to be defined in SD-JWT-VC.",
+          "createdAt": "2023-11-08T12:57:50Z",
+          "updatedAt": "2023-11-08T14:07:40Z"
         }
       ]
     },
@@ -4147,6 +4161,53 @@
           "updatedAt": "2023-11-03T10:32:07Z"
         }
       ]
+    },
+    {
+      "number": 184,
+      "id": "I_kwDOJbVClc52EqUU",
+      "title": "The correct format with a SD-JWT VC that has no disclosures but has a holder binding JWT",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/184",
+      "state": "OPEN",
+      "author": "Sakurann",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "received a question. What is the correct format with a SD-JWT VC that has no disclosures but has a holder binding JWT. Is it \r\n`<SD-JWT VC>~~<HB JWT> (double tilde)`, or `<SD-JWT VC>~<HB JWT> (single tilde)`\r\nI think it is `<SD-JWT VC>~<HB JWT> (single tilde)` but the spec could probably clarify.",
+      "createdAt": "2023-11-07T09:39:52Z",
+      "updatedAt": "2023-11-07T14:42:55Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "AltmannPeter",
+          "authorAssociation": "NONE",
+          "body": "The case for `~~` would be that according to [SD-JWT section 5](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-06#name-sd-jwt-data-formats)  \"the serialized format for the SD-JWT is the concatenation of each part delineated with a single tilde ('~') character\". And zero disclosures is allowed in the disclosures part. \r\n\r\nDouble tilde is also consistent with the requirement to have a `~` even with the KB-JWT being an empty string. Thanks for raising the question! Would be great to confirm whether or not it is double or single.",
+          "createdAt": "2023-11-07T10:17:03Z",
+          "updatedAt": "2023-11-07T10:17:03Z"
+        },
+        {
+          "author": "danielfett",
+          "authorAssociation": "MEMBER",
+          "body": "The intention is certainly just one `~`. I think the spec is relatively clear:\r\n\r\n> \r\n> An SD-JWT is composed of the following:\r\n> * an Issuer-signed JWT,\r\n> * zero or more Disclosures, and\r\n> * optionally a Key Binding JWT.\r\n> \r\n> The individual parts will be explained in the following subsections.\r\n> The serialized format for the SD-JWT is the concatenation of each part delineated with a single tilde ('~') character as follows:\r\n\r\nSo a single `~` between each part.",
+          "createdAt": "2023-11-07T14:42:54Z",
+          "updatedAt": "2023-11-07T14:42:54Z"
+        }
+      ]
+    },
+    {
+      "number": 185,
+      "id": "I_kwDOJbVClc52SVlV",
+      "title": "Rename \"Obtaining Public Key for Issuer-signed JWTs\" section",
+      "url": "https://github.com/oauth-wg/oauth-sd-jwt-vc/issues/185",
+      "state": "OPEN",
+      "author": "awoie",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The section should be renamed to \"Issuer-signed JWT verification key validation\" since the section is about checking that the `iss` value corresponds to the key that signed the JWT. The process of obtaining it via different means is just the first step.\r\n\r\nWe should also fix the language in the \"Verification and Processing\" section to say:\r\n> Furthermore, the recipient of the SD-JWT VC MUST validate the public verification key for the Issuer-signed JWT as defined in [Section 3.5](https://drafts.oauth.net/oauth-sd-jwt-vc/draft-ietf-oauth-sd-jwt-vc.html#public-key-discovery-for-issuer-signed-jwts).\r\n\r\ninstead of \r\n\r\n> Furthermore, the recipient of the SD-JWT VC MUST obtain the public verification key for the Issuer-signed JWT as defined in [Section 3.5](https://drafts.oauth.net/oauth-sd-jwt-vc/draft-ietf-oauth-sd-jwt-vc.html#public-key-discovery-for-issuer-signed-jwts).",
+      "createdAt": "2023-11-08T22:40:13Z",
+      "updatedAt": "2023-11-08T22:40:13Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -13858,13 +13919,13 @@
       "labels": [],
       "body": "This PR introduces the following changes:\r\n- Fixes #182 \r\n- Fixed `uniformResourceIdentifier` SAN Extension rule\r\n- Added `x5t#S256` JWT header paramter\r\n- Fine-tuned X.509 cert rule\r\n",
       "createdAt": "2023-11-03T10:28:03Z",
-      "updatedAt": "2023-11-04T17:17:52Z",
+      "updatedAt": "2023-11-08T22:54:07Z",
       "baseRepository": "oauth-wg/oauth-sd-jwt-vc",
       "baseRefName": "main",
       "baseRefOid": "308ba013b885b7a98f5af0d3d1e936670a071d96",
       "headRepository": "oauth-wg/oauth-sd-jwt-vc",
       "headRefName": "awoie/fix-182",
-      "headRefOid": "1afa51ec3b9cb9aad9acaa09c88a3520ee89c7bf",
+      "headRefOid": "6b40ceabea0ec2f0b98341ecd194f1f2572ee46d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -13888,6 +13949,182 @@
               "body": " AFAIK there's no unifiedResourceIdentifier in RFC5280 - it's uniformResourceIdentifier \r\n\r\n```suggestion\r\n    - In all other cases, the `iss` value MUST match a `uniformResourceIdentifier` SAN entry of the leaf certificate.\r\n```",
               "createdAt": "2023-11-03T17:19:21Z",
               "updatedAt": "2023-11-03T17:19:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5mlvjD",
+          "commit": {
+            "abbreviatedOid": "1afa51e"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2023-11-08T19:59:07Z",
+          "updatedAt": "2023-11-08T20:53:37Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "`x5c` is repeated while presumably `x5u` was intended for one of them  ",
+              "createdAt": "2023-11-08T19:59:07Z",
+              "updatedAt": "2023-11-08T20:54:59Z"
+            },
+            {
+              "originalPosition": 5,
+              "body": "`x5t` and `x5t#S256` are just the hash of a certificate and presume the recipient has some way of finding the  certificate referenced. So it's a little bit awkward to talk about them like this as though they are basically the same as `x5u`/`x5c`.",
+              "createdAt": "2023-11-08T20:17:05Z",
+              "updatedAt": "2023-11-08T20:53:37Z"
+            },
+            {
+              "originalPosition": 5,
+              "body": "There are SSRF concerns with `x5u` too... ",
+              "createdAt": "2023-11-08T20:19:31Z",
+              "updatedAt": "2023-11-08T20:53:37Z"
+            },
+            {
+              "originalPosition": 7,
+              "body": "^ again ",
+              "createdAt": "2023-11-08T20:19:59Z",
+              "updatedAt": "2023-11-08T20:53:37Z"
+            },
+            {
+              "originalPosition": 5,
+              "body": "... so maybe fewer options would be better/appropriate? ",
+              "createdAt": "2023-11-08T20:23:50Z",
+              "updatedAt": "2023-11-08T20:53:37Z"
+            },
+            {
+              "originalPosition": 8,
+              "body": "IMHO DIDs can be accounted/allowed for via the \"Separate specifications or ecosystem regulations MAY define rules complementing the rules defined above\" criteria below and shouldn't receive 1st order treatment like this in the spec. ",
+              "createdAt": "2023-11-08T20:27:23Z",
+              "updatedAt": "2023-11-08T20:53:37Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "This sentence reads a bit funny - almost like a tautology or proverb, \"If you can't get it, you must not use it.\" Maybe something like one of these (some admittedly somewhat awkward):\r\n\r\n\"If the public verification key for the Issuer-signed JWT could not be obtained according to rules above, the recipient MUST reject the SD-JWT VC.\"\r\nor\r\n\"A recipient MUST only use a public verification key obtained according to rules above to verify the signature of an Issuer-signed JWT.\"\r\nor \r\n\"A public verification key that was not obtained according to rules above MUST not be used to verify the Issuer-signed JWT.\"",
+              "createdAt": "2023-11-08T20:49:35Z",
+              "updatedAt": "2023-11-08T20:53:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5mmE9T",
+          "commit": {
+            "abbreviatedOid": "1afa51e"
+          },
+          "author": "bc-pi",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T20:55:08Z",
+          "updatedAt": "2023-11-08T20:55:08Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "`uniformResourceIdentifier` got changed to `unifiedResourceIdentifier` again ",
+              "createdAt": "2023-11-08T20:55:08Z",
+              "updatedAt": "2023-11-08T20:55:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5mmjC7",
+          "commit": {
+            "abbreviatedOid": "1afa51e"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T22:25:34Z",
+          "updatedAt": "2023-11-08T22:25:34Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "- `x5u` could indeed lead to some weird vulnerability if verifiers are not careful enough and don't validate the entire X509 certificate chain which includes trusting the root certificate or the certificate itself in case it is self-signed.\r\n- It is indeed the assumption that the verifier has to get the certificates out-of-band or side loaded somehow if `x5t` and `x5t#S256` are used.\r\n\r\nI added the other x5* because I thought we had used them in OpenID4VP as well but after double-checking it seems that got removed and only `x5c` is now being used there. I think it is reasonable to only include `x5c`. I'll update the PR accordingly.",
+              "createdAt": "2023-11-08T22:25:34Z",
+              "updatedAt": "2023-11-08T22:26:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5mmj3A",
+          "commit": {
+            "abbreviatedOid": "1afa51e"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T22:28:38Z",
+          "updatedAt": "2023-11-08T22:28:38Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "We added DIDs to make the spec useful also for the credential market that uses DIDs. For those people it is required to demonstrate how that can be done. I'm wondering how other folks are thinking about dropping DIDs from getting 1st order treatment. You are right, one can create another draft that just explains how to use DIDs with this spec. ",
+              "createdAt": "2023-11-08T22:28:38Z",
+              "updatedAt": "2023-11-08T22:28:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5mmn1Q",
+          "commit": {
+            "abbreviatedOid": "1afa51e"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T22:43:34Z",
+          "updatedAt": "2023-11-08T22:43:34Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "I think we should drop this requirement completely. It does not say much. We should instead do what is described in #185 and then it becomes obvious that \"verification and processing\" would fail if the rules cannot be successfully applied.",
+              "createdAt": "2023-11-08T22:43:34Z",
+              "updatedAt": "2023-11-08T22:43:34Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5mmn84",
+          "commit": {
+            "abbreviatedOid": "1afa51e"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T22:44:04Z",
+          "updatedAt": "2023-11-08T22:44:04Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "Would this work for you @bc-pi ?",
+              "createdAt": "2023-11-08T22:44:04Z",
+              "updatedAt": "2023-11-08T22:44:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOJbVClc5mmqUs",
+          "commit": {
+            "abbreviatedOid": "1afa51e"
+          },
+          "author": "awoie",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-08T22:53:48Z",
+          "updatedAt": "2023-11-08T22:53:49Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n    - In all other cases, the `iss` value MUST match a `uniformResourceIdentifier` SAN entry of the leaf certificate.\r\n```",
+              "createdAt": "2023-11-08T22:53:49Z",
+              "updatedAt": "2023-11-08T22:53:49Z"
             }
           ]
         }
